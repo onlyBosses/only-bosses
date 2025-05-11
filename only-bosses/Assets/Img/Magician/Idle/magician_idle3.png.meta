@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 9405a08317497c14491316664f19eee2
+guid: a20899c70d90a4023a79aa23ec9974ea
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -5931815480307114600
-    second: gunner_idle4_0
+      213: 622044237721836994
+    second: magician_idle3_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -96,17 +96,43 @@ TextureImporter:
     ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: iOS
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: gunner_idle4_0
+      name: magician_idle3_0
       rect:
         serializedVersion: 2
-        x: 1
-        y: 1
-        width: 27
-        height: 36
+        x: 9
+        y: 14
+        width: 65
+        height: 100
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -115,8 +141,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 89d912faf35fdada0800000000000000
-      internalID: -5931815480307114600
+      spriteID: 2cd1dff30f1f1a800800000000000000
+      internalID: 622044237721836994
       vertices: []
       indices: 
       edges: []
