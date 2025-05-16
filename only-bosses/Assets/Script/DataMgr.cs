@@ -20,17 +20,30 @@ public enum Necklace
     None, Necklace1, Necklace2, Necklace3
 }
 
+public enum Boss
+{
+    Boss1, Boss2
+}
+
+public enum Difficulty
+{
+    None, Easy, Hard
+}
 
 public class DataMgr : MonoBehaviour
 {
 
     public static DataMgr instance;
 
-    private void Awake() {
-        if (instance == null) {
+    private void Awake()
+    {
+        if (instance == null)
+        {
             instance = this;
             DontDestroyOnLoad(gameObject);
-        } else {
+        }
+        else
+        {
             Destroy(gameObject);
         }
     }
@@ -41,4 +54,7 @@ public class DataMgr : MonoBehaviour
     public Weapon selectedWeapon = Weapon.None;
     public Ring selectedRing = Ring.None;
     public Necklace selectedNecklace = Necklace.None;
+
+    public Boss currentBoss;
+    public Difficulty selectedDifficulty = Difficulty.None;
 }

@@ -18,6 +18,9 @@ EditorBuildSettings:
     path: Assets/Scenes/ChooseBossScene.unity
     guid: 7544a582cf9634bce9cef8f71fbb8598
   - enabled: 1
+    path: Assets/Scenes/GameScene.unity
+    guid: a28a4363128104f198b2b65be16da9ae
+  - enabled: 1
     path: Assets/Scenes/SampleScene.unity
     guid: 8c9cfa26abfee488c85f1582747f6a02
   m_configObjects:
