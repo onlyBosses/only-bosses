@@ -4,7 +4,6 @@ using UnityEngine.VFX;
 
 public class Move_Player : MonoBehaviour
 {
-    
     private float vx;
     private bool isJump;
     private bool isJumpPush;
@@ -26,9 +25,8 @@ public class Move_Player : MonoBehaviour
         }
 
         if(Input.GetKey("d")) {
-             vx = 1;
+            vx = 1;
         }
-
         if(Input.GetKey("w")) {
             if(!isJumpPush) {
                 if(Physics2D.Raycast(transform.position, Vector3.down, 1F, LayerMask.GetMask("Ground"))) {
