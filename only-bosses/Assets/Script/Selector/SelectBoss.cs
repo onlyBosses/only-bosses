@@ -31,6 +31,6 @@ public class SelectBoss : MonoBehaviour {
     void OnSelect()
     {
         animator.SetBool("attack", true);
-        if (highlight != null) highlight.SetActive(false); 
+        if (highlight != null) highlight.SetActive(true); 
     }
 }

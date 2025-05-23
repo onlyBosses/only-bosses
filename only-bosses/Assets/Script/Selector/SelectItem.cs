@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ItemSelector : MonoBehaviour, IPointerClickHandler
+public class SelectItem : MonoBehaviour, IPointerClickHandler
 {
     public enum ItemType { Weapon, Ring, Necklace }
     public ItemType itemType;
@@ -9,9 +9,9 @@ public class ItemSelector : MonoBehaviour, IPointerClickHandler
 
     public GameObject highlight; 
 
-    public static ItemSelector currentSelectedWeapon;
-    public static ItemSelector currentSelectedRing;
-    public static ItemSelector currentSelectedNecklace;
+    public static SelectItem currentSelectedWeapon;
+    public static SelectItem currentSelectedRing;
+    public static SelectItem currentSelectedNecklace;
 
     public void OnPointerClick(PointerEventData eventData)
     {
