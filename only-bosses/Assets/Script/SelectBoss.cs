@@ -5,6 +5,7 @@ public class SelectBoss : MonoBehaviour {
     public Boss boss; 
     Animator animator;
     public SelectBoss[] bosses;
+    public GameObject highlight; 
 
     void Start()
     {
@@ -21,11 +22,15 @@ public class SelectBoss : MonoBehaviour {
         }
     }
 
-    void OnDeSelect() {
+    void OnDeSelect()
+    {
         animator.SetBool("attack", false);
+        if (highlight != null) highlight.SetActive(false); 
     }
 
-    void OnSelect() {
+    void OnSelect()
+    {
         animator.SetBool("attack", true);
+        if (highlight != null) highlight.SetActive(false); 
     }
 }
