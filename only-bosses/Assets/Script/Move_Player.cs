@@ -8,10 +8,12 @@ public class Move_Player : MonoBehaviour
     private bool isJump;
     private bool isJumpPush;
     private Rigidbody2D rbody;
+    private SpriteRenderer spriteRenderer;
     void Start()
     {
         rbody = this.GetComponent<Rigidbody2D>();
         rbody.constraints = RigidbodyConstraints2D.FreezeRotation;
+        spriteRenderer = this.GetComponent<SpriteRenderer>();
         vx = 0;
         isJumpPush = false;
         isJump = false;
@@ -20,26 +22,33 @@ public class Move_Player : MonoBehaviour
     void Update()
     {
         vx = 0;
-        if(Input.GetKey("a")) {
+        if (Input.GetKey("a"))
+        {
             vx = -1;
         }
 
-        if(Input.GetKey("d")) {
+        if (Input.GetKey("d"))
+        {
             vx = 1;
         }
-        if(Input.GetKey("w")) {
-            if(!isJumpPush) {
-                if(Physics2D.Raycast(transform.position, Vector3.down, 1F, LayerMask.GetMask("Ground"))) {
+        if (Input.GetKey("w"))
+        {
+            if (!isJumpPush)
+            {
+                if (Physics2D.Raycast(transform.position, Vector3.down, 1F, LayerMask.GetMask("Ground")))
+                {
                     isJump = true;
                 }
                 isJumpPush = true;
             }
         }
-        else {
+        else
+        {
             isJumpPush = false;
         }
 
-        if(Input.GetKey("s")) {
+        if (Input.GetKey("s"))
+        {
 
         }
     }
@@ -50,9 +59,15 @@ public class Move_Player : MonoBehaviour
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
         this.GetComponent<SpriteRenderer>().flipX = worldPos.x < this.transform.position.x;
         rbody.linearVelocity = new Vector2(vx, rbody.linearVelocityY);
-        if(isJump) {
+        if (isJump)
+        {
             isJump = false;
             rbody.AddForce(new Vector2(0, 5), ForceMode2D.Impulse);
         }
+    }
+
+    private void OnDamage()
+    {
+        spriteRenderer.color = new Color(200 / 255, 200 / 255, 200 / 255);
     }
 }

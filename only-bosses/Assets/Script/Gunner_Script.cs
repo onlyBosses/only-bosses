@@ -2,10 +2,9 @@ using UnityEngine;
 
 public class Gunner_Script : MonoBehaviour
 {
-    private string nowMode = "";
     private string walkAnime = "gunner_walk";
     private string idleAnime = "gunner_idle";
-    private string baseAttackAnim = "gunner_base_attack";
+    private string baseAttackAnim = "gunner_pistolH";
     private bool isBaseAttack = false;
     void Start()
     {
@@ -14,29 +13,31 @@ public class Gunner_Script : MonoBehaviour
 
     void Update()
     {
-        bool isAnime = false;
         if (Input.GetKey("a") || Input.GetKey("d") || Input.GetKey("w"))
         {
-            isAnime = true;
-            nowMode = walkAnime;
+            this.GetComponent<Animator>().Play(walkAnime);
         }
         if (Input.GetMouseButtonDown(0))
         {
-            isAnime = true;
-            nowMode = baseAttackAnim;
-        }
-        if (!isAnime)
-        {
-            nowMode = idleAnime;
+            this.GetComponent<Animator>().Play(baseAttackAnim);
+            baseAttack();
         }
     }
 
     void FixedUpdate()
     {
-        this.GetComponent<Animator>().Play(nowMode);
         if (isBaseAttack)
         {
-            
+
         }
+    }
+
+    private void baseAttack()
+    {
+        GameObject characterPrefab = Resources.Load<GameObject>($"etc/bullet");
+        characterPrefab.transform.position = new Vector3(1, 1, 1);
+
+        // (-6, 0, 0)
+        Instantiate(characterPrefab, characterPrefab.transform.position, characterPrefab.transform.rotation);
     }
 }
