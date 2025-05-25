@@ -2,13 +2,45 @@ using UnityEngine;
 
 public class Magician_Script : MonoBehaviour
 {
+    private SpriteRenderer sr;
     private Animator animator;
+    private int baseAttackCount;
     private bool isBaseAttack = false;
+    private PlayerStatus status;
+    private int elementCount;
+    private const int MAX_ELEMNT = 1;
+
+    public Sprite skillQCastSprite;
+
+    private int firstSkillCoolTime;
+    private int secondSkillCoolTime;
+    private int thirdSkillCoolTime;
 
     void Start()
     {
+        sr = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         isBaseAttack = false;
+        status = new PlayerStatus(450, 2, 20, 6, 5, 30, 5, 0, 0);
+        firstSkillCoolTime = 0;
+        secondSkillCoolTime = 0;
+        thirdSkillCoolTime = 0;
+    }
+
+    void FixedUpdate()
+    {
+        if (!isBaseAttack)
+        {
+            if (--baseAttackCount <= 0)
+            {
+                isBaseAttack = true;
+                elementCount = MAX_ELEMNT;
+            }
+        }
+
+        if (firstSkillCoolTime > 0) firstSkillCoolTime--;
+        if (secondSkillCoolTime > 0) secondSkillCoolTime--;
+        if (thirdSkillCoolTime > 0) thirdSkillCoolTime--;
     }
 
     void Update()
@@ -18,37 +50,164 @@ public class Magician_Script : MonoBehaviour
 
         if (Input.GetMouseButtonDown(0))
         {
-            animator.SetTrigger("AttackA");
+            if (baseAttack())
+            {
+                animator.SetTrigger("AttackA");
+            }
         }
+
+        if (Input.GetKey("q")) useFirstSkill();
+
+        Transform fireTransform = transform.Find("magicianQ(Clone)");
+        if (fireTransform != null)
+        {
+            Vector2 mousePos = Input.mousePosition;
+            Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+            Vector2 pos = transform.position;
+            Vector2 dir = (worldPos - pos).normalized;
+
+            if (dir.x > 0)
+            {
+                fireTransform.localPosition = new Vector3(1.0f, 0f, -1f);
+                fireTransform.GetComponent<SpriteRenderer>().flipX = false;
+            }
+            else
+            {
+                fireTransform.localPosition = new Vector3(-1.0f, 0f, -1f);
+                fireTransform.GetComponent<SpriteRenderer>().flipX = true;
+            }
+        }
+
+        bool skillE = Input.GetKey("e") && secondSkillCoolTime <= 0;
+        animator.SetBool("SkillE", skillE);
+
+        bool skillR = Input.GetKey("r") && thirdSkillCoolTime <= 0;
+        animator.SetBool("SkillR", skillR);
     }
 
-    public void baseAttack()
+    public bool baseAttack()
     {
-        string[] projectileNames = { "fire", "ice", "bolt" };
-        string selectedProjectile = projectileNames[Random.Range(0, projectileNames.Length)];
+        if (!isBaseAttack) return false;
 
-        GameObject projectilePrefab = Resources.Load<GameObject>($"etc/{selectedProjectile}");
+        if (!Physics2D.Raycast(transform.position, Vector3.down, 1F, LayerMask.GetMask("Ground"))) // ?
+        {
+            Rigidbody2D rbody = GetComponent<Rigidbody2D>();
+            if (rbody.linearVelocity.y < 0)
+                rbody.AddForce(new Vector2(0, transform.position.y + 5), ForceMode2D.Impulse);
+        }
 
-        Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        mousePos.z = transform.position.z; 
+        int dmg = status.getDamage();
 
-        // 방향 벡터 (마우스 방향)
-        Vector3 direction = (mousePos - transform.position).normalized;
+        if (--elementCount <= 0)
+        {
+            dmg = (int)(dmg * 1.2); // ?
+            baseAttackCount = status.getAttackSpeed() * 50; // * 50 ?
+            isBaseAttack = false;
+        }
 
-        // 프리팹 생성 위치 
-        Vector3 spawnOffset = direction * 1.5f; 
-        Vector3 spawnPos = transform.position + spawnOffset;
+        Vector2 mousePos = Input.mousePosition;
+        Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+        Vector2 pos = transform.position;
+        Vector2 dir = (worldPos - pos).normalized;
 
-        // 프리팹 생성
-        GameObject projectile = Instantiate(projectilePrefab, spawnPos, Quaternion.identity);
+        string[] elementNames = { "fire", "ice", "bolt" };
+        string selectedElement = elementNames[Random.Range(0, elementNames.Length)];
 
-        // 프리팹 좌우 전환
-        SpriteRenderer sr = projectile.GetComponent<SpriteRenderer>();
-        sr.flipX = direction.x < 0f;
+        GameObject elementPrefab = Resources.Load<GameObject>($"etc/{selectedElement}");
 
-        // 프리팹 슛 
-        Rigidbody2D rb = projectile.GetComponent<Rigidbody2D>();
-        rb.gravityScale = 0;
-        rb.linearVelocity = direction * 5f; 
+        elementPrefab.transform.position = transform.position;
+        Element element = elementPrefab.GetComponent<Element>();
+        element.playerObject = gameObject;
+
+        element.dmg = dmg;
+        element.MaxDistance = status.getAttackDistance();
+        elementPrefab.GetComponent<SpriteRenderer>().flipX = dir.x < 0;
+        element.vector = dir;
+
+        Instantiate(elementPrefab, elementPrefab.transform.position, elementPrefab.transform.rotation);
+
+        return true;
+    }
+
+    public void useFirstSkill()
+    {
+        if (firstSkillCoolTime > 0) return;
+
+        firstSkillCoolTime = 12 * 50;
+
+        sr.sprite = skillQCastSprite;
+
+        animator.enabled = false;
+
+        Vector2 mousePos = Input.mousePosition;
+        Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+        Vector2 pos = transform.position;
+        Vector2 dir = (worldPos - pos).normalized;
+
+        GameObject magicianQPrefab = Resources.Load<GameObject>("etc/magicianQ");
+
+        GameObject instance = Instantiate(magicianQPrefab, transform.position, Quaternion.identity);
+
+        instance.transform.SetParent(transform);
+
+        if (dir.x > 0)
+        {
+            instance.transform.localPosition = new Vector3(1.0f, 0f, -1f);
+            instance.GetComponent<SpriteRenderer>().flipX = false;
+        }
+        else
+        {
+            instance.transform.localPosition = new Vector3(-1.0f, 0f, -1f);
+            instance.GetComponent<SpriteRenderer>().flipX = true;
+        }
+
+        Magician_skill1 script = instance.GetComponent<Magician_skill1>();
+        script.dmg = (int)(status.getDamage() * 1.8f);
+
+        Invoke(nameof(ResumeIdle), 2f);
+    }
+
+    public void useSecondSkill()
+    {
+
+        secondSkillCoolTime = 20 * 50;
+
+        Vector2 mousePos = Input.mousePosition;
+        Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+
+        GameObject eSkillPrefab = Resources.Load<GameObject>("etc/magicianE");
+      
+        Vector3 spawnPos = new Vector3(worldPos.x, worldPos.y, -1f);
+
+        GameObject instance = Instantiate(eSkillPrefab, spawnPos, Quaternion.identity);
+
+        Magician_skill2 script = instance.GetComponent<Magician_skill2>();
+    
+        script.dmg = (int)(status.getDamage() * 1.8f);
+    }
+
+    public void useThirdSkill()
+    {
+
+        thirdSkillCoolTime = 15 * 50;
+
+        Vector2 mousePos = Input.mousePosition;
+        Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
+
+        GameObject rSkillPrefab = Resources.Load<GameObject>("etc/magicianR");
+      
+        Vector3 spawnPos = new Vector3(worldPos.x, worldPos.y, -1f);
+
+        GameObject instance = Instantiate(rSkillPrefab, spawnPos, Quaternion.identity);
+
+        Magician_skill3 script = instance.GetComponent<Magician_skill3>();
+    
+        script.dmg = (int)(status.getDamage() * 1.8f);
+    }
+
+    private void ResumeIdle()
+    {
+        animator.enabled = true;
+        animator.Play("Idle");
     }
 }

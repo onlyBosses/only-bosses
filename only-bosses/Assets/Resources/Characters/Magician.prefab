@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 157761702942335379}
   - component: {fileID: 586783322468852287}
   - component: {fileID: 7232144979650833354}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Magician
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -236,6 +236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39a1af6e4f9d0450083e54634931a8c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skillQCastSprite: {fileID: 6639410035520128016, guid: e1ab1752bd1934158981ba3b7545c753, type: 3}
 --- !u!95 &7232144979650833354
 Animator:
   serializedVersion: 7
