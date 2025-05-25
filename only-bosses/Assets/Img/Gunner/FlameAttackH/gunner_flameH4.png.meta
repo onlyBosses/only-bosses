@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      gunner_flameH4_0: 729310533145308157
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

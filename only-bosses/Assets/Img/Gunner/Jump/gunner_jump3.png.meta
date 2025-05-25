@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      gunner_jump3_0: -6617525882852268065
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

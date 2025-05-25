@@ -185,7 +185,9 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      magician_dash7_0: -3507008374120784
+      magician_dash7_1: -4284362783387107555
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -160,7 +160,8 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      gunner_dash1_0: -2419623329065506700
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

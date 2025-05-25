@@ -28,4 +28,19 @@ public class PlayerStatus
         this.reduceCoolTime = reduceCoolTime;
         this.increasedSkillDamage = increasedSkillDamage;
     }
+
+    public int getDamage()
+    {
+        return damage;
+    }
+
+    public int getAttackSpeed()
+    {
+        return attackSpeed;
+    }
+
+    public int getAttackDistance()
+    {
+        return attackDistance;
+    }
 }
