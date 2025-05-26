@@ -12,6 +12,26 @@ public class Element : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
+
+        if (collision.gameObject.CompareTag("Boss"))
+        {
+            // switch(DataMgr.instance.currentBoss)
+
+            Boss1_Script boss1 = collision.gameObject.GetComponent<Boss1_Script>();
+            if (boss1 != null)
+            {
+                boss1.TakeDamage(dmg * 100);
+            }
+
+            // Boss2_Script boss2 = collision.gameObject.GetComponent<Boss2_Script>();
+            // if (boss2 != null)
+            // {
+            //     boss2.TakeDamage(dmg);
+            // }
+        }
+            
+        
+
         Destroy(gameObject);
     }
 

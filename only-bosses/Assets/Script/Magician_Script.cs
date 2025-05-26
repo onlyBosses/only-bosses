@@ -22,6 +22,9 @@ public class Magician_Script : MonoBehaviour
         animator = GetComponent<Animator>();
         isBaseAttack = false;
         status = new PlayerStatus(450, 2, 20, 6, 5, 30, 5, 0, 0);
+
+        // 장비에 따라 status 변환 
+
         firstSkillCoolTime = 0;
         secondSkillCoolTime = 0;
         thirdSkillCoolTime = 0;
@@ -101,7 +104,7 @@ public class Magician_Script : MonoBehaviour
         if (--elementCount <= 0)
         {
             dmg = (int)(dmg * 1.2); // ?
-            baseAttackCount = status.getAttackSpeed() * 50; // * 50 ?
+            baseAttackCount = status.getAttackSpeed() * 50; 
             isBaseAttack = false;
         }
 

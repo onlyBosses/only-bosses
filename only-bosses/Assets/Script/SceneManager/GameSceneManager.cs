@@ -26,8 +26,7 @@ public class GameSceneManager : MonoBehaviour
     // 보스 HP
     private float bossMaxHP;
     private float bossCurrentHP;
-
-
+    
     void Start()
     {
         SpawnCharacter();
@@ -50,13 +49,25 @@ public class GameSceneManager : MonoBehaviour
         // Boss1, Boss2
         string bossName = DataMgr.instance.currentBoss.ToString();
         GameObject bossPrefab = Resources.Load<GameObject>($"Bosses/{bossName}");
+        GameObject bossInstance = Instantiate(bossPrefab, bossSpawnPoint.position, bossSpawnPoint.rotation);
 
-        // (6, 0, 0)
-        Instantiate(bossPrefab, bossSpawnPoint.position, bossSpawnPoint.rotation);
+        if (DataMgr.instance.currentBoss == Boss.Boss1)
+        {
+            Boss1_Script bossScript = bossInstance.GetComponent<Boss1_Script>();
+            bossScript.SetBossHPBar(bossHPBar);
+        }
+        // else if (DataMgr.instance.currentBoss == Boss.Boss2)
+        // {
+        //     Boss2_Script bossScript = bossInstance.GetComponent<Boss2_Script>();
+        //     bossScript.SetBossHPBar(bossHPBar);
+        // }
     }
 
     void SetUI()
     {
+
+        // 테스트 용 | status에서 가져와야함 
+
         switch (DataMgr.instance.currentCharacter)
         {
             case Character.Samurai:
@@ -80,7 +91,8 @@ public class GameSceneManager : MonoBehaviour
         {
             case Boss.Boss1:
                 bossImage.sprite = boss1Sprite;
-                bossMaxHP = 500f;
+                // status에서 가져오기 
+                bossMaxHP = 16000;
                 break;
             case Boss.Boss2:
                 bossImage.sprite = boss2Sprite;
