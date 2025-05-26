@@ -45,7 +45,7 @@ public class Magician_Script : MonoBehaviour
 
     void Update()
     {
-        bool isWalking = Input.GetKey("a") || Input.GetKey("d") || Input.GetKey("w");
+        bool isWalking = Input.GetKey("a") || Input.GetKey("d");
         animator.SetBool("IsWalking", isWalking);
 
         if (Input.GetMouseButtonDown(0))
@@ -208,6 +208,6 @@ public class Magician_Script : MonoBehaviour
     private void ResumeIdle()
     {
         animator.enabled = true;
-        animator.Play("Idle");
+        animator.Play("magician_idle");
     }
 }
