@@ -25,7 +25,12 @@ public class BossStatus
     public int getHp()
     {
         return health;
-    } 
+    }
+
+    public int getMoveSpeed()
+    {
+        return moveSpeed;
+    }
 
     void Start()
     {
