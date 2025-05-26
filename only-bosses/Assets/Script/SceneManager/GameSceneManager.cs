@@ -1,14 +1,38 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameSceneManager : MonoBehaviour
 {
     public Transform characterSpawnPoint;
     public Transform bossSpawnPoint;
 
+    // 캐릭터 이미지 | 캐릭터 HP bar ---------------- 보스 HP bar | 보스 이미지 
+    public Image characterImage;
+    public Sprite samuraiSprite;
+    public Sprite magicianSprite;
+    public Sprite gunnerSprite;
+
+    public Image bossImage;
+    public Sprite boss1Sprite;
+    public Sprite boss2Sprite;
+
+    public HPBarUI characterHPBar;
+    public HPBarUI bossHPBar;
+
+    // 캐릭터 HP
+    private float characterMaxHP;
+    private float characterCurrentHP;
+
+    // 보스 HP
+    private float bossMaxHP;
+    private float bossCurrentHP;
+
+
     void Start()
     {
         SpawnCharacter();
         SpawnBoss();
+        SetUI();
     }
 
     void SpawnCharacter()
@@ -29,5 +53,41 @@ public class GameSceneManager : MonoBehaviour
 
         // (6, 0, 0)
         Instantiate(bossPrefab, bossSpawnPoint.position, bossSpawnPoint.rotation);
+    }
+
+    void SetUI()
+    {
+        switch (DataMgr.instance.currentCharacter)
+        {
+            case Character.Samurai:
+                characterImage.sprite = samuraiSprite;
+                characterMaxHP = 200f;
+                break;
+            case Character.Magician:
+                characterImage.sprite = magicianSprite;
+                characterMaxHP = 120f;
+                break;
+            case Character.Gunner:
+                characterImage.sprite = gunnerSprite;
+                characterMaxHP = 150f;
+                break;
+        }
+
+        characterCurrentHP = characterMaxHP;
+        characterHPBar.SetHP(characterCurrentHP, characterMaxHP);
+
+        switch (DataMgr.instance.currentBoss)
+        {
+            case Boss.Boss1:
+                bossImage.sprite = boss1Sprite;
+                bossMaxHP = 500f;
+                break;
+            case Boss.Boss2:
+                bossImage.sprite = boss2Sprite;
+                bossMaxHP = 800f;
+                break;
+        }
+        bossCurrentHP = bossMaxHP;
+        bossHPBar.SetHP(bossCurrentHP, bossMaxHP);
     }
 }
