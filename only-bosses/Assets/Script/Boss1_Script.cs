@@ -10,11 +10,31 @@ public class Boss1_Script : MonoBehaviour
 
     private int currentHp; // 현재 체력 
 
-    private float baseAttackCoolTime = 0.1f;
+    // 기본 공격
+    private float baseAttackCoolTime = 3f;
     private float baseAttackTimer;
-
     [SerializeField] private Collider2D baseAttackRange;
 
+    // 텔포 위치 
+    private float teleportOffsetX = 1.5f;
+    private float teleportOffsetY = 0f;
+
+    // 스킬1 
+    [SerializeField] private GameObject deathShadowPrefab;
+
+
+    private float teleportCoolTime = 8f;
+    private float skill1CoolTime = 8f;
+    private float skill2CoolTime = 8f;
+    private float skill3CoolTime = 8f;
+    private float skill4CoolTime = 8f;
+
+
+    private float teleportTimer = 0f;
+    private float skill1Timer = 0f;
+    private float skill2Timer = 0f;
+    private float skill3Timer = 0f;
+    private float skill4Timer = 0f;
 
     private Rigidbody2D rbody;
     private Animator animator;
@@ -80,27 +100,47 @@ public class Boss1_Script : MonoBehaviour
                 break;
 
             case BossBehavior.Teleport:
-                UseTeleport();
+                if (teleportTimer <= 0f)
+                {
+                    UseTeleport();
+                    teleportTimer = teleportCoolTime;
+                }
                 ChangeBehavior();
                 break;
 
             case BossBehavior.Skill1:
-                UseSkill1();
+                if (skill1Timer <= 0f)
+                {
+                    UseSkill1();
+                    skill1Timer = skill1CoolTime;
+                }
                 ChangeBehavior();
                 break;
 
             case BossBehavior.Skill2:
-                UseSkill2();
+                if (skill2Timer <= 0f)
+                {
+                    UseSkill2();
+                    skill2Timer = skill2CoolTime;
+                }
                 ChangeBehavior();
                 break;
 
             case BossBehavior.Skill3:
-                UseSkill3();
+                if (skill3Timer <= 0f)
+                {
+                    UseSkill3();
+                    skill3Timer = skill3CoolTime;
+                }
                 ChangeBehavior();
                 break;
 
             case BossBehavior.Skill4:
-                UseSkill4();
+                if (skill4Timer <= 0f)
+                {
+                    UseSkill4();
+                    skill4Timer = skill4CoolTime;
+                }
                 ChangeBehavior();
                 break;
         }
@@ -115,12 +155,18 @@ public class Boss1_Script : MonoBehaviour
             baseAttackTimer = baseAttackCoolTime;
         }
 
+        skill1Timer -= Time.deltaTime;
+        skill2Timer -= Time.deltaTime;
+        skill3Timer -= Time.deltaTime;
+        skill4Timer -= Time.deltaTime;
+        teleportTimer -= Time.deltaTime;
+
     }
 
     void ChasePlayer()
     {
         Vector2 dir = (player.position - transform.position).normalized;
-        rbody.linearVelocity = dir * status.getMoveSpeed();
+        rbody.linearVelocity = dir * (status.getMoveSpeed() - 4);
 
         if (player.position.x > transform.position.x) GetComponent<SpriteRenderer>().flipX = true;
         else GetComponent<SpriteRenderer>().flipX = false;
@@ -130,27 +176,70 @@ public class Boss1_Script : MonoBehaviour
 
     void UseTeleport()
     {
-        // Debug.Log("Teleport 실행");
+        animator.SetTrigger("Teleport");
+    }
+
+    public void DoTeleportMove()
+    {
+        int dir = Random.Range(0, 2);
+        float offsetX = (dir == 0) ? -teleportOffsetX : teleportOffsetX;
+
+        Vector3 newPos = new Vector3(player.position.x + offsetX, player.position.y + teleportOffsetY, transform.position.z);
+        transform.position = newPos;
     }
 
     void UseSkill1()
     {
-        // Debug.Log("스킬1 사용");
+        Debug.Log("스킬1 사용");
+
+        animator.SetTrigger("Skill1Cast");
+    }
+
+    public void DoSkill1()
+    {
+        Vector3 spawnPos = new Vector3(player.position.x, player.position.y + 1f, 0f);
+        GameObject shadow = Instantiate(deathShadowPrefab, spawnPos, Quaternion.identity);
+
+        // 10초 뒤에 파괴
+        Destroy(shadow, 10f);
     }
 
     void UseSkill2()
+    {   
+        Debug.Log("스킬2 사용");
+
+        animator.SetTrigger("Skill2Cast");
+    }
+
+    public void DoSkill2()
     {
-        // Debug.Log("스킬2 사용");
+        // string characterType = DataMgr.instance.currentCharacter.ToString();
+        // if (characterType == "Magician")
+        // {
+        //     player.GetComponent<Magician_Script>().Fear(transform.position);
+        // }
+        // else if (characterType == "Gunner")
+        // {
+        //     player.GetComponent<Gunner_Script>().Fear(transform.position);
+        // }
+        // else if (characterType == "Samurai")
+        // {
+        //     player.GetComponent<Samurai_Script>().Fear(transform.position);
+        // }
+
+        player.GetComponent<Magician_Script>().Fear(transform.position);
     }
 
     void UseSkill3()
     {
-        // Debug.Log("스킬3 사용");
+    
+        Debug.Log("스킬3 사용");
     }
 
     void UseSkill4()
     {
-        // Debug.Log("스킬4 사용");
+        
+        Debug.Log("스킬4 사용");
     }
 
     void ChangeBehavior()
@@ -163,18 +252,18 @@ public class Boss1_Script : MonoBehaviour
             currentBehavior = BossBehavior.Idle;
             behaviorTimer = Random.Range(1f, 1.5f); // 1 ~ 1.5초 둠칫? 
         }
-        // 25% Chase
-        else if (rand < 30)
+        // 20% Chase
+        else if (rand < 25)
         {
             currentBehavior = BossBehavior.Chase;
             behaviorTimer = Random.Range(1f, 1.5f); // 1 ~ 1.5초 추적? 
         }
         // 15% Teleport
-        else if (rand < 45)
+        else if (rand < 40)
         {
             currentBehavior = BossBehavior.Teleport;
         }
-        // 55% Skill 
+        // 60% Skill 
         else
         {
             int skillNum = Random.Range(1, 5);
