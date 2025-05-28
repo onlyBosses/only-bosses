@@ -20,7 +20,7 @@ public enum Necklace
     None, Necklace1, Necklace2, Necklace3
 }
 
-public enum Boss
+public enum BossType
 {
     Boss1, Boss2
 }
@@ -55,6 +55,6 @@ public class DataMgr : MonoBehaviour
     public Ring selectedRing = Ring.None;
     public Necklace selectedNecklace = Necklace.None;
 
-    public Boss currentBoss;
+    public BossType currentBoss;
     public Difficulty selectedDifficulty = Difficulty.None;
 }

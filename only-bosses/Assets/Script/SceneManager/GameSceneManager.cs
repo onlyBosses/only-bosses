@@ -51,7 +51,7 @@ public class GameSceneManager : MonoBehaviour
         GameObject bossPrefab = Resources.Load<GameObject>($"Bosses/{bossName}");
         GameObject bossInstance = Instantiate(bossPrefab, bossSpawnPoint.position, bossSpawnPoint.rotation);
 
-        if (DataMgr.instance.currentBoss == Boss.Boss1)
+        if (DataMgr.instance.currentBoss == BossType.Boss1)
         {
             Boss1_Script bossScript = bossInstance.GetComponent<Boss1_Script>();
             bossScript.SetBossHPBar(bossHPBar);
@@ -67,7 +67,6 @@ public class GameSceneManager : MonoBehaviour
     {
 
         // 테스트 용 | status에서 가져와야함 
-
         switch (DataMgr.instance.currentCharacter)
         {
             case Character.Samurai:
@@ -89,12 +88,12 @@ public class GameSceneManager : MonoBehaviour
 
         switch (DataMgr.instance.currentBoss)
         {
-            case Boss.Boss1:
+            case BossType.Boss1:
                 bossImage.sprite = boss1Sprite;
                 // status에서 가져오기 
                 bossMaxHP = 16000;
                 break;
-            case Boss.Boss2:
+            case BossType.Boss2:
                 bossImage.sprite = boss2Sprite;
                 bossMaxHP = 800f;
                 break;

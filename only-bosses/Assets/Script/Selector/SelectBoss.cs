@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SelectBoss : MonoBehaviour {
     
-    public Boss boss; 
+    public BossType boss; 
     Animator animator;
     public SelectBoss[] bosses;
     public GameObject highlight; 
