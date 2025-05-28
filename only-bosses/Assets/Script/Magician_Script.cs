@@ -4,17 +4,26 @@ public class Magician_Script : MonoBehaviour
 {
     private SpriteRenderer sr;
     private Animator animator;
+    [SerializeField] private HPBarUI magicianHPBar;
+
     private int baseAttackCount;
     private bool isBaseAttack = false;
     private PlayerStatus status;
+
+    private int currentHp;
+
     private int elementCount;
     private const int MAX_ELEMNT = 1;
 
     public Sprite skillQCastSprite;
-
     private int firstSkillCoolTime;
     private int secondSkillCoolTime;
     private int thirdSkillCoolTime;
+
+    // 보스1 상대로 스킬 맞는거 
+    private bool isFeared = false;
+    private Vector2 fearDirection;
+    private float fearTimer = 0f;
 
     void Start()
     {
@@ -23,9 +32,11 @@ public class Magician_Script : MonoBehaviour
         isBaseAttack = false;
         status = new PlayerStatus(450, 2, 20, 6, 5, 30, 5, 0, 0);
 
+        currentHp = status.getHp();
+
         // 장비에 따라 status 변환 
 
-        
+
 
 
         firstSkillCoolTime = 0;
@@ -89,6 +100,17 @@ public class Magician_Script : MonoBehaviour
 
         bool skillR = Input.GetKey("r") && thirdSkillCoolTime <= 0;
         animator.SetBool("SkillR", skillR);
+
+        if (isFeared)
+        {
+            transform.Translate(fearDirection * 2f * Time.deltaTime); 
+            fearTimer -= Time.deltaTime;
+            if (fearTimer <= 0f)
+            {
+                isFeared = false;
+            }
+            return; 
+        }
     }
 
     public bool baseAttack()
@@ -107,7 +129,7 @@ public class Magician_Script : MonoBehaviour
         if (--elementCount <= 0)
         {
             dmg = (int)(dmg * 1.2); // ?
-            baseAttackCount = status.getAttackSpeed() * 50; 
+            baseAttackCount = status.getAttackSpeed() * 50;
             isBaseAttack = false;
         }
 
@@ -182,13 +204,13 @@ public class Magician_Script : MonoBehaviour
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
 
         GameObject eSkillPrefab = Resources.Load<GameObject>("etc/magicianE");
-      
+
         Vector3 spawnPos = new Vector3(worldPos.x, worldPos.y, -1f);
 
         GameObject instance = Instantiate(eSkillPrefab, spawnPos, Quaternion.identity);
 
         Magician_skill2 script = instance.GetComponent<Magician_skill2>();
-    
+
         script.dmg = (int)(status.getDamage() * 1.8f);
     }
 
@@ -201,13 +223,13 @@ public class Magician_Script : MonoBehaviour
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
 
         GameObject rSkillPrefab = Resources.Load<GameObject>("etc/magicianR");
-      
+
         Vector3 spawnPos = new Vector3(worldPos.x, worldPos.y, -1f);
 
         GameObject instance = Instantiate(rSkillPrefab, spawnPos, Quaternion.identity);
 
         Magician_skill3 script = instance.GetComponent<Magician_skill3>();
-    
+
         script.dmg = (int)(status.getDamage() * 1.8f);
     }
 
@@ -215,5 +237,26 @@ public class Magician_Script : MonoBehaviour
     {
         animator.enabled = true;
         animator.Play("magician_idle");
+    }
+
+    public void SetMagicianHPBar(HPBarUI hpBar)
+    {
+        magicianHPBar = hpBar;
+    }
+
+    public void TakeDamage(int dmg)
+    {
+        currentHp -= dmg;
+        Debug.Log($"받은 데미지: {dmg} | 현재 HP: {currentHp}");
+
+        magicianHPBar.SetHP(currentHp, status.getHp());
+    }
+
+    public void Fear(Vector3 bossPos)
+    {
+        isFeared = true;
+        fearTimer = 2f;
+        Vector2 dirToBoss = (bossPos - transform.position).normalized;
+        fearDirection = -dirToBoss;
     }
 }

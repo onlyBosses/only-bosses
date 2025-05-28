@@ -29,6 +29,11 @@ public class PlayerStatus
         this.increasedSkillDamage = increasedSkillDamage;
     }
 
+    public int getHp()
+    {
+        return health;
+    }
+
     public int getDamage()
     {
         return damage;

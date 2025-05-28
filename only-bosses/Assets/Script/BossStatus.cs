@@ -33,6 +33,14 @@ public class BossStatus
     }
 
     public int getDamage()
+<<<<<<< HEAD
+=======
+    {
+        return damage;
+    }
+
+    void Start()
+>>>>>>> 269bf8225ca31a2feb56416e61c53779f683cf1c
     {
         return damage;
     }
