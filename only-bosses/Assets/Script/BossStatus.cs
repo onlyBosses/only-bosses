@@ -32,6 +32,11 @@ public class BossStatus
         return moveSpeed;
     }
 
+    public int getDamage()
+    {
+        return damage;
+    }
+
     void Start()
     {
         
