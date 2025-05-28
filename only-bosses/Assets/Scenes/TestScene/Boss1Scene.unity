@@ -1085,7 +1085,6 @@ GameObject:
   - component: {fileID: 2113881443}
   - component: {fileID: 2113881442}
   - component: {fileID: 2113881441}
-  - component: {fileID: 2113881440}
   m_Layer: 7
   m_Name: gunner
   m_TagString: Untagged
@@ -1093,18 +1092,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2113881440
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2113881439}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e7e492e854252364484bff05b182b57e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2113881441
 MonoBehaviour:
   m_ObjectHideFlags: 0

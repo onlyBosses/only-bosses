@@ -10,7 +10,7 @@ public class PlayerStatus
     private int attackDistance;
     private int criticalChance;
     private int criticalDamage;
-    private int moveSpeed;
+    private float moveSpeed;
     private int reduceCoolTime;
     private int increasedSkillDamage;
 
@@ -47,6 +47,16 @@ public class PlayerStatus
     public int getAttackDistance()
     {
         return attackDistance;
+    }
+
+    public float getMoveSpeed()
+    {
+        return moveSpeed;
+    }
+
+    public void setMoveSpeed(float speed)
+    {
+        moveSpeed = speed;
     }
 
     public int getHealth()

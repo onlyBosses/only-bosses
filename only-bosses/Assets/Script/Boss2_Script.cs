@@ -3,6 +3,7 @@ using Mono.Cecil;
 using Unity.VisualScripting;
 using Unity.VisualScripting.Antlr3.Runtime.Tree;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 class FirstSkill
 {
@@ -23,21 +24,21 @@ class SecondSkill
     public int coolTime;
     public bool isSuccess;
     public int duration;
+    public float power;
 
     public SecondSkill()
     {
         coolTime = 0;
         isSuccess = false;
         duration = 0;
+        power = 0;
     }
 }
 
-public class Boss2_Script : MonoBehaviour
+public class Boss2_Script : Boss
 {
     public string playerName;
-    private Rigidbody2D rbody;
     private GameObject player;
-    private BossStatus status;
     private int attackCoolTime;
     private FirstSkill firstSkill;
     private SecondSkill secondSkill;
@@ -128,10 +129,35 @@ public class Boss2_Script : MonoBehaviour
         if (secondSkill.coolTime <= 0)
         {
             secondSkill.coolTime = Random.Range(24, 37) * 50;
+            float distance = Vector2.Distance(player.transform.position, transform.position);
+            if (distance <= 3.5)
+            {
+                PlayerStatus playerStatus = player.GetComponent<Move_Player>().status;
+                float moveSpeed = playerStatus.getMoveSpeed();
+                secondSkill.power = 0.2F;
+                moveSpeed -= secondSkill.power;
+                playerStatus.setMoveSpeed(moveSpeed);
+                secondSkill.isSuccess = true;
+                secondSkill.duration = 5;
+            }
         }
         else
         {
             secondSkill.coolTime--;
+        }
+        if (secondSkill.isSuccess)
+        {
+            if (secondSkill.duration <= 0)
+            {
+                PlayerStatus playerStatus = player.GetComponent<Move_Player>().status;
+                float moveSpeed = playerStatus.getMoveSpeed() + secondSkill.power;
+                playerStatus.setMoveSpeed(moveSpeed);
+                secondSkill.isSuccess = false;
+            }
+            else
+            {
+                secondSkill.duration--;
+            }
         }
     }
 }

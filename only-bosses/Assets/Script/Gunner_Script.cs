@@ -12,7 +12,7 @@ public class Gunner_Script : Move_Player
     // private PlayerStatus status;
     private int bulletCount;
     private const int MAXBULLET = 3;
-    private SpriteRenderer spriteRenderer;
+    // private SpriteRenderer spriteRenderer;
 
     private int firstSkillCoolTime;
     private int secondSkillCoolTime;
@@ -31,7 +31,7 @@ public class Gunner_Script : Move_Player
         secondSkillCoolTime = 0;
         thirdSkillCoolTime = 0;
         thirdSkillTargets = new List<GameObject>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        // spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
