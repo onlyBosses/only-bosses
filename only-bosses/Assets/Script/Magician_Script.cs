@@ -25,6 +25,9 @@ public class Magician_Script : MonoBehaviour
 
         // 장비에 따라 status 변환 
 
+        
+
+
         firstSkillCoolTime = 0;
         secondSkillCoolTime = 0;
         thirdSkillCoolTime = 0;
