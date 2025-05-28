@@ -2,13 +2,14 @@ using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.VFX;
 
-public class Move_Player : MonoBehaviour
+public class Move_Player : MonoBehaviour, PlayerInterface
 {
     private float vx;
     private bool isJump;
     private bool isJumpPush;
     private Rigidbody2D rbody;
     private SpriteRenderer spriteRenderer;
+    public PlayerStatus status;
     void Start()
     {
         rbody = this.GetComponent<Rigidbody2D>();
@@ -66,8 +67,17 @@ public class Move_Player : MonoBehaviour
         }
     }
 
-    private void OnDamage()
+    public void onDamage(int damage)
     {
-        spriteRenderer.color = new Color(200 / 255, 200 / 255, 200 / 255);
+        PlayerStatus status = GetComponent<Move_Player>().status;
+        spriteRenderer.color = new Color(200 / 255F, 200 / 255F, 200 / 255F);
+        int health = status.getHealth();
+        health -= damage;
+        if (health <= 0) //죽음
+        {
+
+        }
+        status.setHealth(health);
+        Debug.Log(health);
     }
 }

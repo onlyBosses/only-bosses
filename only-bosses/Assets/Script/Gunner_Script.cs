@@ -9,9 +9,10 @@ public class Gunner_Script : MonoBehaviour
     private string baseAttackAnim = "gunner_pistolH";
     private bool isBaseAttack = false;
     private int baseAttackCount;
-    private PlayerStatus status;
+    // private PlayerStatus status;
     private int bulletCount;
     private const int MAXBULLET = 3;
+    private SpriteRenderer spriteRenderer;
 
     private int firstSkillCoolTime;
     private int secondSkillCoolTime;
@@ -22,12 +23,14 @@ public class Gunner_Script : MonoBehaviour
     void Start()
     {
         isBaseAttack = false;
-        status = new PlayerStatus(450, 2, 20, 8, 5, 30, 5, 0, 0);
+        Move_Player mPlayer = GetComponent<Move_Player>();
+        mPlayer.status = new PlayerStatus(450, 2, 20, 8, 5, 30, 5, 0, 0);
         bulletCount = MAXBULLET;
         firstSkillCoolTime = 0;
         secondSkillCoolTime = 0;
         thirdSkillCoolTime = 0;
         thirdSkillTargets = new List<GameObject>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -93,6 +96,7 @@ public class Gunner_Script : MonoBehaviour
             if (rbody.linearVelocity.y < 0)
                 rbody.AddForce(new Vector2(0, transform.position.y + 5), ForceMode2D.Impulse);
         }
+        PlayerStatus status = GetComponent<Move_Player>().status;
         int dmg = status.getDamage();
         if (--bulletCount <= 0)
         {
@@ -139,6 +143,7 @@ public class Gunner_Script : MonoBehaviour
         Bullet bullet = bulletPrefab.GetComponent<Bullet>();
         bullet.playerObject = gameObject;
 
+        PlayerStatus status = GetComponent<Move_Player>().status;
         bullet.dmg = (int)(status.getDamage() * 0.8);
 
         bullet.MaxDistance = 10;
@@ -168,6 +173,7 @@ public class Gunner_Script : MonoBehaviour
         skillPrefab.GetComponent<SpriteRenderer>().flipX = dir.x > 0;
 
         Gunner_skill2 script = skillPrefab.GetComponent<Gunner_skill2>();
+        PlayerStatus status = GetComponent<Move_Player>().status;
         script.dmg = (int)(status.getDamage() * 1.8);
 
         Instantiate(skillPrefab, skillPrefab.transform.position, skillPrefab.transform.rotation);
@@ -194,6 +200,7 @@ public class Gunner_Script : MonoBehaviour
 
             Vector3 pos = new Vector3(x, y, 0);
 
+            PlayerStatus status = GetComponent<Move_Player>().status;
             script.dmg = (int) (status.getDamage() * 0.6);
 
             Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, 5F);

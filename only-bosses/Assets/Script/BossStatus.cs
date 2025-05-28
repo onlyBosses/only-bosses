@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class BossStatus
 {
-    
+
     private int health;
     private int attackSpeed;
     private int damage;
@@ -10,7 +10,7 @@ public class BossStatus
     private int criticalChance;
     private int criticalDamage;
     private int moveSpeed;
-    
+
     public BossStatus(int health, int attackSpeed, int damage, int attackDistance, int criticalChance, int criticalDamage, int moveSpeed)
     {
         this.health = health;
@@ -32,13 +32,23 @@ public class BossStatus
         return moveSpeed;
     }
 
-    void Start()
+    public int getDamage()
     {
-        
+        return damage;
     }
 
-    void Update()
+    public int getCriticalChance()
     {
-        
+        return criticalChance;
+    }
+
+    public int getCriticalDamage()
+    {
+        return criticalDamage;
+    }
+
+    public int getAttackSpeed()
+    {
+        return attackSpeed;
     }
 }
