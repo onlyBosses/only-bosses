@@ -102,8 +102,9 @@ public class Move_Player : MonoBehaviour, PlayerInterface
     {
         Vector3 mousePos = Input.mousePosition;
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
-        this.GetComponent<SpriteRenderer>().flipX = worldPos.x < transform.position.x;
-        rbody.linearVelocity = new Vector2(vx, rbody.linearVelocityY);
+        GetComponent<SpriteRenderer>().flipX = worldPos.x < transform.position.x;
+        Debug.Log(status.getMoveSpeed());
+        rbody.linearVelocity = new Vector2(vx * status.getMoveSpeed(), rbody.linearVelocityY);
         if (isJump)
         {
             isJump = false;

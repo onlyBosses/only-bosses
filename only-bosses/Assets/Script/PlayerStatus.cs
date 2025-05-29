@@ -16,7 +16,7 @@ public class PlayerStatus
 
     // private ArrayList<string> selectedItem;
 
-    public PlayerStatus(int health, int attackSpeed, int damage, int attackDistance, int criticalChance, int criticalDamage, int moveSpeed, int reduceCoolTime, int increasedSkillDamage)
+    public PlayerStatus(int health, int attackSpeed, int damage, int attackDistance, int criticalChance, int criticalDamage, float moveSpeed, int reduceCoolTime, int increasedSkillDamage)
     {
         this.health = health;
         this.attackSpeed = attackSpeed;
