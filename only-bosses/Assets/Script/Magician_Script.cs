@@ -1,16 +1,15 @@
 using UnityEngine;
 
-public class Magician_Script : MonoBehaviour
+public class Magician_Script : Move_Player
 {
     private SpriteRenderer sr;
     private Animator animator;
-    [SerializeField] private HPBarUI magicianHPBar;
+    
+    [SerializeField] private HPBarUI magicianHPBar; // 위치 변경 예정? 
 
     private int baseAttackCount;
     private bool isBaseAttack = false;
-    private PlayerStatus status;
-
-    private int currentHp;
+    private int currentHp; // 변경 예정 
 
     private int elementCount;
     private const int MAX_ELEMNT = 1;
@@ -27,6 +26,7 @@ public class Magician_Script : MonoBehaviour
 
     void Start()
     {
+        init();
         sr = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         isBaseAttack = false;
@@ -46,6 +46,7 @@ public class Magician_Script : MonoBehaviour
 
     void FixedUpdate()
     {
+        move();
         if (!isBaseAttack)
         {
             if (--baseAttackCount <= 0)
@@ -62,6 +63,7 @@ public class Magician_Script : MonoBehaviour
 
     void Update()
     {
+        inputMove();
         bool isWalking = Input.GetKey("a") || Input.GetKey("d");
         animator.SetBool("IsWalking", isWalking);
 
