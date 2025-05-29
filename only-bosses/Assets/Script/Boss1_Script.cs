@@ -227,19 +227,23 @@ public class Boss1_Script : MonoBehaviour
         //     player.GetComponent<Samurai_Script>().Fear(transform.position);
         // }
 
-        player.GetComponent<Magician_Script>().Fear(transform.position);
+        // player.GetComponent<Move_Player>().Fear(transform.position);
+        // 상속 받는 거는 못 찾는다는데
+
+        Fearable fearable = player.GetComponent<Fearable>();
+        fearable.Fear(transform.position);
     }
 
     void UseSkill3()
     {
     
-        Debug.Log("스킬3 사용");
+        // Debug.Log("스킬3 사용");
     }
 
     void UseSkill4()
     {
         
-        Debug.Log("스킬4 사용");
+        // Debug.Log("스킬4 사용");
     }
 
     void ChangeBehavior()

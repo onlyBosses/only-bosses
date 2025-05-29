@@ -20,9 +20,9 @@ public class Magician_Script : Move_Player
     private int thirdSkillCoolTime;
 
     // 보스1 상대로 스킬 맞는거 
-    private bool isFeared = false;
-    private Vector2 fearDirection;
-    private float fearTimer = 0f;
+    // private bool isFeared = false;
+    // private Vector2 fearDirection;
+    // private float fearTimer = 0f;
 
     void Start()
     {
@@ -103,16 +103,16 @@ public class Magician_Script : Move_Player
         bool skillR = Input.GetKey("r") && thirdSkillCoolTime <= 0;
         animator.SetBool("SkillR", skillR);
 
-        if (isFeared)
-        {
-            transform.Translate(fearDirection * 2f * Time.deltaTime); 
-            fearTimer -= Time.deltaTime;
-            if (fearTimer <= 0f)
-            {
-                isFeared = false;
-            }
-            return; 
-        }
+        // if (isFeared)
+        // {
+        //     transform.Translate(fearDirection * 2f * Time.deltaTime); 
+        //     fearTimer -= Time.deltaTime;
+        //     if (fearTimer <= 0f)
+        //     {
+        //         isFeared = false;
+        //     }
+        //     return; 
+        // }
     }
 
     public bool baseAttack()
@@ -249,16 +249,16 @@ public class Magician_Script : Move_Player
     public void TakeDamage(int dmg)
     {
         currentHp -= dmg;
-        Debug.Log($"받은 데미지: {dmg} | 현재 HP: {currentHp}");
+        // Debug.Log($"받은 데미지: {dmg} | 현재 HP: {currentHp}");
 
         magicianHPBar.SetHP(currentHp, status.getHp());
     }
 
-    public void Fear(Vector3 bossPos)
-    {
-        isFeared = true;
-        fearTimer = 2f;
-        Vector2 dirToBoss = (bossPos - transform.position).normalized;
-        fearDirection = -dirToBoss;
-    }
+    // public void Fear(Vector3 bossPos)
+    // {
+    //     isFeared = true;
+    //     fearTimer = 2f;
+    //     Vector2 dirToBoss = (bossPos - transform.position).normalized;
+    //     fearDirection = -dirToBoss;
+    // }
 }

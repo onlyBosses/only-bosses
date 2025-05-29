@@ -37,7 +37,7 @@ public class DeathShadowTrigger : MonoBehaviour
 
             if (stayTime >= 3f)
             {
-                Debug.Log("즉사");
+                // Debug.Log("즉사");
                 other.GetComponent<Magician_Script>().TakeDamage(99999);
             }
         }
