@@ -22,12 +22,18 @@ public class Boss1_Script : MonoBehaviour
     // 스킬1 
     [SerializeField] private GameObject deathShadowPrefab;
 
+    // 스킬3 
+    [SerializeField] private GameObject bladePrefab;
 
-    private float teleportCoolTime = 8f;
-    private float skill1CoolTime = 8f;
-    private float skill2CoolTime = 8f;
-    private float skill3CoolTime = 8f;
-    private float skill4CoolTime = 8f;
+    // 스킬4 
+    [SerializeField] private GameObject[] littleMonsterPrefabs;
+
+
+    private float teleportCoolTime = 25f;
+    private float skill1CoolTime = 25f;
+    private float skill2CoolTime = 25f;
+    private float skill3CoolTime = 25f;
+    private float skill4CoolTime = 25f;
 
 
     private float teleportTimer = 0f;
@@ -102,25 +108,27 @@ public class Boss1_Script : MonoBehaviour
             case BossBehavior.Teleport:
                 if (teleportTimer <= 0f)
                 {
-                    UseTeleport();
+                    animator.SetTrigger("Teleport");
                     teleportTimer = teleportCoolTime;
                 }
-                ChangeBehavior();
+                currentBehavior = BossBehavior.Idle;
+                behaviorTimer = Random.Range(1f, 1.5f);
                 break;
 
             case BossBehavior.Skill1:
                 if (skill1Timer <= 0f)
                 {
-                    UseSkill1();
+                    animator.SetTrigger("Skill1Cast");
                     skill1Timer = skill1CoolTime;
                 }
-                ChangeBehavior();
+                currentBehavior = BossBehavior.Idle;
+                behaviorTimer = Random.Range(1f, 1.5f);
                 break;
 
             case BossBehavior.Skill2:
                 if (skill2Timer <= 0f)
                 {
-                    UseSkill2();
+                    animator.SetTrigger("Skill2Cast");
                     skill2Timer = skill2CoolTime;
                 }
                 ChangeBehavior();
@@ -129,19 +137,21 @@ public class Boss1_Script : MonoBehaviour
             case BossBehavior.Skill3:
                 if (skill3Timer <= 0f)
                 {
-                    UseSkill3();
+                    animator.SetTrigger("Skill3Cast");
                     skill3Timer = skill3CoolTime;
                 }
-                ChangeBehavior();
+                currentBehavior = BossBehavior.Idle;
+                behaviorTimer = Random.Range(1f, 1.5f);
                 break;
 
             case BossBehavior.Skill4:
                 if (skill4Timer <= 0f)
                 {
-                    UseSkill4();
+                    animator.SetTrigger("Skill4Cast");
                     skill4Timer = skill4CoolTime;
                 }
-                ChangeBehavior();
+                currentBehavior = BossBehavior.Idle;
+                behaviorTimer = Random.Range(1f, 1.5f);
                 break;
         }
 
@@ -174,10 +184,10 @@ public class Boss1_Script : MonoBehaviour
         // Debug.Log("ChasePlayer 실행");
     }
 
-    void UseTeleport()
-    {
-        animator.SetTrigger("Teleport");
-    }
+    // void UseTeleport()
+    // {
+    //     animator.SetTrigger("Teleport");
+    // }
 
     public void DoTeleportMove()
     {
@@ -188,12 +198,12 @@ public class Boss1_Script : MonoBehaviour
         transform.position = newPos;
     }
 
-    void UseSkill1()
-    {
-        Debug.Log("스킬1 사용");
+    // void UseSkill1()
+    // {
+    //     Debug.Log("스킬1 사용");
 
-        animator.SetTrigger("Skill1Cast");
-    }
+    //     animator.SetTrigger("Skill1Cast");
+    // }
 
     public void DoSkill1()
     {
@@ -204,12 +214,12 @@ public class Boss1_Script : MonoBehaviour
         Destroy(shadow, 10f);
     }
 
-    void UseSkill2()
-    {   
-        Debug.Log("스킬2 사용");
+    // void UseSkill2()
+    // {   
+    //     Debug.Log("스킬2 사용");
 
-        animator.SetTrigger("Skill2Cast");
-    }
+    //     animator.SetTrigger("Skill2Cast");
+    // }
 
     public void DoSkill2()
     {
@@ -227,43 +237,79 @@ public class Boss1_Script : MonoBehaviour
         //     player.GetComponent<Samurai_Script>().Fear(transform.position);
         // }
 
-        player.GetComponent<Magician_Script>().Fear(transform.position);
+        // player.GetComponent<Move_Player>().Fear(transform.position);
+        // 상속 받는 거는 못 찾는다는데
+        // Fearable 인터페이스로 해결 
+        Fearable fearable = player.GetComponent<Fearable>();
+        fearable.Fear(transform.position);
     }
 
-    void UseSkill3()
+    // void UseSkill3()
+    // {
+
+    //     // Debug.Log("스킬3 사용");
+    // }
+
+    public void DoSkill3()
     {
-    
-        Debug.Log("스킬3 사용");
+        int bladeCount = 5;
+
+        for (int i = 0; i < bladeCount; i++)
+        {
+            GameObject blade = Instantiate(bladePrefab, transform.position, Quaternion.identity);
+            RotatingBlade rb = blade.GetComponent<RotatingBlade>();
+
+            rb.boss = this.transform; // 보스 중심으로 회전
+            rb.angle = i * (360f / bladeCount); // 분산된 각도로 배치
+            rb.radius = 1.5f; // 원 반지름
+            rb.speed = 100f; // 회전 속도
+
+            Destroy(blade, 5f); // 5초 뒤에 제거
+        }
     }
 
-    void UseSkill4()
+    // void UseSkill4()
+    // {
+
+    //     // Debug.Log("스킬4 사용");
+    // }
+
+    public void DoSkill4()
     {
-        
-        Debug.Log("스킬4 사용");
+        int littleMonsterCount = 2;
+
+        for (int i = 0; i < littleMonsterCount; i++)
+        {
+            float offsetX = (i == 0) ? -1f : 1f;
+            Vector3 spawnPos = new Vector3(transform.position.x + offsetX, -4f, transform.position.z);
+            GameObject littleMonster = Instantiate(littleMonsterPrefabs[i], spawnPos, Quaternion.identity);
+
+            littleMonster.GetComponent<LittleMonster>().target = player;
+        }
     }
 
     void ChangeBehavior()
     {
         int rand = Random.Range(0, 100);
 
-        // 5% Idle 
-        if (rand < 5)
+        // 10% Idle 
+        if (rand < 10)
         {
             currentBehavior = BossBehavior.Idle;
             behaviorTimer = Random.Range(1f, 1.5f); // 1 ~ 1.5초 둠칫? 
         }
-        // 20% Chase
-        else if (rand < 25)
+        // 30% Chase
+        else if (rand < 45)
         {
             currentBehavior = BossBehavior.Chase;
             behaviorTimer = Random.Range(1f, 1.5f); // 1 ~ 1.5초 추적? 
         }
         // 15% Teleport
-        else if (rand < 40)
+        else if (rand < 60)
         {
             currentBehavior = BossBehavior.Teleport;
         }
-        // 60% Skill 
+        // 45% Skill 
         else
         {
             int skillNum = Random.Range(1, 5);

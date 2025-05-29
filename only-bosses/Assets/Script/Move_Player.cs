@@ -2,7 +2,7 @@ using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.VFX;
 
-public class Move_Player : MonoBehaviour, PlayerInterface
+public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
 {
     private float vx;
     private bool isJump;
@@ -10,6 +10,12 @@ public class Move_Player : MonoBehaviour, PlayerInterface
     protected Rigidbody2D rbody;
     protected SpriteRenderer spriteRenderer;
     public PlayerStatus status;
+
+    // 보스1 스킬2: 공포 -> 보스 반대 방향으로 이동 (움직임 제어)
+    private bool isFeared = false;
+    private Vector2 fearDirection;
+    private float fearTimer = 0f;
+
     void Start()
     {
         // rbody = this.GetComponent<Rigidbody2D>();
@@ -96,6 +102,18 @@ public class Move_Player : MonoBehaviour, PlayerInterface
         {
 
         }
+
+        // 보스1 스킬2: 공포 -> 보스 반대 방향으로 이동 (움직임 제어)
+        if (isFeared)
+        {
+            transform.Translate(fearDirection * 2f * Time.deltaTime);
+            fearTimer -= Time.deltaTime;
+            if (fearTimer <= 0f)
+            {
+                isFeared = false;
+            }
+            return;
+        }
     }
 
     public void move()
@@ -137,5 +155,15 @@ public class Move_Player : MonoBehaviour, PlayerInterface
         }
         status.setHealth(health);
         Debug.Log(health);
+    }
+    
+
+    // 보스1 스킬2: 공포 -> 보스 반대 방향으로 이동 (움직임 제어)
+    public void Fear(Vector3 bossPos)
+    {
+        isFeared = true;
+        fearTimer = 2f;
+        Vector2 dirToBoss = (bossPos - transform.position).normalized;
+        fearDirection = -dirToBoss;
     }
 }
