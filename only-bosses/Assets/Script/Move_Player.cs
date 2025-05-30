@@ -11,6 +11,8 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
     protected SpriteRenderer spriteRenderer;
     public PlayerStatus status;
 
+    [SerializeField] private HPBarUI playerHPBar;
+
     // 보스1 스킬2: 공포 -> 보스 반대 방향으로 이동 (움직임 제어)
     private bool isFeared = false;
     private Vector2 fearDirection;
@@ -143,18 +145,29 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
         // }
     }
 
-    public void onDamage(int damage)
+    public void SetPlayerHPBar(HPBarUI hpBar)
     {
-        PlayerStatus status = GetComponent<Move_Player>().status;
+        playerHPBar = hpBar;
+    }
+
+    public void OnDamage(int damage)
+    {
+        status = GetComponent<Move_Player>().status;
         spriteRenderer.color = new Color(200 / 255F, 200 / 255F, 200 / 255F);
-        int health = status.getHealth();
-        health -= damage;
-        if (health <= 0) //죽음
+
+        int currentHp = status.getHealth();
+        currentHp -= damage;
+
+
+        if (currentHp <= 0) //죽음
         {
 
         }
-        status.setHealth(health);
-        Debug.Log(health);
+
+        status.setHealth(currentHp);
+
+        playerHPBar.SetHP(currentHp, status.getMaxHealth());
+        Debug.Log(currentHp);
     }
     
 

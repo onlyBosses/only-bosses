@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public interface PlayerInterface
+public interface BossInterface
 {
     public void OnDamage(int damage);
 }

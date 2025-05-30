@@ -25,8 +25,11 @@ public class Magician_skill3 : MonoBehaviour
         
     }
     
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        
+        if (other.CompareTag("Boss"))
+        {
+            // 보스 데미지 주기
+        }
     }
 }

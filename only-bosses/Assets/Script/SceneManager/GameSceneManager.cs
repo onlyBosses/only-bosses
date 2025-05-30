@@ -51,16 +51,8 @@ public class GameSceneManager : MonoBehaviour
         GameObject bossPrefab = Resources.Load<GameObject>($"Bosses/{bossName}");
         GameObject bossInstance = Instantiate(bossPrefab, bossSpawnPoint.position, bossSpawnPoint.rotation);
 
-        if (DataMgr.instance.currentBoss == BossType.Boss1)
-        {
-            Boss1_Script bossScript = bossInstance.GetComponent<Boss1_Script>();
-            bossScript.SetBossHPBar(bossHPBar);
-        }
-        // else if (DataMgr.instance.currentBoss == Boss.Boss2)
-        // {
-        //     Boss2_Script bossScript = bossInstance.GetComponent<Boss2_Script>();
-        //     bossScript.SetBossHPBar(bossHPBar);
-        // }
+        Boss bossScript = bossInstance.GetComponent<Boss>();
+        bossScript.SetBossHPBar(bossHPBar);
     }
 
     void SetUI()
