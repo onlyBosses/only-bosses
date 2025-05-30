@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8362479028248948512}
   - component: {fileID: 586783322468852287}
   - component: {fileID: 7232144979650833354}
+  - component: {fileID: 8985507602409221121}
   m_Layer: 7
   m_Name: Magician
   m_TagString: Player
@@ -177,6 +178,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerHPBar: {fileID: 0}
+  skillQCooldownImage: {fileID: 0}
+  skillECooldownImage: {fileID: 0}
+  skillRCooldownImage: {fileID: 0}
   skillQCastSprite: {fileID: 6639410035520128016, guid: e1ab1752bd1934158981ba3b7545c753, type: 3}
 --- !u!95 &7232144979650833354
 Animator:
@@ -200,3 +204,15 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &8985507602409221121
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2730823234681263531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 93ec1c637676149499ceba01eb5e641c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
