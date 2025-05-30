@@ -31,9 +31,9 @@ public class Magician_Script : Move_Player
         playerHPBar.SetHP(status.getMaxHealth(), status.getMaxHealth());
         // 장비에 따라 status 변환 
 
-        firstSkillCoolTime = 0;
-        secondSkillCoolTime = 0;
-        thirdSkillCoolTime = 0;
+        firstSkillCoolTime = 0f;
+        secondSkillCoolTime = 0f;
+        thirdSkillCoolTime = 0f;
     }
 
     void FixedUpdate()
@@ -101,10 +101,10 @@ public class Magician_Script : Move_Player
             }
         }
 
-        bool skillE = Input.GetKey("e") && secondSkillCoolTime <= 0;
+        bool skillE = Input.GetKey("e") && secondSkillCoolTime <= 0f;
         animator.SetBool("SkillE", skillE);
 
-        bool skillR = Input.GetKey("r") && thirdSkillCoolTime <= 0;
+        bool skillR = Input.GetKey("r") && thirdSkillCoolTime <= 0f;
         animator.SetBool("SkillR", skillR);
     }
 
@@ -154,7 +154,7 @@ public class Magician_Script : Move_Player
 
     public void useFirstSkill()
     {
-        if (firstSkillCoolTime > 0) return;
+        if (firstSkillCoolTime > 0f) return;
 
         firstSkillCoolTime = firstSkillCoolTimer;
 

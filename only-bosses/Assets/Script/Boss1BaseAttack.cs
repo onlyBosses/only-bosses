@@ -14,7 +14,7 @@ public class Boss1BaseAttack : MonoBehaviour
         if (other.CompareTag("Player"))
         {
 
-            // Debug.Log("데미지 슛");
+            Debug.Log("데미지 슛");
             PlayerInterface player = other.GetComponent<PlayerInterface>();
             player.OnDamage(bossScript.status.getDamage());
         }
