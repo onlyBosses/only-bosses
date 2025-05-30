@@ -29,7 +29,15 @@ public class Magician_skill3 : MonoBehaviour
     {
         if (other.CompareTag("Boss"))
         {
-            // 보스 데미지 주기
+            BossInterface boss = other.GetComponent<BossInterface>();
+            boss.OnDamage(dmg);
+            boss.OnStun();
+        }
+
+        if (other.CompareTag("Monster"))
+        {
+            LittleMonster littleMonster = other.GetComponent<LittleMonster>();
+            littleMonster.OnDamage(dmg);
         }
     }
 }

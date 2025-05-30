@@ -44,6 +44,11 @@ public class BossStatus
         return moveSpeed;
     }
 
+    public void setMoveSpeed(int moveSpeed)
+    {
+        this.moveSpeed = moveSpeed;
+    }
+
     public int getDamage()
     {
         return damage;

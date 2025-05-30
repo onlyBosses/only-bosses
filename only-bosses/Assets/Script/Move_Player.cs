@@ -11,7 +11,7 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
     protected SpriteRenderer spriteRenderer;
     public PlayerStatus status;
 
-    [SerializeField] private HPBarUI playerHPBar;
+    public HPBarUI playerHPBar;
 
     // 보스1 스킬2: 공포 -> 보스 반대 방향으로 이동 (움직임 제어)
     private bool isFeared = false;
@@ -123,7 +123,6 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
         Vector3 mousePos = Input.mousePosition;
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
         GetComponent<SpriteRenderer>().flipX = worldPos.x < transform.position.x;
-        Debug.Log(status.getMoveSpeed());
         rbody.linearVelocity = new Vector2(vx * status.getMoveSpeed(), rbody.linearVelocityY);
         if (isJump)
         {
@@ -167,7 +166,6 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
         status.setHealth(currentHp);
 
         playerHPBar.SetHP(currentHp, status.getMaxHealth());
-        Debug.Log(currentHp);
     }
     
 

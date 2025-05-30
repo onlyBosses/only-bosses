@@ -18,14 +18,6 @@ public class GameSceneManager : MonoBehaviour
 
     public HPBarUI characterHPBar;
     public HPBarUI bossHPBar;
-
-    // 캐릭터 HP
-    private float characterMaxHP;
-    private float characterCurrentHP;
-
-    // 보스 HP
-    private float bossMaxHP;
-    private float bossCurrentHP;
     
     void Start()
     {
@@ -40,8 +32,11 @@ public class GameSceneManager : MonoBehaviour
         string characterName = DataMgr.instance.currentCharacter.ToString();
         GameObject characterPrefab = Resources.Load<GameObject>($"Characters/{characterName}");
 
-        // (-6, 0, 0)
-        Instantiate(characterPrefab, characterSpawnPoint.position, characterSpawnPoint.rotation);
+        // (-6, 0, 0) // test
+        GameObject characterInstance = Instantiate(characterPrefab, characterSpawnPoint.position, characterSpawnPoint.rotation);
+
+        Move_Player movePlayer = characterInstance.GetComponent<Move_Player>();
+        movePlayer.SetPlayerHPBar(characterHPBar);
     }
 
     void SpawnBoss()
@@ -53,6 +48,8 @@ public class GameSceneManager : MonoBehaviour
 
         Boss bossScript = bossInstance.GetComponent<Boss>();
         bossScript.SetBossHPBar(bossHPBar);
+
+        bossScript.player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     void SetUI()
@@ -63,34 +60,24 @@ public class GameSceneManager : MonoBehaviour
         {
             case Character.Samurai:
                 characterImage.sprite = samuraiSprite;
-                characterMaxHP = 200f;
                 break;
             case Character.Magician:
                 characterImage.sprite = magicianSprite;
-                characterMaxHP = 120f;
                 break;
             case Character.Gunner:
                 characterImage.sprite = gunnerSprite;
-                characterMaxHP = 150f;
                 break;
         }
 
-        characterCurrentHP = characterMaxHP;
-        characterHPBar.SetHP(characterCurrentHP, characterMaxHP);
 
         switch (DataMgr.instance.currentBoss)
         {
             case BossType.Boss1:
                 bossImage.sprite = boss1Sprite;
-                // status에서 가져오기 
-                bossMaxHP = 16000;
                 break;
             case BossType.Boss2:
                 bossImage.sprite = boss2Sprite;
-                bossMaxHP = 800f;
                 break;
         }
-        bossCurrentHP = bossMaxHP;
-        bossHPBar.SetHP(bossCurrentHP, bossMaxHP);
     }
 }

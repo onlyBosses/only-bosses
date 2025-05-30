@@ -24,6 +24,7 @@ public class Magician_Script : Move_Player
         isBaseAttack = false;
         status = new PlayerStatus(450, 450, 2, 20, 6, 5, 30, 5, 0, 0);
 
+        playerHPBar.SetHP(status.getMaxHealth(), status.getMaxHealth());
         // 장비에 따라 status 변환 
 
         firstSkillCoolTime = 0;

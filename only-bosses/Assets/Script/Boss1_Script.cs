@@ -2,12 +2,7 @@ using UnityEngine;
 
 public class Boss1_Script : Boss
 {
-    public Transform player; // 플레이어
-    // [SerializeField] private HPBarUI bossHPBar; // HPBar UI -> GameManager에서 초기화 
-
     private float behaviorTimer; // 각 Behavior 얼마동안 실행할지 
-
-    // private int currentHp; // 현재 체력 
 
     // 기본 공격
     private float baseAttackCoolTime = 3f;
@@ -54,7 +49,6 @@ public class Boss1_Script : Boss
         // 맞아도 뒤로 안 밀림
         // rbody.bodyType = RigidbodyType2D.Kinematic;
 
-        rbody.gravityScale = 0;
         rbody.constraints = RigidbodyConstraints2D.FreezeRotation;
 
         animator = GetComponent<Animator>();
@@ -80,10 +74,13 @@ public class Boss1_Script : Boss
 
         baseAttackTimer = baseAttackCoolTime;
         baseAttackRange.enabled = false;
+
+        bossHPBar.SetHP(status.getMaxHealth(), status.getMaxHealth());
     }
 
     void Update()
     {
+        inputUpdate();
         switch (currentBehavior)
         {
             case BossBehavior.Idle:
@@ -205,7 +202,7 @@ public class Boss1_Script : Boss
 
     public void DoSkill1()
     {
-        Vector3 spawnPos = new Vector3(player.position.x, player.position.y + 1f, 0f);
+        Vector3 spawnPos = new Vector3(player.position.x, -2f, 0f);
         GameObject shadow = Instantiate(deathShadowPrefab, spawnPos, Quaternion.identity);
 
         // 10초 뒤에 파괴

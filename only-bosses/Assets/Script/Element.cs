@@ -18,8 +18,12 @@ public class Element : MonoBehaviour
             BossInterface boss = collision.gameObject.GetComponent<BossInterface>();
             boss.OnDamage(dmg);
         }
-            
-        
+
+        if (collision.gameObject.CompareTag("Monster"))
+        {
+            LittleMonster littleMonster = collision.gameObject.GetComponent<LittleMonster>();
+            littleMonster.OnDamage(dmg);
+        }
 
         Destroy(gameObject);
     }
