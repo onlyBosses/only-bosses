@@ -8,8 +8,6 @@ public class Samurai_Script : Move_Player
     private bool isBaseAttack = false;
     
     [SerializeField] private Collider2D baseAttackRange;
-    [SerializeField] private Collider2D qAttackRange;
-    [SerializeField] private Collider2D eAttackRange;
 
     private float firstSkillCoolTime;
     private float secondSkillCoolTime;
@@ -18,6 +16,12 @@ public class Samurai_Script : Move_Player
     private float firstSkillCoolTimer = 10f;
     private float secondSkillCoolTimer = 25f;
     private float thirdSkillCoolTimer = 8f;
+
+    private bool isSecondSkill = false;
+    private float isSecondSkillTimer = 0f;
+
+    private bool isThirdSkill = false;
+    private float isThirdSkillTimer = 0f;
 
     void Start()
     {
@@ -69,18 +73,61 @@ public class Samurai_Script : Move_Player
 
         if (Input.GetKeyDown("q"))
         {
-            if (useFirstSkill())
-            {
-                animator.SetTrigger("SkillQ");
-            }
+            if (useFirstSkill()) animator.SetTrigger("SkillQ");
+
         }
 
         if (Input.GetMouseButtonDown(0))
         {
-            if (baseAttack())
+            if (baseAttack()) animator.SetTrigger("AttackA");
+
+        }
+
+        if (Input.GetKeyDown("e"))
+        {
+            if (secondSkillCoolTime <= 0f) useSecondSkill();
+
+        }
+
+        if (isSecondSkill)
+        {
+            if (isSecondSkillTimer > 0f)
             {
-                animator.SetTrigger("AttackA");
+                int skillIndex = Random.Range(1, 4);
+
+                switch (skillIndex)
+                {
+                    case 1:
+                        animator.SetTrigger("AttackA");
+                        break;
+                    case 2:
+                        animator.SetTrigger("SkillQ");
+                        break;
+                    case 3:
+                        animator.SetTrigger("AttackB");
+                        break;
+                }
             }
+            else
+            {
+                isSecondSkill = false;
+                secondSkillCoolTime = secondSkillCoolTimer;
+            }
+
+            isSecondSkillTimer -= Time.deltaTime;
+        }
+
+        if (Input.GetKeyDown("r"))
+        {
+            if (thirdSkillCoolTime <= 0f) useThirdSkill();
+        }
+
+
+        if (isThirdSkillTimer > 0f) isThirdSkillTimer -= Time.deltaTime;
+        else if (isThirdSkill) 
+        {
+            status.setDamage(status.getDamage() - 10); 
+            isThirdSkill = false;
         }
     }
 
@@ -100,7 +147,7 @@ public class Samurai_Script : Move_Player
         Vector2 pos = transform.position;
         Vector2 dir = (worldPos - pos).normalized;
 
-        float attackRangeDistance = 2.5f;
+        float attackRangeDistance = 1.5f;
         Vector2 attackPos = pos + dir * attackRangeDistance;
 
         baseAttackRange.transform.position = attackPos;
@@ -126,38 +173,39 @@ public class Samurai_Script : Move_Player
 
         firstSkillCoolTime = firstSkillCoolTimer;
 
-        Vector2 mousePos = Input.mousePosition;
-        Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
         Vector2 pos = transform.position;
-        Vector2 dir = (worldPos - pos).normalized;
 
-        float moveOffsetX = (worldPos.x >= pos.x) ? 1f : -1f;
+        float moveOffsetX = (spriteRenderer.flipX) ? -1.5f : 1.5f;
         transform.position = new Vector2(pos.x + moveOffsetX, pos.y);
 
-        float attackRangeDistance = 3.5f;
-        Vector2 attackPos = pos + dir * attackRangeDistance;
+        float attackRangeDistance = 1f;
+        Vector2 attackPos = new Vector2(transform.position.x + moveOffsetX * attackRangeDistance, pos.y);
         baseAttackRange.transform.position = attackPos;
 
         return true;
     }
 
-    public void EnableQAttackCollider()
-    {
-        qAttackRange.enabled = true;
-    }
-    
-    public void DisableQAttackCollider()
-    {
-        qAttackRange.enabled = false;
-    }
-
     public void useSecondSkill()
     {
+        isSecondSkill = true;
+        isSecondSkillTimer = status.getAttackSpeed() * 3f;
 
+        Vector2 pos = transform.position;
+
+        float moveOffsetX = (spriteRenderer.flipX) ? -1.5f : 1.5f;
+        transform.position = new Vector2(pos.x + moveOffsetX, pos.y);
+
+        float attackRangeDistance = 1f;
+        Vector2 attackPos = new Vector2(transform.position.x + moveOffsetX * attackRangeDistance, pos.y);
+        baseAttackRange.transform.position = attackPos;
     }
 
     public void useThirdSkill()
     {
-        
+        isThirdSkill = true;
+        isThirdSkillTimer = 10f;
+
+        status.setDamage(status.getDamage() + 50);
+        thirdSkillCoolTime = thirdSkillCoolTimer;
     }
 }

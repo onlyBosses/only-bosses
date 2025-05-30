@@ -41,6 +41,7 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
         vx = 0;
         isJumpPush = false;
         isJump = false;
+        Physics2D.IgnoreLayerCollision(10, 7, true);
     }
 
     void Update()

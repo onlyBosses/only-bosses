@@ -51,6 +51,11 @@ public class PlayerStatus
         return damage;
     }
 
+    public void setDamage(int damage)
+    {
+        this.damage = damage;
+    }
+
     public int getAttackSpeed()
     {
         return attackSpeed;

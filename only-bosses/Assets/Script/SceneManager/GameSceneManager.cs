@@ -74,6 +74,10 @@ public class GameSceneManager : MonoBehaviour
         {
             case Character.Samurai:
                 characterImage.sprite = samuraiSprite;
+
+                skillQIcon.sprite = Resources.Load<Sprite>("SkillIcons/SamuraiSkillQ");
+                skillEIcon.sprite = Resources.Load<Sprite>("SkillIcons/SamuraiSkillE");
+                skillRIcon.sprite = Resources.Load<Sprite>("SkillIcons/SamuraiSkillR");
                 break;
             case Character.Magician:
                 characterImage.sprite = magicianSprite;
@@ -84,6 +88,10 @@ public class GameSceneManager : MonoBehaviour
                 break;
             case Character.Gunner:
                 characterImage.sprite = gunnerSprite;
+
+                skillQIcon.sprite = Resources.Load<Sprite>("SkillIcons/GunnerSkillQ");
+                skillEIcon.sprite = Resources.Load<Sprite>("SkillIcons/GunnerSkillE");
+                skillRIcon.sprite = Resources.Load<Sprite>("SkillIcons/GunnerSkillR");
                 break;
         }
 
