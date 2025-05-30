@@ -12,9 +12,13 @@ public class Magician_Script : Move_Player
     private const int MAX_ELEMNT = 1;
 
     public Sprite skillQCastSprite;
-    private int firstSkillCoolTime;
-    private int secondSkillCoolTime;
-    private int thirdSkillCoolTime;
+    private float firstSkillCoolTime;
+    private float secondSkillCoolTime;
+    private float thirdSkillCoolTime;
+
+    private float firstSkillCoolTimer = 12f;
+    private float secondSkillCoolTimer = 20f;
+    private float thirdSkillCoolTimer = 15f;
 
     void Start()
     {
@@ -44,9 +48,21 @@ public class Magician_Script : Move_Player
             }
         }
 
-        if (firstSkillCoolTime > 0) firstSkillCoolTime--;
-        if (secondSkillCoolTime > 0) secondSkillCoolTime--;
-        if (thirdSkillCoolTime > 0) thirdSkillCoolTime--;
+        if (firstSkillCoolTime > 0f)
+        {
+            firstSkillCoolTime -= Time.deltaTime;
+            skillQCooldownImage.fillAmount = firstSkillCoolTime / firstSkillCoolTimer;
+        }
+        if (secondSkillCoolTime > 0f)
+        {
+            secondSkillCoolTime -= Time.deltaTime;
+            skillECooldownImage.fillAmount = secondSkillCoolTime / secondSkillCoolTimer;
+        }
+        if (thirdSkillCoolTime > 0f)
+        {
+            thirdSkillCoolTime -= Time.deltaTime;
+            skillRCooldownImage.fillAmount = thirdSkillCoolTime / thirdSkillCoolTimer;
+        }
     }
 
     void Update()
@@ -140,7 +156,7 @@ public class Magician_Script : Move_Player
     {
         if (firstSkillCoolTime > 0) return;
 
-        firstSkillCoolTime = 12 * 50;
+        firstSkillCoolTime = firstSkillCoolTimer;
 
         sr.sprite = skillQCastSprite;
 
@@ -177,7 +193,7 @@ public class Magician_Script : Move_Player
     public void useSecondSkill()
     {
 
-        secondSkillCoolTime = 20 * 50;
+        secondSkillCoolTime = secondSkillCoolTimer;
 
         Vector2 mousePos = Input.mousePosition;
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
@@ -196,7 +212,7 @@ public class Magician_Script : Move_Player
     public void useThirdSkill()
     {
 
-        thirdSkillCoolTime = 15 * 50;
+        thirdSkillCoolTime = thirdSkillCoolTimer;
 
         Vector2 mousePos = Input.mousePosition;
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);

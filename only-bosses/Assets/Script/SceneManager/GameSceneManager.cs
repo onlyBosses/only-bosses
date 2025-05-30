@@ -12,6 +12,16 @@ public class GameSceneManager : MonoBehaviour
     public Sprite magicianSprite;
     public Sprite gunnerSprite;
 
+    // 스킬 이미지  
+    public Image skillQIcon;
+    public Image skillEIcon;
+    public Image skillRIcon;
+
+    // 쿨다운 이미지 
+    public Image skillQCoolDownImage;
+    public Image skillECoolDownImage;
+    public Image skillRCoolDownImage;
+
     public Image bossImage;
     public Sprite boss1Sprite;
     public Sprite boss2Sprite;
@@ -37,6 +47,10 @@ public class GameSceneManager : MonoBehaviour
 
         Move_Player movePlayer = characterInstance.GetComponent<Move_Player>();
         movePlayer.SetPlayerHPBar(characterHPBar);
+
+        movePlayer.skillQCooldownImage = skillQCoolDownImage;
+        movePlayer.skillECooldownImage = skillECoolDownImage;
+        movePlayer.skillRCooldownImage = skillRCoolDownImage;
     }
 
     void SpawnBoss()
@@ -63,6 +77,10 @@ public class GameSceneManager : MonoBehaviour
                 break;
             case Character.Magician:
                 characterImage.sprite = magicianSprite;
+
+                skillQIcon.sprite = Resources.Load<Sprite>("SkillIcons/MagicianSkillQ");
+                skillEIcon.sprite = Resources.Load<Sprite>("SkillIcons/MagicianSkillE");
+                skillRIcon.sprite = Resources.Load<Sprite>("SkillIcons/MagicianSkillR");
                 break;
             case Character.Gunner:
                 characterImage.sprite = gunnerSprite;

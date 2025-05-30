@@ -1,6 +1,7 @@
 using UnityEditor.Rendering.LookDev;
 using UnityEngine;
 using UnityEngine.VFX;
+using UnityEngine.UI;
 
 public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
 {
@@ -12,6 +13,10 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
     public PlayerStatus status;
 
     public HPBarUI playerHPBar;
+
+    public Image skillQCooldownImage;
+    public Image skillECooldownImage;
+    public Image skillRCooldownImage;
 
     // 보스1 스킬2: 공포 -> 보스 반대 방향으로 이동 (움직임 제어)
     private bool isFeared = false;
