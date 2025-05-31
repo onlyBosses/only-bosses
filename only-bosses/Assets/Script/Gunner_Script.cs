@@ -31,9 +31,8 @@ public class Gunner_Script : Move_Player
     {
         init();
         isBaseAttack = false;
-        // Move_Player mPlayer = GetComponent<Move_Player>();
         status = new PlayerStatus(450, 450, 2, 20, 8, 5, 30, 5F, 0, 0);
-
+        avoid.avoidAnimation = "gunner_dash";
         // switch (DataMgr.instance.selectedWeapon)
         // {
         //     case Weapon.Gun:
@@ -101,7 +100,10 @@ public class Gunner_Script : Move_Player
         inputMove();
         if (Input.GetKey("a") || Input.GetKey("d") || Input.GetKey("w"))
         {
-            GetComponent<Animator>().Play(walkAnime);
+            if (!avoid.isAvoid)
+            {
+                GetComponent<Animator>().Play(walkAnime);
+            }
         }
         if (Input.GetMouseButtonDown(0))
         {
@@ -285,7 +287,7 @@ public class Gunner_Script : Move_Player
             Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, 5F);
             foreach (Collider2D col in hitColliders)
             {
-                if (col.gameObject.layer != 9)
+                if (col.gameObject.layer != 10)
                 {
                     continue;
                 }

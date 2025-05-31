@@ -39,7 +39,7 @@ public class Gunner_skill3 : MonoBehaviour
             Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, 10F);
             foreach (Collider2D col in hitColliders)
             {
-                if (col.gameObject.layer != 9)
+                if (col.gameObject.layer != 10)
                 {
                     continue;
                 }

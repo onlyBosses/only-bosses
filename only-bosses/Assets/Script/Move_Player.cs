@@ -1,6 +1,46 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+public class Avoid
+{
+    public bool isAvoid;
+    public int avoidCoolTime;
+    public int duration;
+    public string avoidAnimation;
+
+    public Avoid()
+    {
+        isAvoid = false;
+        avoidCoolTime = 0;
+        duration = 0;
+    }
+
+    // public bool isAvoiding()
+    // {
+    //     return isAvoid;
+    // }
+
+    // public int getAvoidCoolTime()
+    // {
+    //     return avoidCoolTime;
+    // }
+
+    // public int getDuration()
+    // {
+    //     return duration;
+    // }
+
+    // public string getAvoidAnimation()
+    // {
+    //     return avoidAnimation;
+    // }
+
+    // public void setAvoid(bool avoid)
+    // {
+    //     isAvoid = avoid;
+    // }
+}
+
 public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
 {
     private float vx;
@@ -9,6 +49,7 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
     protected int stiffenTime;
     protected Rigidbody2D rbody;
     protected SpriteRenderer spriteRenderer;
+    protected Avoid avoid;
     public PlayerStatus status;
 
     public HPBarUI playerHPBar;
@@ -26,12 +67,6 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
 
     void Start()
     {
-        // rbody = this.GetComponent<Rigidbody2D>();
-        // rbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-        // spriteRenderer = this.GetComponent<SpriteRenderer>();
-        // vx = 0;
-        // isJumpPush = false;
-        // isJump = false;
         endPanel.SetActive(false);
     }
 
@@ -39,45 +74,18 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
     {
         rbody = this.GetComponent<Rigidbody2D>();
         rbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-        spriteRenderer = this.GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         vx = 0;
         isJumpPush = false;
         isJump = false;
         stiffenTime = 0;
+        avoid = new Avoid();
         Physics2D.IgnoreLayerCollision(10, 7, true);
     }
 
     void Update()
     {
-        // vx = 0;
-        // if (Input.GetKey("a"))
-        // {
-        //     vx = -1;
-        // }
 
-        // if (Input.GetKey("d"))
-        // {
-        //     vx = 1;
-        // }
-        // if (Input.GetKey("w"))
-        // {
-        //     if (!isJumpPush)
-        //     {
-        //         if (Physics2D.Raycast(transform.position, Vector3.down, 1F, LayerMask.GetMask("Ground")))
-        //         {
-        //             isJump = true;
-        //         }
-        //         isJumpPush = true;
-        //     }
-        // }
-        // else
-        // {
-        //     isJumpPush = false;
-        // }
-
-        // if (Input.GetKey("s"))
-        // {
-        // }
     }
 
     public void inputMove()
@@ -94,7 +102,7 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
             }
             return;
         }
-
+        
         vx = 0;
         if (Input.GetKey("a"))
         {
@@ -123,7 +131,20 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
 
         if (Input.GetMouseButtonDown(1))
         {
-
+            if (avoid.avoidCoolTime <= 0)
+            {
+                rbody.linearVelocity = Vector2.zero;
+                avoid.isAvoid = true;
+                avoid.avoidCoolTime = 3 * 50;
+                avoid.duration = 50;
+                GetComponent<Animator>().Play(avoid.avoidAnimation);
+                Vector2 vec = transform.right * 5;
+                if (GetComponent<SpriteRenderer>().flipX)
+                {
+                    vec *= -1;
+                }
+                rbody.linearVelocity = vec;
+            }
         }
     }
 
@@ -135,11 +156,26 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
             rbody.linearVelocity = Vector2.zero;
             return;
         }
-
         spriteRenderer.color = new Color(1, 1, 1);
         Vector3 mousePos = Input.mousePosition;
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
         GetComponent<SpriteRenderer>().flipX = worldPos.x < transform.position.x;
+        if (avoid.avoidCoolTime > 0)
+        {
+            avoid.avoidCoolTime--;
+        }
+        if (avoid.isAvoid)
+        {
+            if (avoid.duration <= 0)
+            {
+                avoid.isAvoid = false;
+            }
+            else
+            {
+                avoid.duration--;
+            }
+            return;
+        }
         rbody.linearVelocity = new Vector2(vx * status.getMoveSpeed(), rbody.linearVelocityY);
         if (isJump)
         {
@@ -168,6 +204,10 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
 
     public void OnDamage(int damage)
     {
+        if (avoid.isAvoid)
+        {
+            return;
+        }
         if (stiffenTime < 25)
         {
             stiffenTime = 25;
@@ -203,7 +243,7 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
     {
         stiffenTime = duration;
     }
-    
+
     protected int setCritical(int dmg)
     {
         int chance = Random.Range(0, 100);

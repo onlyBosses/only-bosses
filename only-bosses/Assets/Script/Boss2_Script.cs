@@ -137,6 +137,7 @@ public class Boss2_Script : Boss
                 float distance = Vector2.Distance(player.transform.position, transform.position);
                 if (distance > maxDistance-1)
                 {
+                    GetComponent<SpriteRenderer>().flipX = dir.x < 0;
                     rbody.linearVelocity = new Vector2(dir.x, dir.y);
                 }
             }
