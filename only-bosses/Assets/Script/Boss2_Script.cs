@@ -1,5 +1,6 @@
 using System.Collections;
-using Unity.VisualScripting.Dependencies.NCalc;
+using System.Threading;
+using NUnit.Framework.Internal;
 using UnityEngine;
 
 class FirstSkill
@@ -57,8 +58,12 @@ public class Boss2_Script : Boss
     private FourthSkill fourthSkill;
     private int speed;
     private bool isFlying;
+    private int flyDuration;
+    private int flyAttackCount;
+    public Camera cam;
     void Start()
     {
+        init();
         rbody = GetComponent<Rigidbody2D>();
         rbody.gravityScale = 0;
         rbody.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -67,41 +72,66 @@ public class Boss2_Script : Boss
         attackCoolTime = status.getAttackSpeed() * 50;
         firstSkill = new FirstSkill();
         secondSkill = new SecondSkill();
-        thirdSkillCoolTime = Random.Range(1, 25) * 50; ;
+        thirdSkillCoolTime = Random.Range(1, 25) * 50;
         fourthSkill = new FourthSkill();
         speed = 4;
         isFlying = false;
+        flyDuration = 0;
+        cam = Camera.main;
+        flyAttackCount = 0;
     }
 
     void Update()
     {
-        flying();
+        
     }
 
     void FixedUpdate()
     {
-        Vector2 dir = (player.transform.position - transform.position).normalized;
-        if (isFlying)
+        if (stiffenTime <= 0)
         {
-            rbody.linearVelocity = new Vector2(dir.x, 0);
-        }
-        else
-        {
-            rbody.linearVelocity = new Vector2(dir.x, dir.y);
-        }
-        float distance = Vector2.Distance(player.transform.position, transform.position);
-        if (attackCoolTime <= 0)
-        {
-            if (distance <= 2)
+            string animation;
+            int maxDistance;
+            if (isFlying)
             {
-                attackCoolTime = status.getAttackSpeed() * 50;
-                Move_Player mPlayer = player.GetComponent<Move_Player>();
-                mPlayer.onDamage(setCritical(status.getDamage()));
+                maxDistance = 10;
+                if (flyDuration <= 0)
+                {
+                    isFlying = false;
+                }
+                else
+                {
+                    flyDuration--;
+                    Debug.Log("남은시간:" + flyDuration / 50);
+                }
+                animation = "Attack2";
+            }
+            else
+            {
+                Vector2 dir = (player.transform.position - transform.position).normalized;
+                maxDistance = 2;
+                rbody.linearVelocity = new Vector2(dir.x, dir.y);
+                animation = "Attack1";
+            }
+            if (attackCoolTime <= 0)
+            {
+                float distance = Vector2.Distance(player.transform.position, transform.position);
+                if (distance <= maxDistance)
+                {
+                    attackCoolTime = status.getAttackSpeed() * 50;
+                    Move_Player mPlayer = player.GetComponent<Move_Player>();
+                    mPlayer.onDamage(setCritical(status.getDamage()));
+                    GetComponent<Animator>().Play(animation);
+                }
+            }
+            else
+            {
+                attackCoolTime--;
             }
         }
         else
         {
-            attackCoolTime--;
+            stiffenTime--;
         }
         useFirstSkill();
         useSecondSkill();
@@ -130,7 +160,8 @@ public class Boss2_Script : Boss
                 rbody.gravityScale = 0;
                 rbody.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
                 speed += 1;
-                StartCoroutine(StopInAir(rbody));
+                flying();
+                StartCoroutine(StopInAir(rbody, 0.3F));
             }
         }
         else
@@ -152,12 +183,32 @@ public class Boss2_Script : Boss
         }
     }
 
-    IEnumerator StopInAir(Rigidbody2D rb)
+    IEnumerator StopInAir(Rigidbody2D rb, float delay)
     {
-        yield return new WaitForSeconds(0.3F);
+        yield return new WaitForSeconds(delay);
         rb.linearVelocity = Vector2.zero;
         firstSkill.isSuccess = true;
         firstSkill.duration = 3 * 50;
+    }
+
+    IEnumerator passive(Rigidbody2D rb, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        rb.linearVelocity = Vector2.zero;
+        if (flyAttackCount < 6)
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                GameObject prefab = Resources.Load<GameObject>($"Bosses/passive");
+                Instantiate(prefab, transform.position, Quaternion.Euler(0, 0, 210 + (i * 15)));
+            }
+            StartCoroutine(passive(rbody, 0.5F));
+            flyAttackCount++;
+        }
+        else
+        {
+            flyAttackCount = 0;
+        }
     }
 
     private void useSecondSkill()
@@ -175,6 +226,7 @@ public class Boss2_Script : Boss
                 playerStatus.setMoveSpeed(moveSpeed);
                 secondSkill.isSuccess = true;
                 speed += 1;
+                flying();
                 secondSkill.duration = 5 * 50;
             }
         }
@@ -203,10 +255,21 @@ public class Boss2_Script : Boss
         if (thirdSkillCoolTime <= 0)
         {
             thirdSkillCoolTime = Random.Range(20, 31) * 50;
-            Vector2 vec = player.transform.position;
-            vec.x -= 1F;
-            Rigidbody2D rbody = GetComponent<Rigidbody2D>();
-            transform.position = vec;
+            if (isFlying)
+            {
+                for (int i = 0; i < 9; i++)
+                {
+                    GameObject prefab = Resources.Load<GameObject>($"Bosses/passive");
+                    Instantiate(prefab, transform.position, Quaternion.Euler(0, 0, 210 + (i * 15)));
+                }
+            }
+            else
+            {
+                Vector2 vec = player.transform.position;
+                vec.x -= 1F;
+                // Rigidbody2D rbody = GetComponent<Rigidbody2D>();
+                transform.position = vec;
+            }
             // rbody.AddForce(new Vector2(5, 5), ForceMode2D.Impulse);
             // rbody.linearVelocity = vec;
         }
@@ -229,6 +292,7 @@ public class Boss2_Script : Boss
                 mPlayer.onDamage(setCritical(dmg));
                 int chance = Random.Range(0, 100);
                 speed += 1;
+                flying();
                 if (chance < 20)
                 {
                     PlayerStatus playerStatus = mPlayer.status;
@@ -239,6 +303,7 @@ public class Boss2_Script : Boss
                     fourthSkill.isSuccess = true;
                     fourthSkill.duration = 5 * 50;
                     speed += 1;
+                    flying();
                 }
             }
         }
@@ -264,14 +329,13 @@ public class Boss2_Script : Boss
 
     private void flying()
     {
-        Debug.Log(speed);
         if (speed % 5 == 0)
         {
             isFlying = true;
             Rigidbody2D rbody = GetComponent<Rigidbody2D>();
             rbody.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
-            Debug.Log("hi");
-            StartCoroutine(StopInAir(rbody));
+            StartCoroutine(passive(rbody, 0.5F));
+            flyDuration = 30 * 50;
         }
     }
 }

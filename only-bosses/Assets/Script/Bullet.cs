@@ -11,9 +11,13 @@ public class Bullet : MonoBehaviour
     private Rigidbody2D rbody;
     private Vector2 startPos;
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        Destroy(gameObject);
+        Boss boss = other.gameObject.GetComponent<Boss>();
+        if (boss != null)
+        {
+            boss.OnDamage(dmg);
+        }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

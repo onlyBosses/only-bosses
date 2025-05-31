@@ -1,12 +1,11 @@
-using UnityEditor.Rendering.LookDev;
 using UnityEngine;
-using UnityEngine.VFX;
 
 public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
 {
     private float vx;
     private bool isJump;
     private bool isJumpPush;
+    public int stiffenTime;
     protected Rigidbody2D rbody;
     protected SpriteRenderer spriteRenderer;
     public PlayerStatus status;
@@ -34,6 +33,7 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
         vx = 0;
         isJumpPush = false;
         isJump = false;
+        stiffenTime = 0;
     }
 
     void Update()
@@ -66,7 +66,6 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
 
         // if (Input.GetKey("s"))
         // {
-
         // }
     }
 
@@ -118,6 +117,11 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
 
     public void move()
     {
+        if (stiffenTime > 0)
+        {
+            stiffenTime--;
+            return;
+        }
         Vector3 mousePos = Input.mousePosition;
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
         GetComponent<SpriteRenderer>().flipX = worldPos.x < transform.position.x;
@@ -145,18 +149,19 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
 
     public void onDamage(int damage)
     {
-        PlayerStatus status = GetComponent<Move_Player>().status;
+        if (stiffenTime < 25)
+        {
+            stiffenTime = 25;
+        }
         spriteRenderer.color = new Color(200 / 255F, 200 / 255F, 200 / 255F);
         int health = status.getHealth();
         health -= damage;
-        if (health <= 0) //죽음
+        if (health <= 0)
         {
 
         }
         status.setHealth(health);
-        Debug.Log(health);
     }
-    
 
     // 보스1 스킬2: 공포 -> 보스 반대 방향으로 이동 (움직임 제어)
     public void Fear(Vector3 bossPos)

@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class BossStatus
 {
-
     private int health;
     private int attackSpeed;
     private int damage;
@@ -50,5 +49,10 @@ public class BossStatus
     public int getAttackSpeed()
     {
         return attackSpeed;
+    }
+
+    public void setHealth(int health)
+    {
+        this.health = health;
     }
 }
