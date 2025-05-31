@@ -26,7 +26,7 @@ public class Boss : MonoBehaviour, BossInterface
     {
         stiffenTime = 0;
         rbody = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        // spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // void Update() {}
@@ -55,7 +55,7 @@ public class Boss : MonoBehaviour, BossInterface
         health -= damage;
         if (health <= 0) //죽음
         {
-
+            
         }
         status.setHealth(health);
         Debug.Log("보스 체력: " + status.getHealth());

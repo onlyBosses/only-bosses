@@ -10,18 +10,18 @@ public class Element : MonoBehaviour
     private Rigidbody2D rbody;
     private Vector2 startPos;
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D other)
     {
 
-        if (collision.gameObject.CompareTag("Boss"))
+        if (other.CompareTag("Boss"))
         {
-            BossInterface boss = collision.gameObject.GetComponent<BossInterface>();
+            BossInterface boss = other.gameObject.GetComponent<BossInterface>();
             boss.OnDamage(dmg);
         }
 
-        if (collision.gameObject.CompareTag("Monster"))
+        if (other.CompareTag("Monster"))
         {
-            LittleMonster littleMonster = collision.gameObject.GetComponent<LittleMonster>();
+            LittleMonster littleMonster = other.gameObject.GetComponent<LittleMonster>();
             littleMonster.OnDamage(dmg);
         }
 
