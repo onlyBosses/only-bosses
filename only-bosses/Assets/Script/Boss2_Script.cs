@@ -93,8 +93,6 @@ public class Boss2_Script : Boss
         cam = Camera.main;
         flyAttackCount = 0;
 
-        player = GameObject.Find(playerName).transform;
-
         // switch (DataMgr.instance.selectedDifficulty)
         // {
         //     case Difficulty.Easy:

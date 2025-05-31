@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class GameSceneManager : MonoBehaviour
 {
@@ -28,6 +29,13 @@ public class GameSceneManager : MonoBehaviour
 
     public HPBarUI characterHPBar;
     public HPBarUI bossHPBar;
+
+    public Image qSkillImage;
+    public TMP_Text qSkillText;
+    public Image eSkillImage;
+    public TMP_Text eSkillText;
+    public Image rSkillImage;
+    public TMP_Text rSkillText;
     
     void Start()
     {
@@ -78,20 +86,43 @@ public class GameSceneManager : MonoBehaviour
                 skillQIcon.sprite = Resources.Load<Sprite>("SkillIcons/SamuraiSkillQ");
                 skillEIcon.sprite = Resources.Load<Sprite>("SkillIcons/SamuraiSkillE");
                 skillRIcon.sprite = Resources.Load<Sprite>("SkillIcons/SamuraiSkillR");
+
+                qSkillImage.sprite = skillQIcon.sprite;
+                qSkillText.text = "짧게 앞으로 이동 후 적을 두 번 벰";
+                eSkillImage.sprite = skillEIcon.sprite;
+                eSkillText.text = "공격속도에 비례한 횟수만큼 주변 적을 벰";
+                rSkillImage.sprite = skillRIcon.sprite;
+                rSkillText.text = "적에게 10초 동안 피해량 증가";
                 break;
+
             case Character.Magician:
                 characterImage.sprite = magicianSprite;
 
                 skillQIcon.sprite = Resources.Load<Sprite>("SkillIcons/MagicianSkillQ");
                 skillEIcon.sprite = Resources.Load<Sprite>("SkillIcons/MagicianSkillE");
                 skillRIcon.sprite = Resources.Load<Sprite>("SkillIcons/MagicianSkillR");
+
+                qSkillImage.sprite = skillQIcon.sprite;
+                qSkillText.text = "전방으로 화염 마법 발사";
+                eSkillImage.sprite = skillEIcon.sprite;
+                eSkillText.text = "지정한 위치에 얼음 마법 발사";
+                rSkillImage.sprite = skillRIcon.sprite;
+                rSkillText.text = "지정한 위치에 번개 마법 발사";
                 break;
+
             case Character.Gunner:
                 characterImage.sprite = gunnerSprite;
 
                 skillQIcon.sprite = Resources.Load<Sprite>("SkillIcons/GunnerSkillQ");
                 skillEIcon.sprite = Resources.Load<Sprite>("SkillIcons/GunnerSkillE");
                 skillRIcon.sprite = Resources.Load<Sprite>("SkillIcons/GunnerSkillR");
+
+                qSkillImage.sprite = skillQIcon.sprite;
+                qSkillText.text = "기절탄을 쏴서 기절 부여";
+                eSkillImage.sprite = skillEIcon.sprite;
+                eSkillText.text = "강력한 대포 발사";
+                rSkillImage.sprite = skillRIcon.sprite;
+                rSkillText.text = "8발의 유도탄 발사";
                 break;
         }
 
