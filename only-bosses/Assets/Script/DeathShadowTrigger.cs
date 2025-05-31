@@ -30,15 +30,17 @@ public class DeathShadowTrigger : MonoBehaviour
             //     {
             //         other.GetComponent<Samurai_Script>().TakeDamage(status.getDamage());
             //     }
-        
-            other.GetComponent<Magician_Script>().TakeDamage(bossScript.getDamage());
-
+            
+            
+            PlayerInterface player = other.GetComponent<PlayerInterface>();
+            player.OnDamage(bossScript.status.getDamage());
+            
             stayTime += Time.deltaTime;
 
             if (stayTime >= 3f)
             {
                 // Debug.Log("즉사");
-                other.GetComponent<Magician_Script>().TakeDamage(99999);
+                player.OnDamage(99999);
             }
         }
     }

@@ -68,7 +68,7 @@ public class Boss2_Script : Boss
         rbody.gravityScale = 0;
         rbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         player = GameObject.Find(playerName);
-        status = new BossStatus(16000, 2, 10, 5, 10, 50, 5);
+        status = new BossStatus(16000, 16000, 2, 10, 5, 10, 50, 5);
         attackCoolTime = status.getAttackSpeed() * 50;
         firstSkill = new FirstSkill();
         secondSkill = new SecondSkill();
@@ -289,7 +289,7 @@ public class Boss2_Script : Boss
             {
                 Move_Player mPlayer = player.GetComponent<Move_Player>();
                 int dmg = (int)(status.getDamage() * 1.5);
-                mPlayer.onDamage(setCritical(dmg));
+                mPlayer.OnDamage(setCritical(dmg));
                 int chance = Random.Range(0, 100);
                 speed += 1;
                 flying();

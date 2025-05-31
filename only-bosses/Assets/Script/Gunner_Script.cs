@@ -25,7 +25,7 @@ public class Gunner_Script : Move_Player
         init();
         isBaseAttack = false;
         // Move_Player mPlayer = GetComponent<Move_Player>();
-        status = new PlayerStatus(450, 2, 20, 8, 5, 30, 1.5F, 0, 0);
+        status = new PlayerStatus(450, 450, 2, 20, 8, 5, 30, 1.5F, 0, 0);
         bulletCount = MAXBULLET;
         firstSkillCoolTime = 0;
         secondSkillCoolTime = 0;

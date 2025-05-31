@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.VFX;
+using UnityEngine.UI;
 
 public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
 {
@@ -9,6 +11,12 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
     protected Rigidbody2D rbody;
     protected SpriteRenderer spriteRenderer;
     public PlayerStatus status;
+
+    public HPBarUI playerHPBar;
+
+    public Image skillQCooldownImage;
+    public Image skillECooldownImage;
+    public Image skillRCooldownImage;
 
     // 보스1 스킬2: 공포 -> 보스 반대 방향으로 이동 (움직임 제어)
     private bool isFeared = false;
@@ -34,6 +42,7 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
         isJumpPush = false;
         isJump = false;
         stiffenTime = 0;
+        Physics2D.IgnoreLayerCollision(10, 7, true);
     }
 
     void Update()
@@ -125,7 +134,6 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
         Vector3 mousePos = Input.mousePosition;
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
         GetComponent<SpriteRenderer>().flipX = worldPos.x < transform.position.x;
-        Debug.Log(status.getMoveSpeed());
         rbody.linearVelocity = new Vector2(vx * status.getMoveSpeed(), rbody.linearVelocityY);
         if (isJump)
         {
@@ -147,20 +155,32 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
         // }
     }
 
-    public void onDamage(int damage)
+    public void SetPlayerHPBar(HPBarUI hpBar)
+    {
+        playerHPBar = hpBar;
+    }
+
+    public void OnDamage(int damage)
     {
         if (stiffenTime < 25)
         {
             stiffenTime = 25;
         }
+        status = GetComponent<Move_Player>().status;
         spriteRenderer.color = new Color(200 / 255F, 200 / 255F, 200 / 255F);
-        int health = status.getHealth();
-        health -= damage;
-        if (health <= 0)
+
+        int currentHp = status.getHealth();
+        currentHp -= damage;
+
+
+        if (currentHp <= 0) //죽음
         {
 
         }
-        status.setHealth(health);
+
+        status.setHealth(currentHp);
+
+        playerHPBar.SetHP(currentHp, status.getMaxHealth());
     }
 
     // 보스1 스킬2: 공포 -> 보스 반대 방향으로 이동 (움직임 제어)

@@ -11,7 +11,7 @@ public class Magician_skill1 : MonoBehaviour
         Physics2D.IgnoreLayerCollision(8, 7, true);
         Physics2D.IgnoreLayerCollision(8, 6, true);
         Physics2D.IgnoreLayerCollision(8, 8, true);
-        count = 100;
+        count = 80;
     }
 
     void Update()
@@ -30,9 +30,19 @@ public class Magician_skill1 : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
-    void OnCollisionEnter2D(Collision2D collision)
+
+    void OnTriggerStay2D(Collider2D other)
     {
-        
+        if (other.CompareTag("Boss"))
+        {
+            BossInterface boss = other.GetComponent<BossInterface>();
+            boss.OnDamage(dmg);
+        }
+
+        if (other.CompareTag("Monster"))
+        {
+            LittleMonster littleMonster = other.GetComponent<LittleMonster>();
+            littleMonster.OnDamage(dmg);
+        }
     }
 }

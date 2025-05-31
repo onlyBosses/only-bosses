@@ -4,6 +4,7 @@ using UnityEngine.AI;
 
 public class PlayerStatus
 {
+    private int maxHealth;
     private int health;
     private int attackSpeed;
     private int damage;
@@ -16,8 +17,9 @@ public class PlayerStatus
 
     // private ArrayList<string> selectedItem;
 
-    public PlayerStatus(int health, int attackSpeed, int damage, int attackDistance, int criticalChance, int criticalDamage, float moveSpeed, int reduceCoolTime, int increasedSkillDamage)
+    public PlayerStatus(int maxHealth, int health, int attackSpeed, int damage, int attackDistance, int criticalChance, int criticalDamage, float moveSpeed, int reduceCoolTime, int increasedSkillDamage)
     {
+        this.maxHealth = maxHealth;
         this.health = health;
         this.attackSpeed = attackSpeed;
         this.damage = damage;
@@ -29,14 +31,29 @@ public class PlayerStatus
         this.increasedSkillDamage = increasedSkillDamage;
     }
 
-    public int getHp()
+    public int getMaxHealth()
+    {
+        return maxHealth;
+    }
+
+    public int getHealth()
     {
         return health;
+    }
+
+    public void setHealth(int health)
+    {
+        this.health = health;
     }
 
     public int getDamage()
     {
         return damage;
+    }
+
+    public void setDamage(int damage)
+    {
+        this.damage = damage;
     }
 
     public int getAttackSpeed()
@@ -57,15 +74,5 @@ public class PlayerStatus
     public void setMoveSpeed(float speed)
     {
         moveSpeed = speed;
-    }
-
-    public int getHealth()
-    {
-        return health;
-    }
-
-    public void setHealth(int health)
-    {
-        this.health = health;
     }
 }

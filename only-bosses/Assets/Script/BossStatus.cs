@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class BossStatus
 {
+
+    private int maxHealth;
     private int health;
     private int attackSpeed;
     private int damage;
@@ -10,8 +12,9 @@ public class BossStatus
     private int criticalDamage;
     private int moveSpeed;
 
-    public BossStatus(int health, int attackSpeed, int damage, int attackDistance, int criticalChance, int criticalDamage, int moveSpeed)
+    public BossStatus(int maxHealth, int health, int attackSpeed, int damage, int attackDistance, int criticalChance, int criticalDamage, int moveSpeed)
     {
+        this.maxHealth = maxHealth;
         this.health = health;
         this.attackSpeed = attackSpeed;
         this.damage = damage;
@@ -21,14 +24,29 @@ public class BossStatus
         this.moveSpeed = moveSpeed;
     }
 
-    public int getHp()
+    public int getMaxHealth()
+    {
+        return maxHealth;
+    }
+
+    public int getHealth()
     {
         return health;
+    }
+
+    public void setHealth(int health)
+    {
+        this.health = health;
     }
 
     public int getMoveSpeed()
     {
         return moveSpeed;
+    }
+
+    public void setMoveSpeed(int moveSpeed)
+    {
+        this.moveSpeed = moveSpeed;
     }
 
     public int getDamage()

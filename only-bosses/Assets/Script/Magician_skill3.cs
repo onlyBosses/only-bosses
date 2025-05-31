@@ -25,8 +25,19 @@ public class Magician_skill3 : MonoBehaviour
         
     }
     
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        
+        if (other.CompareTag("Boss"))
+        {
+            BossInterface boss = other.GetComponent<BossInterface>();
+            boss.OnDamage(dmg);
+            boss.OnStun();
+        }
+
+        if (other.CompareTag("Monster"))
+        {
+            LittleMonster littleMonster = other.GetComponent<LittleMonster>();
+            littleMonster.OnDamage(dmg);
+        }
     }
 }

@@ -37,7 +37,7 @@ public class LittleMonster : MonoBehaviour
         }
     }
     
-    public void TakeDamage(int dmg)
+    public void OnDamage(int dmg)
     {
         hp -= dmg;
         if (hp <= 0) Destroy(gameObject);

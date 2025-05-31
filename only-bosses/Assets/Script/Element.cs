@@ -15,22 +15,15 @@ public class Element : MonoBehaviour
 
         if (collision.gameObject.CompareTag("Boss"))
         {
-            // switch(DataMgr.instance.currentBoss)
-
-            Boss1_Script boss1 = collision.gameObject.GetComponent<Boss1_Script>();
-            if (boss1 != null)
-            {
-                boss1.TakeDamage(dmg * 100);
-            }
-
-            // Boss2_Script boss2 = collision.gameObject.GetComponent<Boss2_Script>();
-            // if (boss2 != null)
-            // {
-            //     boss2.TakeDamage(dmg);
-            // }
+            BossInterface boss = collision.gameObject.GetComponent<BossInterface>();
+            boss.OnDamage(dmg);
         }
-            
-        
+
+        if (collision.gameObject.CompareTag("Monster"))
+        {
+            LittleMonster littleMonster = collision.gameObject.GetComponent<LittleMonster>();
+            littleMonster.OnDamage(dmg);
+        }
 
         Destroy(gameObject);
     }

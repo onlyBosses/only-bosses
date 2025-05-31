@@ -1,14 +1,8 @@
 using UnityEngine;
 
-public class Boss1_Script : MonoBehaviour
+public class Boss1_Script : Boss
 {
-    public Transform player; // 플레이어
-    private BossStatus status; // 상태
-    [SerializeField] private HPBarUI bossHPBar; // HPBar UI -> GameManager에서 초기화 
-
     private float behaviorTimer; // 각 Behavior 얼마동안 실행할지 
-
-    private int currentHp; // 현재 체력 
 
     // 기본 공격
     private float baseAttackCoolTime = 3f;
@@ -42,7 +36,6 @@ public class Boss1_Script : MonoBehaviour
     private float skill3Timer = 0f;
     private float skill4Timer = 0f;
 
-    private Rigidbody2D rbody;
     private Animator animator;
 
 
@@ -56,12 +49,11 @@ public class Boss1_Script : MonoBehaviour
         // 맞아도 뒤로 안 밀림
         // rbody.bodyType = RigidbodyType2D.Kinematic;
 
-        rbody.gravityScale = 0;
         rbody.constraints = RigidbodyConstraints2D.FreezeRotation;
 
         animator = GetComponent<Animator>();
 
-        status = new BossStatus(16000, 2, 10, 0, 10, 50, 5);
+        status = new BossStatus(16000, 16000, 2, 10, 0, 10, 50, 5);
 
         // switch (DataMgr.instance.selectedDifficulty)    
         // {
@@ -75,17 +67,20 @@ public class Boss1_Script : MonoBehaviour
         //         break;
         // }
 
-        currentHp = status.getHp();
+        // currentHp = status.getHp();
 
         // 테스트에서 동작 
         // bossHPBar.SetHP(currentHp, status.getHp());
 
         baseAttackTimer = baseAttackCoolTime;
         baseAttackRange.enabled = false;
+
+        bossHPBar.SetHP(status.getMaxHealth(), status.getMaxHealth());
     }
 
     void Update()
     {
+        inputUpdate();
         switch (currentBehavior)
         {
             case BossBehavior.Idle:
@@ -207,7 +202,7 @@ public class Boss1_Script : MonoBehaviour
 
     public void DoSkill1()
     {
-        Vector3 spawnPos = new Vector3(player.position.x, player.position.y + 1f, 0f);
+        Vector3 spawnPos = new Vector3(player.position.x, -2f, 0f);
         GameObject shadow = Instantiate(deathShadowPrefab, spawnPos, Quaternion.identity);
 
         // 10초 뒤에 파괴
@@ -344,21 +339,16 @@ public class Boss1_Script : MonoBehaviour
 
 
     // HPBar UI -> GameManager에서 초기화 
-    public void SetBossHPBar(HPBarUI hpBar)
-    {
-        bossHPBar = hpBar;
-    }
+    // public void SetBossHPBar(HPBarUI hpBar)
+    // {
+    //     bossHPBar = hpBar;
+    // }
 
-    public void TakeDamage(int dmg)
-    {
-        currentHp -= dmg;
-        Debug.Log($"받은 데미지: {dmg} | 현재 HP: {currentHp}");
+    // public void TakeDamage(int dmg)
+    // {
+    //     currentHp -= dmg;
+    //     Debug.Log($"받은 데미지: {dmg} | 현재 HP: {currentHp}");
 
-        bossHPBar.SetHP(currentHp, status.getHp());
-    }
-
-    public int getDamage()
-    {
-        return status.getDamage();
-    }
+    //     bossHPBar.SetHP(currentHp, status.getHp());
+    // }
 }

@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 3
   tags:
   - Boss
+  - Monster
   layers:
   - Default
   - TransparentFX
@@ -16,8 +17,8 @@ TagManager:
   - Player
   - Projectile
   - Monster
-  - 
-  - 
+  - Boss
+  - DeathShadow
   - 
   - 
   - 

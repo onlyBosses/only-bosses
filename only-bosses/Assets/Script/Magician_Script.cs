@@ -5,24 +5,20 @@ public class Magician_Script : Move_Player
     private SpriteRenderer sr;
     private Animator animator;
     
-    [SerializeField] private HPBarUI magicianHPBar; // 위치 변경 예정? 
-
     private int baseAttackCount;
     private bool isBaseAttack = false;
-    private int currentHp; // 변경 예정 
 
     private int elementCount;
     private const int MAX_ELEMNT = 1;
 
     public Sprite skillQCastSprite;
-    private int firstSkillCoolTime;
-    private int secondSkillCoolTime;
-    private int thirdSkillCoolTime;
+    private float firstSkillCoolTime;
+    private float secondSkillCoolTime;
+    private float thirdSkillCoolTime;
 
-    // 보스1 상대로 스킬 맞는거 
-    // private bool isFeared = false;
-    // private Vector2 fearDirection;
-    // private float fearTimer = 0f;
+    private float firstSkillCoolTimer = 12f;
+    private float secondSkillCoolTimer = 20f;
+    private float thirdSkillCoolTimer = 15f;
 
     void Start()
     {
@@ -30,18 +26,14 @@ public class Magician_Script : Move_Player
         sr = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         isBaseAttack = false;
-        status = new PlayerStatus(450, 2, 20, 6, 5, 30, 5, 0, 0);
+        status = new PlayerStatus(450, 450, 2, 20, 6, 5, 30, 5, 0, 0);
 
-        currentHp = status.getHp();
-
+        playerHPBar.SetHP(status.getMaxHealth(), status.getMaxHealth());
         // 장비에 따라 status 변환 
 
-
-
-
-        firstSkillCoolTime = 0;
-        secondSkillCoolTime = 0;
-        thirdSkillCoolTime = 0;
+        firstSkillCoolTime = 0f;
+        secondSkillCoolTime = 0f;
+        thirdSkillCoolTime = 0f;
     }
 
     void FixedUpdate()
@@ -56,9 +48,21 @@ public class Magician_Script : Move_Player
             }
         }
 
-        if (firstSkillCoolTime > 0) firstSkillCoolTime--;
-        if (secondSkillCoolTime > 0) secondSkillCoolTime--;
-        if (thirdSkillCoolTime > 0) thirdSkillCoolTime--;
+        if (firstSkillCoolTime > 0f)
+        {
+            firstSkillCoolTime -= Time.deltaTime;
+            skillQCooldownImage.fillAmount = firstSkillCoolTime / firstSkillCoolTimer;
+        }
+        if (secondSkillCoolTime > 0f)
+        {
+            secondSkillCoolTime -= Time.deltaTime;
+            skillECooldownImage.fillAmount = secondSkillCoolTime / secondSkillCoolTimer;
+        }
+        if (thirdSkillCoolTime > 0f)
+        {
+            thirdSkillCoolTime -= Time.deltaTime;
+            skillRCooldownImage.fillAmount = thirdSkillCoolTime / thirdSkillCoolTimer;
+        }
     }
 
     void Update()
@@ -97,22 +101,11 @@ public class Magician_Script : Move_Player
             }
         }
 
-        bool skillE = Input.GetKey("e") && secondSkillCoolTime <= 0;
+        bool skillE = Input.GetKey("e") && secondSkillCoolTime <= 0f;
         animator.SetBool("SkillE", skillE);
 
-        bool skillR = Input.GetKey("r") && thirdSkillCoolTime <= 0;
+        bool skillR = Input.GetKey("r") && thirdSkillCoolTime <= 0f;
         animator.SetBool("SkillR", skillR);
-
-        // if (isFeared)
-        // {
-        //     transform.Translate(fearDirection * 2f * Time.deltaTime); 
-        //     fearTimer -= Time.deltaTime;
-        //     if (fearTimer <= 0f)
-        //     {
-        //         isFeared = false;
-        //     }
-        //     return; 
-        // }
     }
 
     public bool baseAttack()
@@ -161,9 +154,9 @@ public class Magician_Script : Move_Player
 
     public void useFirstSkill()
     {
-        if (firstSkillCoolTime > 0) return;
+        if (firstSkillCoolTime > 0f) return;
 
-        firstSkillCoolTime = 12 * 50;
+        firstSkillCoolTime = firstSkillCoolTimer;
 
         sr.sprite = skillQCastSprite;
 
@@ -200,7 +193,7 @@ public class Magician_Script : Move_Player
     public void useSecondSkill()
     {
 
-        secondSkillCoolTime = 20 * 50;
+        secondSkillCoolTime = secondSkillCoolTimer;
 
         Vector2 mousePos = Input.mousePosition;
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
@@ -219,7 +212,7 @@ public class Magician_Script : Move_Player
     public void useThirdSkill()
     {
 
-        thirdSkillCoolTime = 15 * 50;
+        thirdSkillCoolTime = thirdSkillCoolTimer;
 
         Vector2 mousePos = Input.mousePosition;
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
@@ -240,25 +233,4 @@ public class Magician_Script : Move_Player
         animator.enabled = true;
         animator.Play("magician_idle");
     }
-
-    public void SetMagicianHPBar(HPBarUI hpBar)
-    {
-        magicianHPBar = hpBar;
-    }
-
-    public void TakeDamage(int dmg)
-    {
-        currentHp -= dmg;
-        // Debug.Log($"받은 데미지: {dmg} | 현재 HP: {currentHp}");
-
-        magicianHPBar.SetHP(currentHp, status.getHp());
-    }
-
-    // public void Fear(Vector3 bossPos)
-    // {
-    //     isFeared = true;
-    //     fearTimer = 2f;
-    //     Vector2 dirToBoss = (bossPos - transform.position).normalized;
-    //     fearDirection = -dirToBoss;
-    // }
 }
