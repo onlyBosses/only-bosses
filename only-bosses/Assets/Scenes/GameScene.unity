@@ -4699,6 +4699,7 @@ MonoBehaviour:
   rSkillText: {fileID: 1702045845}
   clearPanel: {fileID: 1360503741}
   overPanel: {fileID: 1921306628}
+  gameBGM: {fileID: 8300000, guid: bd3ea333bf1da4e73837d439966ae984, type: 3}
 --- !u!4 &1593516728
 Transform:
   m_ObjectHideFlags: 0

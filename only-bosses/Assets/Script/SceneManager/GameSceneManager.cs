@@ -39,12 +39,18 @@ public class GameSceneManager : MonoBehaviour
 
     public GameObject clearPanel;
     public GameObject overPanel;
-    
+
+    public AudioClip gameBGM;
+
     void Start()
     {
         SpawnCharacter();
         SpawnBoss();
         SetUI();
+        
+        BGMManager bgmManager = FindFirstObjectByType<BGMManager>();
+        bgmManager.PlayBGM(gameBGM);
+
     }
 
     void SpawnCharacter()
