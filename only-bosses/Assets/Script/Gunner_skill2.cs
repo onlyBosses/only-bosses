@@ -6,13 +6,27 @@ public class Gunner_skill2 : MonoBehaviour
     private int count;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
-    void OnTriggerEnter2D(Collider2D collison)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        Boss boss = collison.gameObject.GetComponent<Boss>();
-        if (boss != null)
+        if (collision.CompareTag("Boss"))
         {
-            boss.OnDamage(dmg);
+            Boss boss = collision.GetComponent<Boss>();
+            if (boss != null)
+            {
+                boss.OnDamage(dmg);
+                Destroy(gameObject);
+            }
         }
+        else if (collision.CompareTag("Monster"))
+        {
+            Monster monster = collision.GetComponent<Monster>();
+            if (monster != null)
+            {
+                monster.OnDamage(dmg);
+                Destroy(gameObject);
+            }
+        }
+        
     }
 
     void Start()

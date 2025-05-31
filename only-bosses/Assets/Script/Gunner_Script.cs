@@ -31,7 +31,7 @@ public class Gunner_Script : Move_Player
     {
         init();
         isBaseAttack = false;
-        status = new PlayerStatus(450, 450, 2, 20, 8, 5, 30, 5F, 0, 0);
+        status = new PlayerStatus(450, 450, 2, 20, 8, 5, 30, 3F, 0, 0);
         avoid.avoidAnimation = "gunner_dash";
         // switch (DataMgr.instance.selectedWeapon)
         // {
@@ -190,11 +190,13 @@ public class Gunner_Script : Move_Player
 
         bullet.MaxDistance = status.getAttackDistance();
 
-        bulletPrefab.GetComponent<SpriteRenderer>().flipX = dir.x < 0;
+        // bulletPrefab.GetComponent<SpriteRenderer>().flipX = dir.x < 0;
+
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
         bullet.vector = dir;
 
-        Instantiate(bulletPrefab, bulletPrefab.transform.position, bulletPrefab.transform.rotation);
+        Instantiate(bulletPrefab, bulletPrefab.transform.position, Quaternion.Euler(0, 0, angle));
         return true;
     }
 
@@ -222,11 +224,13 @@ public class Gunner_Script : Move_Player
 
         bullet.MaxDistance = 10;
 
-        bulletPrefab.GetComponent<SpriteRenderer>().flipX = dir.x < 0;
+        // bulletPrefab.GetComponent<SpriteRenderer>().flipX = dir.x < 0;
 
         bullet.vector = dir;
 
-        Instantiate(bulletPrefab, bulletPrefab.transform.position, bulletPrefab.transform.rotation);
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+        Instantiate(bulletPrefab, bulletPrefab.transform.position, Quaternion.Euler(0, 0, angle));
     }
 
     private void useSecondSkill()
@@ -287,7 +291,7 @@ public class Gunner_Script : Move_Player
             Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, 5F);
             foreach (Collider2D col in hitColliders)
             {
-                if (col.gameObject.layer != 10)
+                if (col.gameObject.layer != 10 && col.gameObject.layer != 9)
                 {
                     continue;
                 }

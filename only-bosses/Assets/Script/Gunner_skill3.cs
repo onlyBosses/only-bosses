@@ -6,13 +6,25 @@ public class Gunner_skill3 : MonoBehaviour
     public GameObject target;
     public int dmg;
     private Rigidbody2D rbody;
-    void OnTriggerEnter2D(Collider2D collison)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        Boss boss = collison.gameObject.GetComponent<Boss>();
-        if (boss != null)
+        if (collision.CompareTag("Boss"))
         {
-            Destroy(gameObject);
-            boss.OnDamage(dmg);
+            Boss boss = collision.GetComponent<Boss>();
+            if (boss != null)
+            {
+                boss.OnDamage(dmg);
+                Destroy(gameObject);
+            }
+        }
+        else if (collision.CompareTag("Monster"))
+        {
+            Monster monster = collision.GetComponent<Monster>();
+            if (monster != null)
+            {
+                monster.OnDamage(dmg);
+                Destroy(gameObject);
+            }
         }
     }
     void Start()
@@ -39,7 +51,7 @@ public class Gunner_skill3 : MonoBehaviour
             Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, 10F);
             foreach (Collider2D col in hitColliders)
             {
-                if (col.gameObject.layer != 10)
+                if (col.gameObject.layer != 10 && col.gameObject.layer != 9)
                 {
                     continue;
                 }
@@ -49,6 +61,8 @@ public class Gunner_skill3 : MonoBehaviour
         else
         {
             Vector3 dir = (target.transform.position - transform.position).normalized;
+            float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+            transform.rotation = Quaternion.Euler(0, 0, angle);
             float vx = dir.x * 5;
             float vy = dir.y * 5;
             rbody.linearVelocity = new Vector2(vx, vy);

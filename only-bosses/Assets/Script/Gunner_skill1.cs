@@ -8,14 +8,26 @@ public class Gunner_skill1 : MonoBehaviour
     private Rigidbody2D rbody;
     private Vector2 startPos;
 
-    void OnTriggerEnter2D(Collider2D collison)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        Boss boss = collison.gameObject.GetComponent<Boss>();
-        if (boss != null)
+        if (collision.CompareTag("Boss"))
         {
-            Destroy(gameObject);
-            boss.setStiffenTime(75);
-            boss.OnDamage(dmg);
+            Boss boss = collision.GetComponent<Boss>();
+            if (boss != null)
+            {
+                Destroy(gameObject);
+                boss.setStiffenTime(75);
+                boss.OnDamage(dmg);
+            }
+        }
+        else if (collision.CompareTag("Monster"))
+        {
+            Monster monster = collision.GetComponent<Monster>();
+            if (monster != null)
+            {
+                monster.OnDamage(dmg);
+                Destroy(gameObject);
+            }
         }
     }
 

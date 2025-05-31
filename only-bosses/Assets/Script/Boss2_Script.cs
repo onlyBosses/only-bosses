@@ -387,6 +387,15 @@ public class Boss2_Script : Boss
             rbody.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
             StartCoroutine(passive(rbody, 0.5F));
             flyDuration = 30 * 50;
+            for (int i = 0; i < 5; i++)
+            {
+                GameObject prefab = Resources.Load<GameObject>($"etc/Flight");
+                prefab.GetComponent<Boss2_summon>().target = player;
+                Vector2 pos = transform.position;
+                pos.x += Random.Range(-2, 3);
+                Instantiate(prefab, pos, Quaternion.Euler(0, 0, 0));
+            }
+                
         }
     }
 }
