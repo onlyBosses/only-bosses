@@ -20,6 +20,9 @@ public class ESCMenuManager : MonoBehaviour
             isEsc = !isEsc;
             escMenuPanel.SetActive(isEsc);
         }
+
+        if (isEsc) Time.timeScale = 0;
+        else Time.timeScale = 1f;
     }
 
     public void GoToCharacterSelect()

@@ -31,8 +31,9 @@ public class LittleMonster : MonoBehaviour
     void OnCollisionEnter2D(Collision2D other)
     {
         if (other.collider.CompareTag("Player"))
-        {
-            // other.GetComponent<Move_Player>().onDamage(99999);
+        {   
+            Move_Player player = other.gameObject.GetComponent<Move_Player>();
+            player.OnDamage(99999);
             Debug.Log("잡몹 충돌! 플레이어 즉사");
         }
     }

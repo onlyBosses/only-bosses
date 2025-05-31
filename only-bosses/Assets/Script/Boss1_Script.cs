@@ -22,7 +22,6 @@ public class Boss1_Script : Boss
     // 스킬4 
     [SerializeField] private GameObject[] littleMonsterPrefabs;
 
-
     private float teleportCoolTime = 25f;
     private float skill1CoolTime = 25f;
     private float skill2CoolTime = 25f;
@@ -48,6 +47,8 @@ public class Boss1_Script : Boss
         init();
         // 맞아도 뒤로 안 밀림
         // rbody.bodyType = RigidbodyType2D.Kinematic;
+
+        endPanel.SetActive(false);
 
         rbody.constraints = RigidbodyConstraints2D.FreezeRotation;
 

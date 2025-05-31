@@ -29,7 +29,10 @@ public class RotatingBlade : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        // if (oteher.CompareTag("Player")) other.GetComponent<Move_Player>.onDamage(bossScript.getDamage());
-        Debug.Log("칼날 타격");
+        if (other.CompareTag("Player"))
+        {               
+            Move_Player player = other.GetComponent<Move_Player>();
+            player.OnDamage(bossScript.status.getDamage());
+        }
     }
 }

@@ -12,6 +12,7 @@ public class Boss : MonoBehaviour, BossInterface
     protected SpriteRenderer spriteRenderer;
 
     public HPBarUI bossHPBar;
+    public GameObject endPanel;
 
     // magician R skill 
     // private bool isStun = false;
@@ -19,7 +20,7 @@ public class Boss : MonoBehaviour, BossInterface
 
     void Start()
     {
-
+        endPanel.SetActive(false);
     }
 
     protected void init()
@@ -29,7 +30,9 @@ public class Boss : MonoBehaviour, BossInterface
         spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
-    // void Update() {}
+    // void Update()
+    // {
+    // }
     public void inputUpdate()
     {
         // if (isStun)
@@ -55,13 +58,10 @@ public class Boss : MonoBehaviour, BossInterface
         health -= damage;
         if (health <= 0) //죽음
         {
-
+            endPanel.SetActive(true);
+            Time.timeScale = 0f;
         }
         status.setHealth(health);
-        Debug.Log("보스 체력: " + status.getHealth());
-        status = GetComponent<Boss>().status;
-
-        status.setHealth(status.getHealth() - damage);
         Debug.Log($"받은 데미지: {damage} | 현재 HP: {status.getHealth()}");
 
         bossHPBar.SetHP(status.getHealth(), status.getMaxHealth());

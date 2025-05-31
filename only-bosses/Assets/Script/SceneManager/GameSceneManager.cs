@@ -36,6 +36,9 @@ public class GameSceneManager : MonoBehaviour
     public TMP_Text eSkillText;
     public Image rSkillImage;
     public TMP_Text rSkillText;
+
+    public GameObject clearPanel;
+    public GameObject overPanel;
     
     void Start()
     {
@@ -55,6 +58,7 @@ public class GameSceneManager : MonoBehaviour
 
         Move_Player movePlayer = characterInstance.GetComponent<Move_Player>();
         movePlayer.SetPlayerHPBar(characterHPBar);
+        movePlayer.endPanel = overPanel;
 
         movePlayer.skillQCooldownImage = skillQCoolDownImage;
         movePlayer.skillECooldownImage = skillECoolDownImage;
@@ -70,6 +74,7 @@ public class GameSceneManager : MonoBehaviour
 
         Boss bossScript = bossInstance.GetComponent<Boss>();
         bossScript.SetBossHPBar(bossHPBar);
+        bossScript.endPanel = clearPanel;
 
         bossScript.player = GameObject.FindGameObjectWithTag("Player").transform;
     }

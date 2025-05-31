@@ -22,6 +22,8 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
     private Vector2 fearDirection;
     private float fearTimer = 0f;
 
+    public GameObject endPanel;
+
     void Start()
     {
         // rbody = this.GetComponent<Rigidbody2D>();
@@ -30,6 +32,7 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
         // vx = 0;
         // isJumpPush = false;
         // isJump = false;
+        endPanel.SetActive(false);
     }
 
     public void init()
@@ -178,7 +181,8 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
 
         if (currentHp <= 0) //죽음
         {
-
+            endPanel.SetActive(true);
+            Time.timeScale = 0f;
         }
 
         status.setHealth(currentHp);
