@@ -1,7 +1,5 @@
 using UnityEngine;
-using UnityEngine.VFX;
 using UnityEngine.UI;
-using System;
 
 public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
 {
@@ -80,7 +78,7 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
     }
 
     public void inputMove()
-    {   
+    {
 
         // 보스1 스킬2: 공포 -> 보스 반대 방향으로 이동 (움직임 제어)
         if (isFeared)
@@ -122,7 +120,7 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
 
         if (Input.GetMouseButtonDown(1))
         {
-            
+
         }
     }
 
@@ -200,5 +198,15 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
     public void setStiffenTime(int duration)
     {
         stiffenTime = duration;
+    }
+    
+    protected int setCritical(int dmg)
+    {
+        int chance = Random.Range(0, 100);
+        if (chance < status.getCriticalChance())
+        {
+            dmg *= 1 + (status.getCriticalDamage() / 100);
+        }
+        return dmg;
     }
 }

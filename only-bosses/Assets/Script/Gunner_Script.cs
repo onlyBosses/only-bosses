@@ -32,7 +32,7 @@ public class Gunner_Script : Move_Player
         init();
         isBaseAttack = false;
         // Move_Player mPlayer = GetComponent<Move_Player>();
-        status = new PlayerStatus(450, 450, 2, 20, 8, 5, 30, 1.5F, 0, 0);
+        status = new PlayerStatus(450, 450, 2, 20, 8, 5, 30, 5F, 0, 0);
 
         // switch (DataMgr.instance.selectedWeapon)
         // {
@@ -173,6 +173,7 @@ public class Gunner_Script : Move_Player
             baseAttackCount = status.getAttackSpeed() * 50;
             isBaseAttack = false;
         }
+        dmg = setCritical(dmg);
         Vector2 mousePos = Input.mousePosition;
         Vector2 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
         Vector2 pos = transform.position;
@@ -213,6 +214,7 @@ public class Gunner_Script : Move_Player
 
         // PlayerStatus status = GetComponent<Move_Player>().status;
         int baseDamge = (int)(status.getDamage() * 0.8);
+        baseDamge = setCritical(baseDamge);
         int extraDamge = (int)(baseDamge * 1.1f);
         bullet.dmg = isRingExtraDamge == true ? extraDamge : baseDamge;
 
@@ -246,6 +248,7 @@ public class Gunner_Script : Move_Player
         // PlayerStatus status = GetComponent<Move_Player>().status;
 
         int baseDamage = (int)(status.getDamage() * 1.8);
+        baseDamage = setCritical(baseDamage);
         int extraDamage = (int)(baseDamage * 1.1f);
         script.dmg = isRingExtraDamge == true ? extraDamage : baseDamage;
 
@@ -275,6 +278,7 @@ public class Gunner_Script : Move_Player
 
             // PlayerStatus status = GetComponent<Move_Player>().status;
             int baseDamage = (int)(status.getDamage() * 0.6);
+            baseDamage = setCritical(baseDamage);
             int extraDamge = (int)(baseDamage * 1.1f);
             script.dmg = isRingExtraDamge == true ? extraDamge : baseDamage;
 

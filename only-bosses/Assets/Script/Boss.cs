@@ -55,7 +55,7 @@ public class Boss : MonoBehaviour, BossInterface
         health -= damage;
         if (health <= 0) //죽음
         {
-            
+
         }
         status.setHealth(health);
         Debug.Log("보스 체력: " + status.getHealth());
@@ -88,5 +88,15 @@ public class Boss : MonoBehaviour, BossInterface
     public void setStiffenTime(int duration)
     {
         stiffenTime = duration;
+    }
+    
+    protected int setCritical(int dmg)
+    {
+        int chance = Random.Range(0, 100);
+        if (chance < status.getCriticalChance())
+        {
+            dmg *= 1 + (status.getCriticalDamage() / 100);
+        }
+        return dmg;
     }
 }

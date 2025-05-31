@@ -188,16 +188,6 @@ public class Boss2_Script : Boss
         useFourthSkill();
     }
 
-    private int setCritical(int dmg)
-    {
-        int chance = Random.Range(0, 100);
-        if (chance < status.getCriticalChance())
-        {
-            dmg *= 1 + (status.getCriticalDamage() / 100);
-        }
-        return dmg;
-    }
-
     private void useFirstSkill()
     {
         if (firstSkill.coolTime <= 0)
