@@ -26,7 +26,7 @@ public class Boss : MonoBehaviour, BossInterface
     {
         stiffenTime = 0;
         rbody = GetComponent<Rigidbody2D>();
-        // spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // void Update() {}
@@ -64,7 +64,7 @@ public class Boss : MonoBehaviour, BossInterface
         status.setHealth(status.getHealth() - damage);
         Debug.Log($"받은 데미지: {damage} | 현재 HP: {status.getHealth()}");
 
-        // bossHPBar.SetHP(status.getHealth(), status.getMaxHealth());
+        bossHPBar.SetHP(status.getHealth(), status.getMaxHealth());
     }
 
     // magician R skill (BossInterface 구현)

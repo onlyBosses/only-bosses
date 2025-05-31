@@ -45,7 +45,7 @@ public class Boss1_Script : Boss
 
     void Start()
     {
-        rbody = GetComponent<Rigidbody2D>();
+        init();
         // 맞아도 뒤로 안 밀림
         // rbody.bodyType = RigidbodyType2D.Kinematic;
 
