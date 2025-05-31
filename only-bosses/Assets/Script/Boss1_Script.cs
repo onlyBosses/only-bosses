@@ -211,7 +211,7 @@ public class Boss1_Script : Boss
 
     public void DoSkill1()
     {
-        Vector3 spawnPos = new Vector3(player.position.x, -2f, 0f);
+        Vector2 spawnPos = new Vector2(player.position.x, -2f);
         GameObject shadow = Instantiate(deathShadowPrefab, spawnPos, Quaternion.identity);
 
         // 10초 뒤에 파괴

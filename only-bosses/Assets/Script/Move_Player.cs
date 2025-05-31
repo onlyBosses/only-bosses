@@ -80,7 +80,20 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
     }
 
     public void inputMove()
-    {
+    {   
+
+        // 보스1 스킬2: 공포 -> 보스 반대 방향으로 이동 (움직임 제어)
+        if (isFeared)
+        {
+            transform.Translate(fearDirection * 2f * Time.deltaTime);
+            fearTimer -= Time.deltaTime;
+            if (fearTimer <= 0f)
+            {
+                isFeared = false;
+            }
+            return;
+        }
+
         vx = 0;
         if (Input.GetKey("a"))
         {
@@ -111,18 +124,6 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
         {
             
         }
-
-        // 보스1 스킬2: 공포 -> 보스 반대 방향으로 이동 (움직임 제어)
-        if (isFeared)
-        {
-            transform.Translate(fearDirection * 2f * Time.deltaTime);
-            fearTimer -= Time.deltaTime;
-            if (fearTimer <= 0f)
-            {
-                isFeared = false;
-            }
-            return;
-        }
     }
 
     public void move()
@@ -130,8 +131,10 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
         if (stiffenTime > 0)
         {
             stiffenTime--;
+            rbody.linearVelocity = Vector2.zero;
             return;
         }
+
         spriteRenderer.color = new Color(1, 1, 1);
         Vector3 mousePos = Input.mousePosition;
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
@@ -168,6 +171,7 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
         {
             stiffenTime = 25;
         }
+
         spriteRenderer.color = new Color(200 / 255F, 200 / 255F, 200 / 255F);
 
         int currentHp = status.getHealth();
@@ -181,7 +185,7 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
 
         status.setHealth(currentHp);
 
-        // playerHPBar.SetHP(currentHp, status.getMaxHealth());
+        playerHPBar.SetHP(currentHp, status.getMaxHealth());
     }
 
     // 보스1 스킬2: 공포 -> 보스 반대 방향으로 이동 (움직임 제어)

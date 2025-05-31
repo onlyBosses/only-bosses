@@ -15,25 +15,8 @@ public class DeathShadowTrigger : MonoBehaviour
     void OnTriggerStay2D(Collider2D other)
     {
         if (other.CompareTag("Player"))
-        {
-            //     string characterType = DataMgr.instance.currentCharacter.ToString();
-
-            //     if (characterType == "Magician")
-            //     {
-            //         other.GetComponent<Magician_Script>().TakeDamage(status.getDamage());
-            //     }
-            //     else if (characterType == "Gunner")
-            //     {
-            //         other.GetComponent<Gunner_Script>().TakeDamage(status.getDamage());
-            //     }
-            //     else if (characterType == "Samurai")
-            //     {
-            //         other.GetComponent<Samurai_Script>().TakeDamage(status.getDamage());
-            //     }
-            
-            
-            PlayerInterface player = other.GetComponent<PlayerInterface>();
-            player.OnDamage(bossScript.status.getDamage());
+        {               
+            Move_Player player = other.GetComponent<Move_Player>();
             
             stayTime += Time.deltaTime;
 
@@ -42,6 +25,15 @@ public class DeathShadowTrigger : MonoBehaviour
                 // Debug.Log("즉사");
                 player.OnDamage(99999);
             }
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.CompareTag("Player"))
+        {               
+            Move_Player player = other.GetComponent<Move_Player>();
+            player.OnDamage(bossScript.status.getDamage());
         }
     }
 
