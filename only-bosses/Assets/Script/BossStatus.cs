@@ -68,9 +68,4 @@ public class BossStatus
     {
         return attackSpeed;
     }
-
-    public void setHealth(int health)
-    {
-        this.health = health;
-    }
 }

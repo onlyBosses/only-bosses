@@ -360,7 +360,16 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      GunnerSkillR_0: -4445931285890258710
+      GunnerSkillR_1: -2952095900136848705
+      GunnerSkillR_2: -8713918975446244060
+      GunnerSkillR_3: -1432121239009952657
+      GunnerSkillR_4: 7161364056688676673
+      GunnerSkillR_5: -3664516794678791860
+      GunnerSkillR_6: 7616161847381653623
+      GunnerSkillR_7: -8959407446307562614
+      GunnerSkillR_8: -3637494203932086864
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -2,9 +2,15 @@ using UnityEngine;
 
 public class Boss2_PassiveAttack : MonoBehaviour
 {
+
+    public int damage;
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("트리거 진입: " + other.name);
+        Move_Player mPlayer = other.GetComponent<Move_Player>();
+        if (mPlayer != null)
+        {
+            mPlayer.OnDamage(damage);
+        }
     }
 
     void Start()
@@ -23,6 +29,9 @@ public class Boss2_PassiveAttack : MonoBehaviour
         Vector3 rotatedDirection;
         rotatedDirection = Quaternion.Euler(0, 0, 90) * transform.up;
         transform.position -= rotatedDirection * 7 * Time.deltaTime;
-        
+        if (transform.position.y <= -4.5)
+        {
+            Destroy(gameObject);
+        }
     }
 }

@@ -6,6 +6,15 @@ public class Gunner_skill2 : MonoBehaviour
     private int count;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
 
+    void OnTriggerEnter2D(Collider2D collison)
+    {
+        Boss boss = collison.gameObject.GetComponent<Boss>();
+        if (boss != null)
+        {
+            boss.OnDamage(dmg);
+        }
+    }
+
     void Start()
     {
         Physics2D.IgnoreLayerCollision(8, 7, true);
@@ -30,10 +39,5 @@ public class Gunner_skill2 : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        
     }
 }

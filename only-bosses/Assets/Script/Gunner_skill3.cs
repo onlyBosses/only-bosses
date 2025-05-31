@@ -5,8 +5,16 @@ public class Gunner_skill3 : MonoBehaviour
 {
     public GameObject target;
     public int dmg;
-
     private Rigidbody2D rbody;
+    void OnTriggerEnter2D(Collider2D collison)
+    {
+        Boss boss = collison.gameObject.GetComponent<Boss>();
+        if (boss != null)
+        {
+            Destroy(gameObject);
+            boss.OnDamage(dmg);
+        }
+    }
     void Start()
     {
         Physics2D.IgnoreLayerCollision(8, 7, true);
@@ -45,10 +53,5 @@ public class Gunner_skill3 : MonoBehaviour
             float vy = dir.y * 5;
             rbody.linearVelocity = new Vector2(vx, vy);
         }
-    }
-
-    void OnCollisionEnter2D(Collision2D collision)
-    {
-        Destroy(gameObject);
     }
 }

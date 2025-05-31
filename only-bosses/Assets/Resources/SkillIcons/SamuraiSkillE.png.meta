@@ -435,7 +435,19 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      SamuraiSkillE_0: -4634116295103721315
+      SamuraiSkillE_1: 4318351117617903706
+      SamuraiSkillE_10: -7356786238056204388
+      SamuraiSkillE_11: -5474177652835944293
+      SamuraiSkillE_2: -2083972144898179401
+      SamuraiSkillE_3: -6516097999956224949
+      SamuraiSkillE_4: -7592921550384899200
+      SamuraiSkillE_5: 1102848740909137446
+      SamuraiSkillE_6: -4047127174045568186
+      SamuraiSkillE_7: -3890740492032759965
+      SamuraiSkillE_8: 6796409924532316034
+      SamuraiSkillE_9: 127732757645681048
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

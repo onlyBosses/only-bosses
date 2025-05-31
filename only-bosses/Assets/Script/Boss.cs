@@ -3,10 +3,10 @@ using System.Collections;
 using UnityEngine;
 
 public class Boss : MonoBehaviour, BossInterface
-{   
-    public Transform player; 
+{
+    public Transform player;
     public BossStatus status;
-    public int stiffenTime;
+    protected int stiffenTime;
     protected Rigidbody2D rbody;
 
     protected SpriteRenderer spriteRenderer;
@@ -19,7 +19,7 @@ public class Boss : MonoBehaviour, BossInterface
 
     void Start()
     {
-       
+
     }
 
     protected void init()
@@ -51,20 +51,20 @@ public class Boss : MonoBehaviour, BossInterface
             stiffenTime = 25;
         }
         spriteRenderer.color = new Color(200 / 255F, 200 / 255F, 200 / 255F);
-        int health = status.getHp();
+        int health = status.getHealth();
         health -= damage;
         if (health <= 0) //죽음
         {
 
         }
         status.setHealth(health);
-        Debug.Log("보스 체력: " + status.getHp());
+        Debug.Log("보스 체력: " + status.getHealth());
         status = GetComponent<Boss>().status;
 
         status.setHealth(status.getHealth() - damage);
         Debug.Log($"받은 데미지: {damage} | 현재 HP: {status.getHealth()}");
 
-        bossHPBar.SetHP(status.getHealth(), status.getMaxHealth());
+        // bossHPBar.SetHP(status.getHealth(), status.getMaxHealth());
     }
 
     // magician R skill (BossInterface 구현)
@@ -75,7 +75,7 @@ public class Boss : MonoBehaviour, BossInterface
             Debug.Log("스턴 적중");
             // isStun = true;
             // stunTimer = 3f;
-            stiffenTime = 3 * 50
+            stiffenTime = 3 * 50;
         }
     }
 
@@ -83,5 +83,10 @@ public class Boss : MonoBehaviour, BossInterface
     public void SetBossHPBar(HPBarUI hpBar)
     {
         bossHPBar = hpBar;
+    }
+
+    public void setStiffenTime(int duration)
+    {
+        stiffenTime = duration;
     }
 }

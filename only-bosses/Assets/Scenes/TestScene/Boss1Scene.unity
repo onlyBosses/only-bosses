@@ -936,7 +936,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 474c6c08cc3f44056b21d207fbf652d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stiffenTime: 0
+  player: {fileID: 0}
+  bossHPBar: {fileID: 0}
   playerName: gunner
   cam: {fileID: 0}
 --- !u!1 &2113881439
@@ -973,6 +974,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   stiffenTime: 0
+  playerHPBar: {fileID: 0}
+  skillQCooldownImage: {fileID: 0}
+  skillECooldownImage: {fileID: 0}
+  skillRCooldownImage: {fileID: 0}
 --- !u!95 &2113881442
 Animator:
   serializedVersion: 7

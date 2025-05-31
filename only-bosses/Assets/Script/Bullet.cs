@@ -11,11 +11,12 @@ public class Bullet : MonoBehaviour
     private Rigidbody2D rbody;
     private Vector2 startPos;
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D collison)
     {
-        Boss boss = other.gameObject.GetComponent<Boss>();
+        Boss boss = collison.gameObject.GetComponent<Boss>();
         if (boss != null)
         {
+            Destroy(gameObject);
             boss.OnDamage(dmg);
         }
     }

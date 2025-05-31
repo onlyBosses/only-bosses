@@ -36,6 +36,10 @@ public class Gunner_Script : Move_Player
 
     void Update()
     {
+        if (stiffenTime > 0)
+        {
+            return; 
+        }
         inputMove();
         if (Input.GetKey("a") || Input.GetKey("d") || Input.GetKey("w"))
         {
@@ -141,10 +145,9 @@ public class Gunner_Script : Move_Player
         Vector2 pos = transform.position;
         Vector2 dir = (worldPos - pos).normalized;
 
-        GameObject bulletPrefab = Resources.Load<GameObject>($"etc/bullet");
+        GameObject bulletPrefab = Resources.Load<GameObject>($"etc/stunBullet");
         bulletPrefab.transform.position = transform.position;
-        Bullet bullet = bulletPrefab.GetComponent<Bullet>();
-        bullet.playerObject = gameObject;
+        Gunner_skill1 bullet = bulletPrefab.GetComponent<Gunner_skill1>();
 
         // PlayerStatus status = GetComponent<Move_Player>().status;
         bullet.dmg = (int)(status.getDamage() * 0.8);

@@ -1,13 +1,14 @@
 using UnityEngine;
 using UnityEngine.VFX;
 using UnityEngine.UI;
+using System;
 
 public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
 {
     private float vx;
     private bool isJump;
     private bool isJumpPush;
-    public int stiffenTime;
+    protected int stiffenTime;
     protected Rigidbody2D rbody;
     protected SpriteRenderer spriteRenderer;
     public PlayerStatus status;
@@ -106,9 +107,9 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
             isJumpPush = false;
         }
 
-        if (Input.GetKey("s"))
+        if (Input.GetMouseButtonDown(1))
         {
-
+            
         }
 
         // 보스1 스킬2: 공포 -> 보스 반대 방향으로 이동 (움직임 제어)
@@ -131,6 +132,7 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
             stiffenTime--;
             return;
         }
+        spriteRenderer.color = new Color(1, 1, 1);
         Vector3 mousePos = Input.mousePosition;
         Vector3 worldPos = Camera.main.ScreenToWorldPoint(mousePos);
         GetComponent<SpriteRenderer>().flipX = worldPos.x < transform.position.x;
@@ -166,7 +168,6 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
         {
             stiffenTime = 25;
         }
-        status = GetComponent<Move_Player>().status;
         spriteRenderer.color = new Color(200 / 255F, 200 / 255F, 200 / 255F);
 
         int currentHp = status.getHealth();
@@ -180,7 +181,7 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
 
         status.setHealth(currentHp);
 
-        playerHPBar.SetHP(currentHp, status.getMaxHealth());
+        // playerHPBar.SetHP(currentHp, status.getMaxHealth());
     }
 
     // 보스1 스킬2: 공포 -> 보스 반대 방향으로 이동 (움직임 제어)
@@ -190,5 +191,10 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
         fearTimer = 2f;
         Vector2 dirToBoss = (bossPos - transform.position).normalized;
         fearDirection = -dirToBoss;
+    }
+
+    public void setStiffenTime(int duration)
+    {
+        stiffenTime = duration;
     }
 }
