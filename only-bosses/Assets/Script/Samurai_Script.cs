@@ -32,6 +32,42 @@ public class Samurai_Script : Move_Player
 
         playerHPBar.SetHP(status.getMaxHealth(), status.getMaxHealth());
 
+        switch (DataMgr.instance.selectedWeapon)
+        {
+            case Weapon.Sword:
+                // 공격력은 높은데 공격속도 느림
+                break;
+            case Weapon.Sword2:
+                // 공격력 준수, 공격속도 준수
+                break;
+        }
+
+        switch (DataMgr.instance.selectedRing)
+        {
+            case Ring.Ring1:
+                // 스킬 피해량 10% 증가 
+                break;
+            case Ring.Ring2:
+                // 치명타 피해량 증가
+                break;
+            case Ring.Ring3:
+                // 평타 피해량 증가
+                break;
+        }
+
+        switch (DataMgr.instance.selectedNecklace)
+        {
+            case Necklace.Necklace1:
+                // 스킬 쿨타임 감소 
+                break;
+            case Necklace.Necklace2:
+                // 최대 체력 증가 
+                break;
+            case Necklace.Necklace3:
+                // 치명타 확률 증가 
+                break;
+        }
+
         firstSkillCoolTime = 0f;
         secondSkillCoolTime = 0f;
         thirdSkillCoolTime = 0f;

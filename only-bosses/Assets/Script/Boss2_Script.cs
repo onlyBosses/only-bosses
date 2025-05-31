@@ -50,7 +50,6 @@ class FourthSkill
 public class Boss2_Script : Boss
 {
     public string playerName;
-    private GameObject player;
     private int attackCoolTime;
     private FirstSkill firstSkill;
     private SecondSkill secondSkill;
@@ -67,7 +66,6 @@ public class Boss2_Script : Boss
         rbody = GetComponent<Rigidbody2D>();
         rbody.gravityScale = 0;
         rbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-        player = GameObject.Find(playerName);
         status = new BossStatus(16000, 16000, 2, 10, 5, 10, 50, 5);
         attackCoolTime = status.getAttackSpeed() * 50;
         firstSkill = new FirstSkill();
@@ -79,6 +77,17 @@ public class Boss2_Script : Boss
         flyDuration = 0;
         cam = Camera.main;
         flyAttackCount = 0;
+
+        // switch (DataMgr.instance.selectedDifficulty)
+        // {
+        //     case Difficulty.Easy:
+        //         status = new BossStatus(16000, 16000, 2, 10, 0, 10, 50, 5);
+        //         break;
+        //     case Difficulty.Hard: 
+        //         status = new BossStatus(28000, 28000, 2, 15, 0, 10, 50, 5);
+        // }
+
+        bossHPBar.SetHP(status.getMaxHealth(), status.getMaxHealth());
     }
 
     void Update()
@@ -108,19 +117,19 @@ public class Boss2_Script : Boss
             }
             else
             {
-                Vector2 dir = (player.transform.position - transform.position).normalized;
+                Vector2 dir = (player.position - transform.position).normalized;
                 maxDistance = 2;
                 rbody.linearVelocity = new Vector2(dir.x, dir.y);
                 animation = "Attack1";
             }
             if (attackCoolTime <= 0)
             {
-                float distance = Vector2.Distance(player.transform.position, transform.position);
+                float distance = Vector2.Distance(player.position, transform.position);
                 if (distance <= maxDistance)
                 {
                     attackCoolTime = status.getAttackSpeed() * 50;
                     Move_Player mPlayer = player.GetComponent<Move_Player>();
-                    mPlayer.onDamage(setCritical(status.getDamage()));
+                    mPlayer.OnDamage(setCritical(status.getDamage()));
                     GetComponent<Animator>().Play(animation);
                 }
             }

@@ -36,6 +36,11 @@ public class PlayerStatus
         return maxHealth;
     }
 
+    public void setMaxHealth(int maxHealth)
+    {
+        this.maxHealth = maxHealth;
+    }
+
     public int getHealth()
     {
         return health;
@@ -64,6 +69,31 @@ public class PlayerStatus
     public int getAttackDistance()
     {
         return attackDistance;
+    }
+
+    public void setAttackDistance(int attackDistance)
+    {
+        this.attackDistance = attackDistance;
+    }
+
+    public int getCriticalChance()
+    {
+        return criticalChance;
+    }
+
+    public void setCriticalChance(int criticalChance)
+    {
+        this.criticalChance = criticalChance;
+    }
+
+    public int getCriticalDamage()
+    {
+        return criticalDamage;
+    }
+
+    public void setCriticalDamage(int criticalDamage)
+    {
+        this.criticalDamage = criticalDamage;
     }
 
     public float getMoveSpeed()

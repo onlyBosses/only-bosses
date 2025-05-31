@@ -20,6 +20,10 @@ public class Magician_Script : Move_Player
     private float secondSkillCoolTimer = 20f;
     private float thirdSkillCoolTimer = 15f;
 
+    private bool isExtraDamage = false; // Wand2 스킬 피해량 5% 증가 
+    private bool isRingExtraDamge = false; // Ring1 스킬 피해량 10% 증가 
+    private bool isBaseAttackExtraDamage = false; // Ring3 평타 데미지 증가 
+
     void Start()
     {
         init();
@@ -27,9 +31,55 @@ public class Magician_Script : Move_Player
         animator = GetComponent<Animator>();
         isBaseAttack = false;
         status = new PlayerStatus(450, 450, 2, 20, 6, 5, 30, 5, 0, 0);
+        
+        switch (DataMgr.instance.selectedWeapon)
+        {
+            case Weapon.Wand:
+                // 공격력 증가 
+                status.setDamage(status.getDamage() + 10);
+                break;
+            case Weapon.Wand2:
+                // 공격력이 낮지만 확률적으로 해당 스킬의 피해량의 5%만큼 추가 피해
+                status.setDamage(status.getDamage() - 10);
+                isExtraDamage = true; 
+                break;
+        }
+
+        switch (DataMgr.instance.selectedRing)
+        {
+            case Ring.Ring1:
+                // 스킬 피해량 10% 증가
+                isRingExtraDamge = true;
+                break;
+            case Ring.Ring2:
+                // 치명타 피해량 증가
+                status.setCriticalDamage(status.getCriticalDamage() + 10);
+                break;
+            case Ring.Ring3:
+                // 평타 피해량 증가
+                isBaseAttackExtraDamage = true; 
+                break;
+        }
+
+        switch (DataMgr.instance.selectedNecklace)
+        {
+            case Necklace.Necklace1:
+                // 스킬 쿨타임 감소 
+                firstSkillCoolTimer = 10f;
+                secondSkillCoolTimer = 18f;
+                thirdSkillCoolTimer = 13f;
+                break;
+            case Necklace.Necklace2:
+                // 최대 체력 증가 
+                status.setMaxHealth(status.getMaxHealth() + 100);
+                break;
+            case Necklace.Necklace3:
+                // 치명타 확률 증가 
+                status.setCriticalChance(status.getCriticalChance() + 10);
+                break;
+        }
 
         playerHPBar.SetHP(status.getMaxHealth(), status.getMaxHealth());
-        // 장비에 따라 status 변환 
 
         firstSkillCoolTime = 0f;
         secondSkillCoolTime = 0f;
@@ -142,7 +192,8 @@ public class Magician_Script : Move_Player
         Element element = elementPrefab.GetComponent<Element>();
         element.playerObject = gameObject;
 
-        element.dmg = dmg;
+        element.dmg = isBaseAttackExtraDamage == true ? dmg + 10 : dmg;
+    
         element.MaxDistance = status.getAttackDistance();
         elementPrefab.GetComponent<SpriteRenderer>().flipX = dir.x < 0;
         element.vector = dir;
@@ -185,7 +236,15 @@ public class Magician_Script : Move_Player
         }
 
         Magician_skill1 script = instance.GetComponent<Magician_skill1>();
-        script.dmg = (int)(status.getDamage() * 1.8f);
+
+        int baseDamage = (int)(status.getDamage() * 1.8f);
+        int extraDamge;
+        if (isExtraDamage && isRingExtraDamge) extraDamge = (int)(baseDamage * 1.15f);
+        else if (isExtraDamage) extraDamge = (int)(baseDamage * 1.05f);
+        else if (isRingExtraDamge) extraDamge = (int)(baseDamage * 1.1f);
+        else extraDamge = 0;
+
+        script.dmg = extraDamge == 0 ? baseDamage : extraDamge;
 
         Invoke(nameof(ResumeIdle), 2f);
     }
@@ -206,7 +265,14 @@ public class Magician_Script : Move_Player
 
         Magician_skill2 script = instance.GetComponent<Magician_skill2>();
 
-        script.dmg = (int)(status.getDamage() * 1.8f);
+        int baseDamage = (int)(status.getDamage() * 1.8f);
+        int extraDamge;
+        if (isExtraDamage && isRingExtraDamge) extraDamge = (int)(baseDamage * 1.15f);
+        else if (isExtraDamage) extraDamge = (int)(baseDamage * 1.05f);
+        else if (isRingExtraDamge) extraDamge = (int)(baseDamage * 1.1f);
+        else extraDamge = 0;
+
+        script.dmg = extraDamge == 0 ? baseDamage : extraDamge;
     }
 
     public void useThirdSkill()
@@ -225,7 +291,14 @@ public class Magician_Script : Move_Player
 
         Magician_skill3 script = instance.GetComponent<Magician_skill3>();
 
-        script.dmg = (int)(status.getDamage() * 1.8f);
+        int baseDamage = (int)(status.getDamage() * 1.8f);
+        int extraDamge;
+        if (isExtraDamage && isRingExtraDamge) extraDamge = (int)(baseDamage * 1.15f);
+        else if (isExtraDamage) extraDamge = (int)(baseDamage * 1.05f);
+        else if (isRingExtraDamge) extraDamge = (int)(baseDamage * 1.1f);
+        else extraDamge = 0;
+
+        script.dmg = extraDamge == 0 ? baseDamage : extraDamge;
     }
 
     private void ResumeIdle()

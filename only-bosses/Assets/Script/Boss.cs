@@ -19,14 +19,14 @@ public class Boss : MonoBehaviour, BossInterface
 
     void Start()
     {
-       
+
     }
 
     protected void init()
     {
         stiffenTime = 0;
         rbody = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
+        // spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     // void Update() {}
@@ -50,19 +50,16 @@ public class Boss : MonoBehaviour, BossInterface
         {
             stiffenTime = 25;
         }
-        spriteRenderer.color = new Color(200 / 255F, 200 / 255F, 200 / 255F);
-        int health = status.getHp();
+        // spriteRenderer.color = new Color(200 / 255F, 200 / 255F, 200 / 255F);
+        int health = status.getHealth();
         health -= damage;
         if (health <= 0) //죽음
         {
-
+            
         }
         status.setHealth(health);
-        Debug.Log("보스 체력: " + status.getHp());
-        status = GetComponent<Boss>().status;
-
-        status.setHealth(status.getHealth() - damage);
-        Debug.Log($"받은 데미지: {damage} | 현재 HP: {status.getHealth()}");
+        Debug.Log("보스 체력: " + status.getHealth());
+        // status = GetComponent<Boss>().status; 이거 뭐임? 내가 짠건가 
 
         bossHPBar.SetHP(status.getHealth(), status.getMaxHealth());
     }
@@ -75,7 +72,7 @@ public class Boss : MonoBehaviour, BossInterface
             Debug.Log("스턴 적중");
             // isStun = true;
             // stunTimer = 3f;
-            stiffenTime = 3 * 50
+            stiffenTime = 3 * 50;
         }
     }
 

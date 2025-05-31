@@ -75,6 +75,15 @@ public class Boss1_Script : Boss
         baseAttackTimer = baseAttackCoolTime;
         baseAttackRange.enabled = false;
 
+        // switch (DataMgr.instance.selectedDifficulty)
+        // {
+        //     case Difficulty.Easy:
+        //         status = new BossStatus(16000, 16000, 2, 10, 0, 10, 50, 5);
+        //         break;
+        //     case Difficulty.Hard: 
+        //         status = new BossStatus(28000, 28000, 2, 15, 0, 10, 50, 5);
+        // }
+
         bossHPBar.SetHP(status.getMaxHealth(), status.getMaxHealth());
     }
 
