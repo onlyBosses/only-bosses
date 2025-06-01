@@ -5,14 +5,11 @@ using UnityEngine;
 public class Gunner_Script : Move_Player
 {
     private string walkAnime = "gunner_walk";
-    // private string idleAnime = "gunner_idle";
     private string baseAttackAnim = "gunner_pistolH";
     private bool isBaseAttack = false;
     private int baseAttackCount;
-    // private PlayerStatus status;
     private int bulletCount;
     private const int MAXBULLET = 3;
-    // private SpriteRenderer spriteRenderer;
 
     private float firstSkillCoolTime;
     private float secondSkillCoolTime;
@@ -33,53 +30,51 @@ public class Gunner_Script : Move_Player
         isBaseAttack = false;
         status = new PlayerStatus(450, 450, 2, 20, 8, 5, 30, 3F, 0, 0);
         avoid.avoidAnimation = "gunner_dash";
-        // switch (DataMgr.instance.selectedWeapon)
-        // {
-        //     case Weapon.Gun:
-        //         // 이속 높은데 사거리 짧음
-        //         status.setMoveSpeed(status.getMoveSpeed() + 2);
-        //         status.setAttackDistance(status.getAttackDistance() - 2);
-        //         break;
-        //     case Weapon.Gun2:
-        //         // 이속 느린데 사거리 김
-        //         status.setMoveSpeed(status.getMoveSpeed() - 2);
-        //         status.setAttackDistance(status.getAttackDistance() + 2);
-        //         break;
-        // }
+        switch (DataMgr.instance.selectedWeapon)
+        {
+            case Weapon.Gun:
+                // 이속 높은데 사거리 짧음
+                status.setMoveSpeed(status.getMoveSpeed() + 1.5F);
+                status.setAttackDistance(status.getAttackDistance() - 2);
+                break;
+            case Weapon.Gun2:
+                // 이속 느린데 사거리 김
+                status.setMoveSpeed(status.getMoveSpeed() - 0.5F);
+                status.setAttackDistance(status.getAttackDistance() + 2);
+                break;
+        }
 
-        // switch (DataMgr.instance.selectedRing)
-        // {
-        //     case Ring.Ring1:
-        //         // 스킬 피해량 10% 증가
-        //         isRingExtraDamge = true;
-        //         break;
-        //     case Ring.Ring2:
-        //         // 치명타 피해량 증가
-        //         status.setCriticalDamage(status.getCriticalDamage() + 10);
-        //         break;
-        //     case Ring.Ring3:
-        //         // 평타 피해량 증가
-        //         isBaseAttackExtraDamage = true; 
-        //         break;
-        // }
+        switch (DataMgr.instance.selectedRing)
+        {
+            case Ring.Ring1:
+                // 스킬 피해량 10% 증가
+                isRingExtraDamge = true;
+                break;
+            case Ring.Ring2:
+                // 치명타 피해량 증가
+                status.setCriticalDamage(status.getCriticalDamage() + 10);
+                break;
+            case Ring.Ring3:
+                // 평타 피해량 증가
+                isBaseAttackExtraDamage = true; 
+                break;
+        }
 
-        // switch (DataMgr.instance.selectedNecklace)
-        // {
-        //     case Necklace.Necklace1:
-        //         // 스킬 쿨타임 감소 
-        //         firstSkillCoolTimer = 8f;
-        //         secondSkillCoolTimer = 11f;
-        //         thirdSkillCoolTimer = 23f;
-        //         break;
-        //     case Necklace.Necklace2:
-        //         // 최대 체력 증가 
-        //         status.setMaxHealth(status.getMaxHealth() + 100);
-        //         break;
-        //     case Necklace.Necklace3:
-        //         // 치명타 확률 증가 
-        //         status.setCriticalChance(status.getCriticalChance() + 10);
-        //         break;
-        // }
+        switch (DataMgr.instance.selectedNecklace)
+        {
+            case Necklace.Necklace1:
+                // 스킬 쿨타임 감소 
+                firstSkillCoolTimer = 8F;
+                secondSkillCoolTimer = 11F;
+                thirdSkillCoolTimer = 23F;
+                break;
+            case Necklace.Necklace2:
+                status.setMaxHealth(status.getMaxHealth() + 100);
+                break;
+            case Necklace.Necklace3:
+                status.setCriticalChance(status.getCriticalChance() + 10);
+                break;
+        }
 
         playerHPBar.SetHP(status.getMaxHealth(), status.getMaxHealth());
 
@@ -88,7 +83,6 @@ public class Gunner_Script : Move_Player
         secondSkillCoolTime = 0f;
         thirdSkillCoolTime = 0f;
         thirdSkillTargets = new List<GameObject>();
-        // spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     void Update()
@@ -222,7 +216,7 @@ public class Gunner_Script : Move_Player
         int extraDamge = (int)(baseDamge * 1.1f);
         bullet.dmg = isRingExtraDamge == true ? extraDamge : baseDamge;
 
-        bullet.MaxDistance = 10;
+        bullet.MaxDistance = status.getAttackDistance() + 2;
 
         // bulletPrefab.GetComponent<SpriteRenderer>().flipX = dir.x < 0;
 

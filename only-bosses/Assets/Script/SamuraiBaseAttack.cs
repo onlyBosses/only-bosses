@@ -30,8 +30,11 @@ public class SamuraiBaseAttack : MonoBehaviour
 
         if (other.CompareTag("Monster"))
         {
-            LittleMonster littleMonster = other.GetComponent<LittleMonster>();
-            littleMonster.OnDamage(dmg);
+            Monster monster = other.GetComponent<Monster>();
+            if (monster != null)
+            {
+                monster.OnDamage(dmg);
+            }
         }
     }
 }

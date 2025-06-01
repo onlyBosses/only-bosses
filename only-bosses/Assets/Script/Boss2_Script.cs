@@ -81,13 +81,13 @@ public class Boss2_Script : Boss
         rbody = GetComponent<Rigidbody2D>();
         rbody.gravityScale = 0;
         rbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-        status = new BossStatus(16000, 16000, 2, 10, 5, 10, 50, 5);
+        status = new BossStatus(16000, 16000, 2, 10, 5, 10, 50, 1);
         attackCoolTime = status.getAttackSpeed() * 50;
         firstSkill = new FirstSkill();
         secondSkill = new SecondSkill();
         thirdSkillCoolTime = Random.Range(1, 25) * 50;
         fourthSkill = new FourthSkill();
-        speed = 4;
+        speed = 0;
         isFlying = false;
         flyDuration = 0;
         cam = Camera.main;
@@ -137,8 +137,9 @@ public class Boss2_Script : Boss
                 float distance = Vector2.Distance(player.transform.position, transform.position);
                 if (distance > maxDistance-1)
                 {
+                    float moveSpeed = status.getMoveSpeed();
                     GetComponent<SpriteRenderer>().flipX = dir.x < 0;
-                    rbody.linearVelocity = new Vector2(dir.x, dir.y);
+                    rbody.linearVelocity = new Vector2(dir.x * moveSpeed, dir.y * moveSpeed);
                 }
             }
             if (attackCoolTime <= 0)
@@ -195,15 +196,11 @@ public class Boss2_Script : Boss
             if (Physics2D.Raycast(player.transform.position, Vector3.down, 1F, LayerMask.GetMask("Ground")))
             {
                 Rigidbody2D rbody = player.GetComponent<Rigidbody2D>();
+                rbody.linearVelocity = Vector2.zero;
                 rbody.gravityScale = 0;
                 rbody.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
-                speed += 1;
-                Move_Player mPlayer = player.GetComponent<Move_Player>();
-                mPlayer.setStiffenTime(150);
-                onFlying();
-                StartCoroutine(StopInAir(rbody, 0.3F));
-                firstSkill.isSuccess = true;
-                firstSkill.duration = 3 * 50;
+                addSpeed();
+                StartCoroutine(firstSkillDelay(rbody, 0.3F));
             }
         }
         else
@@ -236,6 +233,16 @@ public class Boss2_Script : Boss
     {
         yield return new WaitForSeconds(delay);
         rb.linearVelocity = Vector2.zero;
+    }
+
+    IEnumerator firstSkillDelay(Rigidbody2D rb, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        rb.linearVelocity = Vector2.zero;
+        Move_Player mPlayer = player.GetComponent<Move_Player>();
+        mPlayer.setStiffenTime(150);
+        firstSkill.isSuccess = true;
+        firstSkill.duration = 3 * 50;
     }
 
     IEnumerator passive(Rigidbody2D rb, float delay)
@@ -274,8 +281,7 @@ public class Boss2_Script : Boss
                 moveSpeed -= secondSkill.power;
                 playerStatus.setMoveSpeed(moveSpeed);
                 secondSkill.isSuccess = true;
-                speed += 1;
-                onFlying();
+                addSpeed();
                 secondSkill.duration = 5 * 50;
             }
         }
@@ -341,8 +347,7 @@ public class Boss2_Script : Boss
                 int dmg = (int)(status.getDamage() * 1.5);
                 mPlayer.OnDamage(setCritical(dmg));
                 int chance = Random.Range(0, 100);
-                speed += 1;
-                onFlying();
+                addSpeed();
                 if (chance < 20)
                 {
                     PlayerStatus playerStatus = mPlayer.status;
@@ -352,8 +357,7 @@ public class Boss2_Script : Boss
                     playerStatus.setMoveSpeed(moveSpeed);
                     fourthSkill.isSuccess = true;
                     fourthSkill.duration = 5 * 50;
-                    speed += 1;
-                    onFlying();
+                    addSpeed();
                 }
             }
         }
@@ -377,6 +381,13 @@ public class Boss2_Script : Boss
         }
     }
 
+    private void addSpeed()
+    {
+        speed++;
+        status.setMoveSpeed(status.getMoveSpeed() * (1 + (speed * 0.2F)));
+        onFlying();
+    }
+
     private void onFlying()
     {
         if (speed % 5 == 0)
@@ -395,7 +406,7 @@ public class Boss2_Script : Boss
                 pos.x += Random.Range(-2, 3);
                 Instantiate(prefab, pos, Quaternion.Euler(0, 0, 0));
             }
-                
+
         }
     }
 }

@@ -10,9 +10,9 @@ public class BossStatus
     private int attackDistance;
     private int criticalChance;
     private int criticalDamage;
-    private int moveSpeed;
+    private float moveSpeed;
 
-    public BossStatus(int maxHealth, int health, int attackSpeed, int damage, int attackDistance, int criticalChance, int criticalDamage, int moveSpeed)
+    public BossStatus(int maxHealth, int health, int attackSpeed, int damage, int attackDistance, int criticalChance, int criticalDamage, float moveSpeed)
     {
         this.maxHealth = maxHealth;
         this.health = health;
@@ -39,12 +39,12 @@ public class BossStatus
         this.health = health;
     }
 
-    public int getMoveSpeed()
+    public float getMoveSpeed()
     {
         return moveSpeed;
     }
 
-    public void setMoveSpeed(int moveSpeed)
+    public void setMoveSpeed(float moveSpeed)
     {
         this.moveSpeed = moveSpeed;
     }
