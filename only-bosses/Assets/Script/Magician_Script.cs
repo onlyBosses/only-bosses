@@ -250,7 +250,7 @@ public class Magician_Script : Move_Player
 
         Magician_skill1 script = instance.GetComponent<Magician_skill1>();
 
-        int baseDamage = (int)(status.getDamage() * 0.5f);
+        int baseDamage = (int)(status.getDamage() * 1.2f);
         baseDamage = setCritical(baseDamage);
         int extraDamge;
         if (isExtraDamage && isRingExtraDamge) extraDamge = (int)(baseDamage * 1.15f);
@@ -279,7 +279,7 @@ public class Magician_Script : Move_Player
 
         Magician_skill2 script = instance.GetComponent<Magician_skill2>();
 
-        int baseDamage = (int)(status.getDamage() * 0.5f);
+        int baseDamage = (int)(status.getDamage());
         baseDamage = setCritical(baseDamage);
         int extraDamge;
         if (isExtraDamage && isRingExtraDamge) extraDamge = (int)(baseDamage * 1.15f);
