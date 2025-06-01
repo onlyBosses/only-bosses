@@ -10,6 +10,7 @@ public class Boss2_summon : Monster
         Move_Player mPlayer = collision.gameObject.GetComponent<Move_Player>();
         if (mPlayer != null)
         {
+            rbody.linearVelocity = Vector2.zero;
             mPlayer.OnDamage(damage);
         }
 

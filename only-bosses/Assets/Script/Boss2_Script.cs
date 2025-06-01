@@ -67,6 +67,7 @@ public class Boss2_Script : Boss
 
         if (isFlying)
         {
+            rbody.linearVelocity = Vector2.zero;
             Move_Player mPlayer = collision.gameObject.GetComponent<Move_Player>();
             if (mPlayer != null)
             {
@@ -87,15 +88,15 @@ public class Boss2_Script : Boss
         {
             case Difficulty.Easy:
                 // 체력, 공격속도, 공격력, 사거리, 치명타 확률, 치명타 데미지, 이동속도 
-                status = new BossStatus(16000, 16000, 2, 10, 0, 10, 50, 5);
+                status = new BossStatus(16000, 16000, 2, 10, 0, 10, 50, 3);
                 break;
 
             case Difficulty.Hard:
-                status = new BossStatus(28000, 20000, 2, 15, 0, 10, 50, 5);
+                status = new BossStatus(28000, 20000, 2, 15, 0, 10, 50, 3);
                 break;
 
             case Difficulty.Test:
-                status = new BossStatus(10, 10, 2, 15, 0, 10, 50, 5);
+                status = new BossStatus(10, 10, 2, 15, 0, 10, 50, 3);
                 break;
         }
 
@@ -393,7 +394,7 @@ public class Boss2_Script : Boss
     private void addSpeed()
     {
         speed++;
-        status.setMoveSpeed(status.getMoveSpeed() * (1 + (speed * 0.1F)));
+        status.setMoveSpeed(1 + (speed * 0.1F));
         onFlying();
     }
 
