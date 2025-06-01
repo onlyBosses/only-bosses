@@ -120,6 +120,10 @@ public class Magician_Script : Move_Player
 
     void Update()
     {
+        if (stiffenTime > 0)
+        {
+            return; 
+        }
         inputMove();
         bool isWalking = Input.GetKey("a") || Input.GetKey("d");
         animator.SetBool("IsWalking", isWalking && !avoid.isAvoid);
@@ -250,7 +254,7 @@ public class Magician_Script : Move_Player
 
         Magician_skill1 script = instance.GetComponent<Magician_skill1>();
 
-        int baseDamage = (int)(status.getDamage() * 1.2f);
+        int baseDamage = (int)(status.getDamage() * 1.3f);
         baseDamage = setCritical(baseDamage);
         int extraDamge;
         if (isExtraDamage && isRingExtraDamge) extraDamge = (int)(baseDamage * 1.15f);
@@ -279,7 +283,7 @@ public class Magician_Script : Move_Player
 
         Magician_skill2 script = instance.GetComponent<Magician_skill2>();
 
-        int baseDamage = (int)(status.getDamage());
+        int baseDamage = (int)(status.getDamage() * 1.2F);
         baseDamage = setCritical(baseDamage);
         int extraDamge;
         if (isExtraDamage && isRingExtraDamge) extraDamge = (int)(baseDamage * 1.15f);
@@ -306,7 +310,7 @@ public class Magician_Script : Move_Player
 
         Magician_skill3 script = instance.GetComponent<Magician_skill3>();
 
-        int baseDamage = (int)(status.getDamage() * 1.8f);
+        int baseDamage = (int)(status.getDamage() * 2f);
         baseDamage = setCritical(baseDamage);
         int extraDamge;
         if (isExtraDamage && isRingExtraDamge) extraDamge = (int)(baseDamage * 1.15f);

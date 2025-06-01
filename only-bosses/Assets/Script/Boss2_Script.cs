@@ -88,15 +88,15 @@ public class Boss2_Script : Boss
         {
             case Difficulty.Easy:
                 // 체력, 공격속도, 공격력, 사거리, 치명타 확률, 치명타 데미지, 이동속도 
-                status = new BossStatus(16000, 16000, 2, 10, 0, 10, 50, 3);
+                status = new BossStatus(16000, 16000, 2, 10, 0, 10, 50, 1);
                 break;
 
             case Difficulty.Hard:
-                status = new BossStatus(28000, 20000, 2, 15, 0, 10, 50, 3);
+                status = new BossStatus(28000, 20000, 2, 15, 0, 10, 50, 2);
                 break;
 
             case Difficulty.Test:
-                status = new BossStatus(10, 10, 2, 15, 0, 10, 50, 3);
+                status = new BossStatus(10, 10, 2, 15, 0, 10, 50, 1);
                 break;
         }
 
@@ -264,7 +264,7 @@ public class Boss2_Script : Boss
             for (int i = 0; i < 9; i++)
             {
                 GameObject prefab = Resources.Load<GameObject>($"Bosses/passive");
-                prefab.GetComponent<Boss2_PassiveAttack>().damage = (int)(status.getDamage() * 1.1);
+                prefab.GetComponent<Boss2_PassiveAttack>().damage = (int)(status.getDamage() * 0.5);
                 Instantiate(prefab, transform.position, Quaternion.Euler(0, 0, 210 + (i * 15)));
             }
             StartCoroutine(passive(rbody, 0.5F));
@@ -325,7 +325,7 @@ public class Boss2_Script : Boss
                 for (int i = 0; i < 9; i++)
                 {
                     GameObject prefab = Resources.Load<GameObject>($"Bosses/passive");
-                    prefab.GetComponent<Boss2_PassiveAttack>().damage = (int)(status.getDamage() * 1.1);
+                    prefab.GetComponent<Boss2_PassiveAttack>().damage = (int)(status.getDamage() * 1.5);
                     Instantiate(prefab, transform.position, Quaternion.Euler(0, 0, 210 + (i * 15)));
                 }
             }
@@ -394,7 +394,7 @@ public class Boss2_Script : Boss
     private void addSpeed()
     {
         speed++;
-        status.setMoveSpeed(1 + (speed * 0.1F));
+        status.setMoveSpeed(status.getMoveSpeed() + 0.1F);
         onFlying();
     }
 
