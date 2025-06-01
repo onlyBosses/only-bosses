@@ -2,7 +2,7 @@ using UnityEditor;
 using System.Collections;
 using UnityEngine;
 
-public class Boss : MonoBehaviour, BossInterface
+public class Boss : MonoBehaviour
 {
     public Transform player;
     public BossStatus status;
@@ -68,16 +68,6 @@ public class Boss : MonoBehaviour, BossInterface
     }
 
     // magician R skill (BossInterface 구현)
-    public void OnStun()
-    {
-        if (Random.Range(0, 100) < 50)
-        {
-            Debug.Log("스턴 적중");
-            // isStun = true;
-            // stunTimer = 3f;
-            stiffenTime = 3 * 50;
-        }
-    }
 
     // HPBar UI -> GameManager에서 초기화 
     public void SetBossHPBar(HPBarUI hpBar)

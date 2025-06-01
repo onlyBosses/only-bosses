@@ -15,17 +15,22 @@ public class Element : MonoBehaviour
 
         if (other.CompareTag("Boss"))
         {
-            BossInterface boss = other.gameObject.GetComponent<BossInterface>();
+            Boss boss = other.gameObject.GetComponent<Boss>();
             boss.OnDamage(dmg);
+            Destroy(gameObject);
         }
 
-        if (other.CompareTag("Monster"))
+        else if (other.CompareTag("Monster"))
         {
-            LittleMonster littleMonster = other.gameObject.GetComponent<LittleMonster>();
-            littleMonster.OnDamage(dmg);
+            Monster monster = other.GetComponent<Monster>();
+            if (monster != null)
+            {
+                monster.OnDamage(dmg);
+                Destroy(gameObject);
+            }
         }
 
-        Destroy(gameObject);
+        
     }
 
     void Start()

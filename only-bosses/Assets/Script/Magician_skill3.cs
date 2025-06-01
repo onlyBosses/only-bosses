@@ -29,15 +29,22 @@ public class Magician_skill3 : MonoBehaviour
     {
         if (other.CompareTag("Boss"))
         {
-            BossInterface boss = other.GetComponent<BossInterface>();
+            Boss boss = other.GetComponent<Boss>();
             boss.OnDamage(dmg);
-            boss.OnStun();
+            if (Random.Range(0, 100) < 50)
+            {
+                boss.setStiffenTime(150);
+                Debug.Log("기절");
+            }
         }
 
-        if (other.CompareTag("Monster"))
+        else if (other.CompareTag("Monster"))
         {
-            LittleMonster littleMonster = other.GetComponent<LittleMonster>();
-            littleMonster.OnDamage(dmg);
+            Monster monster = other.GetComponent<Monster>();
+            if (monster != null)
+            {
+                monster.OnDamage(dmg);
+            }
         }
     }
 }

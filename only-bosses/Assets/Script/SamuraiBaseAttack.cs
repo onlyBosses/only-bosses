@@ -24,7 +24,7 @@ public class SamuraiBaseAttack : MonoBehaviour
         {
 
             Debug.Log("Samurai 평타 적중");
-            BossInterface boss = other.GetComponent<BossInterface>();
+            Boss boss = other.gameObject.GetComponent<Boss>();
             boss.OnDamage(dmg);
         }
 
