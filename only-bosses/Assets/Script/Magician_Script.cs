@@ -31,7 +31,8 @@ public class Magician_Script : Move_Player
         animator = GetComponent<Animator>();
         isBaseAttack = false;
         status = new PlayerStatus(450, 450, 2, 20, 6, 5, 30, 5, 0, 0);
-        
+
+        avoid.avoidAnimation = "magician_dash";
         switch (DataMgr.instance.selectedWeapon)
         {
             case Weapon.Wand:
@@ -41,7 +42,7 @@ public class Magician_Script : Move_Player
             case Weapon.Wand2:
                 // 공격력이 낮지만 확률적으로 해당 스킬의 피해량의 5%만큼 추가 피해
                 status.setDamage(status.getDamage() - 10);
-                isExtraDamage = true; 
+                isExtraDamage = true;
                 break;
         }
 
@@ -119,7 +120,7 @@ public class Magician_Script : Move_Player
     {
         inputMove();
         bool isWalking = Input.GetKey("a") || Input.GetKey("d");
-        animator.SetBool("IsWalking", isWalking);
+        animator.SetBool("IsWalking", isWalking && !avoid.isAvoid);
 
         if (Input.GetMouseButtonDown(0))
         {
