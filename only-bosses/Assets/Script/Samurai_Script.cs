@@ -17,8 +17,8 @@ public class Samurai_Script : Move_Player
     private float secondSkillCoolTimer = 25f;
     private float thirdSkillCoolTimer = 8f;
 
-    private bool isSecondSkill = false;
-    private float isSecondSkillTimer = 0f;
+    // private bool isSecondSkill = false;
+    // private float isSecondSkillTimer = 0f;
 
     private bool isThirdSkill = false;
     private float isThirdSkillTimer = 0f;
@@ -139,29 +139,29 @@ public class Samurai_Script : Move_Player
 
         }
 
-        if (isSecondSkill)
-        {
-            if (isSecondSkillTimer > 0f)
-            {
-                int skillIndex = Random.Range(1, 3);
+        // if (isSecondSkill)
+        // {
+        //     if (isSecondSkillTimer > 0f)
+        //     {
+        //         int skillIndex = Random.Range(1, 3);
 
-                switch (skillIndex)
-                {
-                    case 1:
-                        animator.SetTrigger("SkillQ");
-                        break;
-                    case 2:
-                        animator.SetTrigger("AttackB");
-                        break;
-                }
+        //         switch (skillIndex)
+        //         {
+        //             case 1:
+        //                 animator.SetTrigger("SkillQ");
+        //                 break;
+        //             case 2:
+        //                 animator.SetTrigger("AttackB");
+        //                 break;
+        //         }
 
-                isSecondSkillTimer -= Time.deltaTime;
-            }
-            else
-            {
-                isSecondSkill = false;
-            }
-        }
+        //         isSecondSkillTimer -= Time.deltaTime;
+        //     }
+        //     else
+        //     {
+        //         isSecondSkill = false;
+        //     }
+        // }
 
         if (Input.GetKeyDown("r"))
         {
@@ -247,9 +247,9 @@ public class Samurai_Script : Move_Player
     {
 
         Debug.Log("useSecondSkill() 작동");
-        secondSkillCoolTime = secondSkillCoolTimer;
-        isSecondSkill = true;
-        isSecondSkillTimer = status.getAttackSpeed() * 3f;
+        // secondSkillCoolTime = secondSkillCoolTimer;
+        // isSecondSkill = true;
+        // isSecondSkillTimer = status.getAttackSpeed() * 3f;
 
         Vector2 pos = transform.position;
 
@@ -264,6 +264,8 @@ public class Samurai_Script : Move_Player
 
         // 데미지 설정
         baseAttackRange.GetComponent<SamuraiBaseAttack>().SetDamage(isRingExtraDamge == true ? extraDamage : baseDamage);
+
+        animator.SetTrigger("SkillE");
     }
 
     public void useThirdSkill()
