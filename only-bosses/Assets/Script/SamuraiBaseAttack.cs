@@ -4,6 +4,12 @@ public class SamuraiBaseAttack : MonoBehaviour
 {
 
     private Samurai_Script samuraiScript;
+    private int dmg;
+
+    public void SetDamage(int dmg)
+    {
+        this.dmg = dmg;
+    }
 
     void Start()
     {

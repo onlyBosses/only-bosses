@@ -66,6 +66,11 @@ public class PlayerStatus
         return attackSpeed;
     }
 
+    public void setAttackSpeed(int attackSpeed)
+    {
+        this.attackSpeed = attackSpeed;
+    }
+
     public int getAttackDistance()
     {
         return attackDistance;

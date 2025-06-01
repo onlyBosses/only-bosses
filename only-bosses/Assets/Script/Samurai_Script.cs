@@ -22,6 +22,8 @@ public class Samurai_Script : Move_Player
 
     private bool isThirdSkill = false;
     private float isThirdSkillTimer = 0f;
+    private bool isRingExtraDamge = false; // Ring1 스킬 피해량 10% 증가 
+    private bool isBaseAttackExtraDamage = false; // Ring3 평타 데미지 증가 
 
     void Start()
     {
@@ -30,12 +32,14 @@ public class Samurai_Script : Move_Player
         isBaseAttack = false;
         status = new PlayerStatus(500, 500, 1, 20, 0, 5, 30, 5, 0, 0);
 
-        playerHPBar.SetHP(status.getMaxHealth(), status.getMaxHealth());
+        avoid.avoidAnimation = "samurai_jump";
 
         switch (DataMgr.instance.selectedWeapon)
         {
             case Weapon.Sword:
                 // 공격력은 높은데 공격속도 느림
+                status.setDamage(status.getDamage() + 10);
+                status.setAttackSpeed(status.getAttackSpeed() - 1);
                 break;
             case Weapon.Sword2:
                 // 공격력 준수, 공격속도 준수
@@ -45,13 +49,16 @@ public class Samurai_Script : Move_Player
         switch (DataMgr.instance.selectedRing)
         {
             case Ring.Ring1:
-                // 스킬 피해량 10% 증가 
+                // 스킬 피해량 10% 증가
+                isRingExtraDamge = true;
                 break;
             case Ring.Ring2:
                 // 치명타 피해량 증가
+                status.setCriticalDamage(status.getCriticalDamage() + 10);
                 break;
             case Ring.Ring3:
                 // 평타 피해량 증가
+                isBaseAttackExtraDamage = true; 
                 break;
         }
 
@@ -59,14 +66,21 @@ public class Samurai_Script : Move_Player
         {
             case Necklace.Necklace1:
                 // 스킬 쿨타임 감소 
+                firstSkillCoolTimer = 8f;
+                secondSkillCoolTimer = 23f;
+                thirdSkillCoolTimer = 6f;
                 break;
             case Necklace.Necklace2:
                 // 최대 체력 증가 
+                status.setMaxHealth(status.getMaxHealth() + 100);
                 break;
             case Necklace.Necklace3:
                 // 치명타 확률 증가 
+                status.setCriticalChance(status.getCriticalChance() + 10);
                 break;
         }
+
+        playerHPBar.SetHP(status.getMaxHealth(), status.getMaxHealth());
 
         firstSkillCoolTime = 0f;
         secondSkillCoolTime = 0f;
@@ -105,7 +119,7 @@ public class Samurai_Script : Move_Player
     {
         inputMove();
         bool isWalking = Input.GetKey("a") || Input.GetKey("d");
-        animator.SetBool("IsWalking", isWalking);
+        animator.SetBool("IsWalking", isWalking && !avoid.isAvoid);
 
         if (Input.GetKeyDown("q"))
         {
@@ -129,28 +143,24 @@ public class Samurai_Script : Move_Player
         {
             if (isSecondSkillTimer > 0f)
             {
-                int skillIndex = Random.Range(1, 4);
+                int skillIndex = Random.Range(1, 3);
 
                 switch (skillIndex)
                 {
                     case 1:
-                        animator.SetTrigger("AttackA");
-                        break;
-                    case 2:
                         animator.SetTrigger("SkillQ");
                         break;
-                    case 3:
+                    case 2:
                         animator.SetTrigger("AttackB");
                         break;
                 }
+
+                isSecondSkillTimer -= Time.deltaTime;
             }
             else
             {
                 isSecondSkill = false;
-                secondSkillCoolTime = secondSkillCoolTimer;
             }
-
-            isSecondSkillTimer -= Time.deltaTime;
         }
 
         if (Input.GetKeyDown("r"))
@@ -188,7 +198,13 @@ public class Samurai_Script : Move_Player
 
         baseAttackRange.transform.position = attackPos;
 
-        baseAttackCount = status.getAttackSpeed() * 50;
+        int baseDamage = status.getDamage();
+        int extraDamage = (int)(baseDamage * 1.5f);
+
+        // 데미지 설정
+        baseAttackRange.GetComponent<SamuraiBaseAttack>().SetDamage(isBaseAttackExtraDamage == true ? extraDamage : baseDamage);    
+
+        baseAttackCount = 0;
         isBaseAttack = false;
         return true;
     }
@@ -218,22 +234,36 @@ public class Samurai_Script : Move_Player
         Vector2 attackPos = new Vector2(transform.position.x + moveOffsetX * attackRangeDistance, pos.y);
         baseAttackRange.transform.position = attackPos;
 
+        int baseDamage = status.getDamage() * 2;
+        int extraDamage = (int)(baseDamage * 1.1f);
+
+        // 데미지 설정
+        baseAttackRange.GetComponent<SamuraiBaseAttack>().SetDamage(isRingExtraDamge == true ? extraDamage : baseDamage);  
+
         return true;
     }
 
     public void useSecondSkill()
     {
+
+        Debug.Log("useSecondSkill() 작동");
+        secondSkillCoolTime = secondSkillCoolTimer;
         isSecondSkill = true;
         isSecondSkillTimer = status.getAttackSpeed() * 3f;
 
         Vector2 pos = transform.position;
 
         float moveOffsetX = (spriteRenderer.flipX) ? -1.5f : 1.5f;
-        transform.position = new Vector2(pos.x + moveOffsetX, pos.y);
 
         float attackRangeDistance = 1f;
         Vector2 attackPos = new Vector2(transform.position.x + moveOffsetX * attackRangeDistance, pos.y);
         baseAttackRange.transform.position = attackPos;
+
+        int baseDamage = status.getDamage() * 2;
+        int extraDamage = (int)(baseDamage * 1.1f);
+
+        // 데미지 설정
+        baseAttackRange.GetComponent<SamuraiBaseAttack>().SetDamage(isRingExtraDamge == true ? extraDamage : baseDamage);
     }
 
     public void useThirdSkill()
