@@ -384,7 +384,7 @@ public class Boss2_Script : Boss
     private void addSpeed()
     {
         speed++;
-        status.setMoveSpeed(status.getMoveSpeed() * (1 + (speed * 0.2F)));
+        status.setMoveSpeed(status.getMoveSpeed() * (1 + (speed * 0.1F)));
         onFlying();
     }
 

@@ -247,13 +247,13 @@ public class Samurai_Script : Move_Player
     {
 
         Debug.Log("useSecondSkill() 작동");
-        // secondSkillCoolTime = secondSkillCoolTimer;
+        secondSkillCoolTime = secondSkillCoolTimer;
         // isSecondSkill = true;
         // isSecondSkillTimer = status.getAttackSpeed() * 3f;
 
         Vector2 pos = transform.position;
 
-        float moveOffsetX = (spriteRenderer.flipX) ? -1.5f : 1.5f;
+        float moveOffsetX = spriteRenderer.flipX ? -1.5f : 1.5f;
 
         float attackRangeDistance = 1f;
         Vector2 attackPos = new Vector2(transform.position.x + moveOffsetX * attackRangeDistance, pos.y);
