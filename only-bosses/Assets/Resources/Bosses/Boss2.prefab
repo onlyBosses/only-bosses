@@ -199,7 +199,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 0}
-  stiffenTime: 0
   bossHPBar: {fileID: 0}
+  endPanel: {fileID: 0}
   playerName: 
   cam: {fileID: 0}

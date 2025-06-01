@@ -14,12 +14,13 @@ public class DeathShadowTrigger : MonoBehaviour
 
     void OnTriggerStay2D(Collider2D other)
     {
+        Debug.Log(other.name);
         if (other.CompareTag("Player"))
-        {               
+        {
             Move_Player player = other.GetComponent<Move_Player>();
-            
-            stayTime += Time.deltaTime;
 
+            stayTime += Time.deltaTime;
+            Debug.Log(stayTime);
             if (stayTime >= 3f)
             {
                 // Debug.Log("즉사");

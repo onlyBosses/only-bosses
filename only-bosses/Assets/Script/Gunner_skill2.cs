@@ -14,7 +14,6 @@ public class Gunner_skill2 : MonoBehaviour
             if (boss != null)
             {
                 boss.OnDamage(dmg);
-                Destroy(gameObject);
             }
         }
         else if (collision.CompareTag("Monster"))
@@ -23,7 +22,6 @@ public class Gunner_skill2 : MonoBehaviour
             if (monster != null)
             {
                 monster.OnDamage(dmg);
-                Destroy(gameObject);
             }
         }
         
@@ -34,7 +32,7 @@ public class Gunner_skill2 : MonoBehaviour
         Physics2D.IgnoreLayerCollision(8, 7, true);
         Physics2D.IgnoreLayerCollision(8, 6, true);
         Physics2D.IgnoreLayerCollision(8, 8, true);
-        count = 15;
+        count = 20;
     }
 
     // Update is called once per frame

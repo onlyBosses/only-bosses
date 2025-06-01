@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Audio;
+using UnityEngine.Rendering;
 
 public class Magician_Script : Move_Player
 {
@@ -196,10 +198,19 @@ public class Magician_Script : Move_Player
         element.dmg = isBaseAttackExtraDamage == true ? dmg + 10 : dmg;
     
         element.MaxDistance = status.getAttackDistance();
-        elementPrefab.GetComponent<SpriteRenderer>().flipX = dir.x < 0;
+        // elementPrefab.GetComponent<SpriteRenderer>().flipX = dir.x < 0;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+        if (angle > 90 || angle < -90)
+        {
+            elementPrefab.GetComponent<SpriteRenderer>().flipY = true;
+        }
+        else
+        {
+            elementPrefab.GetComponent<SpriteRenderer>().flipY = false;
+        }
         element.vector = dir;
 
-        Instantiate(elementPrefab, elementPrefab.transform.position, elementPrefab.transform.rotation);
+        Instantiate(elementPrefab, elementPrefab.transform.position, Quaternion.Euler(0, 0, angle));
 
         return true;
     }

@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 5108953643602542116}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.16372707, y: -3.4802103, z: -0.104950495}
+  m_LocalPosition: {x: -9.8441105, y: -3.480155, z: -0.104950495}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -81,7 +81,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: abddbbc57bf54467a830aa0cc8fec287, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 1
+  m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 3.01, y: 1.63}
@@ -166,6 +166,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerObject: {fileID: 0}
-  vector: {x: -0.0372449, y: 0.9993062}
+  vector: {x: -0.83843094, y: 0.54500777}
   dmg: 36
   MaxDistance: 6

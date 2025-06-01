@@ -72,7 +72,7 @@ public class Move_Player : MonoBehaviour, PlayerInterface, Fearable
 
     public void init()
     {
-        rbody = this.GetComponent<Rigidbody2D>();
+        rbody = GetComponent<Rigidbody2D>();
         rbody.constraints = RigidbodyConstraints2D.FreezeRotation;
         spriteRenderer = GetComponent<SpriteRenderer>();
         vx = 0;

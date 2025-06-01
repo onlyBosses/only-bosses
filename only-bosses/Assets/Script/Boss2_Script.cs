@@ -123,6 +123,7 @@ public class Boss2_Script : Boss
                 if (flyDuration <= 0)
                 {
                     isFlying = false;
+                    Physics2D.IgnoreLayerCollision(10, 7, true);
                 }
                 else
                 {
@@ -394,6 +395,7 @@ public class Boss2_Script : Boss
         {
             isFlyAttack = true;
             isFlying = true;
+            Physics2D.IgnoreLayerCollision(10, 7, false);
             Rigidbody2D rbody = GetComponent<Rigidbody2D>();
             rbody.AddForce(new Vector2(0, 10), ForceMode2D.Impulse);
             StartCoroutine(passive(rbody, 0.5F));
