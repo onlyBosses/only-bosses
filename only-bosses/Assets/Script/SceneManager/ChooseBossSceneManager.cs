@@ -16,6 +16,12 @@ public class ChooseBossSceneManager : MonoBehaviour
         BossToGame();
     }
 
+    public void SelectTest()
+    {
+        DataMgr.instance.selectedDifficulty = Difficulty.Test;
+        BossToGame();
+    }
+
 
     void BossToGame()
     {

@@ -81,7 +81,24 @@ public class Boss2_Script : Boss
         rbody = GetComponent<Rigidbody2D>();
         rbody.gravityScale = 0;
         rbody.constraints = RigidbodyConstraints2D.FreezeRotation;
-        status = new BossStatus(16000, 16000, 2, 10, 5, 10, 50, 1);
+        // status = new BossStatus(16000, 16000, 2, 10, 5, 10, 50, 1);
+
+        switch (DataMgr.instance.selectedDifficulty)
+        {
+            case Difficulty.Easy:
+                // 체력, 공격속도, 공격력, 사거리, 치명타 확률, 치명타 데미지, 이동속도 
+                status = new BossStatus(16000, 16000, 2, 10, 0, 10, 50, 5);
+                break;
+
+            case Difficulty.Hard:
+                status = new BossStatus(28000, 20000, 2, 15, 0, 10, 50, 5);
+                break;
+
+            case Difficulty.Test:
+                status = new BossStatus(10, 10, 2, 15, 0, 10, 50, 5);
+                break;
+        }
+
         attackCoolTime = status.getAttackSpeed() * 50;
         firstSkill = new FirstSkill();
         secondSkill = new SecondSkill();
@@ -92,15 +109,6 @@ public class Boss2_Script : Boss
         flyDuration = 0;
         cam = Camera.main;
         flyAttackCount = 0;
-
-        // switch (DataMgr.instance.selectedDifficulty)
-        // {
-        //     case Difficulty.Easy:
-        //         status = new BossStatus(16000, 16000, 2, 10, 0, 10, 50, 5);
-        //         break;
-        //     case Difficulty.Hard: 
-        //         status = new BossStatus(28000, 28000, 2, 15, 0, 10, 50, 5);
-        // }
 
         bossHPBar.SetHP(status.getMaxHealth(), status.getMaxHealth());
     }

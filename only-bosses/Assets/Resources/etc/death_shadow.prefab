@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2820300398868138816}
   - component: {fileID: 8113470267513298633}
   - component: {fileID: 2056381165475464348}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: death_shadow
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -54,19 +54,22 @@ public class Boss1_Script : Boss
 
         animator = GetComponent<Animator>();
 
-        status = new BossStatus(16000, 16000, 2, 10, 0, 10, 50, 5);
+        // status = new BossStatus(16000, 16000, 2, 10, 0, 10, 50, 5);
 
-        // switch (DataMgr.instance.selectedDifficulty)    
-        // {
-        //     case Easy:
-        //         // 체력, 공격속도, 공격력, 사거리, 치명타 확률, 치명타 데미지, 이동속도 
-        //         status = new BossStatus(16000, 2, 10, 0, 10, 50, 5);
-        //         break;
+        switch (DataMgr.instance.selectedDifficulty)
+        {
+            case Difficulty.Easy:
+                status = new BossStatus(16000, 16000, 2, 10, 0, 10, 50, 5);
+                break;
 
-        //     case Hard:
-        //         status = new BossStatus(28000, 2, 15, 0, 10, 50, 5);
-        //         break;
-        // }
+            case Difficulty.Hard:
+                status = new BossStatus(28000, 28000, 2, 15, 0, 10, 50, 5);
+                break;
+
+            case Difficulty.Test:
+                status = new BossStatus(10, 10, 2, 15, 0, 10, 50, 5);
+                break;
+        }
 
         // currentHp = status.getHp();
 

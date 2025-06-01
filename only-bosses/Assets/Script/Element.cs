@@ -41,6 +41,7 @@ public class Element : MonoBehaviour
         Physics2D.IgnoreLayerCollision(8, 7, true);
         Physics2D.IgnoreLayerCollision(8, 6, true);
         Physics2D.IgnoreLayerCollision(8, 8, true);
+        Physics2D.IgnoreLayerCollision(8, 12, true);
         startPos = transform.position;
     }
 

@@ -32,7 +32,7 @@ public class Magician_Script : Move_Player
         sr = GetComponent<SpriteRenderer>();
         animator = GetComponent<Animator>();
         isBaseAttack = false;
-        status = new PlayerStatus(450, 450, 2, 20, 6, 5, 30, 5, 0, 0);
+        status = new PlayerStatus(450, 450, 2, 20, 6, 5, 30, 3, 0, 0);
 
         avoid.avoidAnimation = "magician_dash";
         switch (DataMgr.instance.selectedWeapon)
@@ -195,6 +195,7 @@ public class Magician_Script : Move_Player
         Element element = elementPrefab.GetComponent<Element>();
         element.playerObject = gameObject;
 
+        dmg = setCritical(dmg);
         element.dmg = isBaseAttackExtraDamage == true ? dmg + 10 : dmg;
     
         element.MaxDistance = status.getAttackDistance();
@@ -249,7 +250,8 @@ public class Magician_Script : Move_Player
 
         Magician_skill1 script = instance.GetComponent<Magician_skill1>();
 
-        int baseDamage = (int)(status.getDamage() * 1.8f);
+        int baseDamage = (int)(status.getDamage() * 0.5f);
+        baseDamage = setCritical(baseDamage);
         int extraDamge;
         if (isExtraDamage && isRingExtraDamge) extraDamge = (int)(baseDamage * 1.15f);
         else if (isExtraDamage) extraDamge = (int)(baseDamage * 1.05f);
@@ -277,7 +279,8 @@ public class Magician_Script : Move_Player
 
         Magician_skill2 script = instance.GetComponent<Magician_skill2>();
 
-        int baseDamage = (int)(status.getDamage() * 1.8f);
+        int baseDamage = (int)(status.getDamage() * 0.5f);
+        baseDamage = setCritical(baseDamage);
         int extraDamge;
         if (isExtraDamage && isRingExtraDamge) extraDamge = (int)(baseDamage * 1.15f);
         else if (isExtraDamage) extraDamge = (int)(baseDamage * 1.05f);
@@ -304,6 +307,7 @@ public class Magician_Script : Move_Player
         Magician_skill3 script = instance.GetComponent<Magician_skill3>();
 
         int baseDamage = (int)(status.getDamage() * 1.8f);
+        baseDamage = setCritical(baseDamage);
         int extraDamge;
         if (isExtraDamage && isRingExtraDamge) extraDamge = (int)(baseDamage * 1.15f);
         else if (isExtraDamage) extraDamge = (int)(baseDamage * 1.05f);

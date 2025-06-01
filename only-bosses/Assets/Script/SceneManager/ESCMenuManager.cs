@@ -27,11 +27,17 @@ public class ESCMenuManager : MonoBehaviour
 
     public void GoToCharacterSelect()
     {
+        Time.timeScale = 1;
+        AudioClip bgm = Resources.Load<AudioClip>("01 Horns Of War");
+        BGMManager.instance.PlayBGM(bgm);
         SceneManager.LoadScene("ChooseCharacterScene");
     }
 
     public void GoToTitle()
     {
+        Time.timeScale = 1;
+        AudioClip bgm = Resources.Load<AudioClip>("01 Horns Of War");
+        BGMManager.instance.PlayBGM(bgm);
         SceneManager.LoadScene("StartScene");
     }
 

@@ -27,7 +27,7 @@ public enum BossType
 
 public enum Difficulty
 {
-    None, Easy, Hard
+    None, Easy, Hard, Test
 }
 
 public class DataMgr : MonoBehaviour

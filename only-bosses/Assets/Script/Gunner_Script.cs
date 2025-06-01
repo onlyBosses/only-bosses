@@ -28,7 +28,7 @@ public class Gunner_Script : Move_Player
     {
         init();
         isBaseAttack = false;
-        status = new PlayerStatus(450, 450, 2, 20, 8, 5, 30, 3F, 0, 0);
+        status = new PlayerStatus(450, 450, 2, 20, 8, 5, 30, 3, 0, 0);
         avoid.avoidAnimation = "gunner_dash";
         switch (DataMgr.instance.selectedWeapon)
         {

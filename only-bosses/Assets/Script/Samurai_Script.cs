@@ -30,7 +30,7 @@ public class Samurai_Script : Move_Player
         init();
         animator = GetComponent<Animator>();
         isBaseAttack = false;
-        status = new PlayerStatus(500, 500, 1, 20, 0, 5, 30, 5, 0, 0);
+        status = new PlayerStatus(500, 500, 1, 20, 0, 5, 30, 3, 0, 0);
 
         avoid.avoidAnimation = "samurai_jump";
 
@@ -198,7 +198,7 @@ public class Samurai_Script : Move_Player
 
         baseAttackRange.transform.position = attackPos;
 
-        int baseDamage = status.getDamage();
+        int baseDamage = setCritical(status.getDamage());
         int extraDamage = (int)(baseDamage * 1.5f);
 
         // 데미지 설정
@@ -259,7 +259,7 @@ public class Samurai_Script : Move_Player
         Vector2 attackPos = new Vector2(transform.position.x + moveOffsetX * attackRangeDistance, pos.y);
         baseAttackRange.transform.position = attackPos;
 
-        int baseDamage = status.getDamage() * 2;
+        int baseDamage = setCritical(status.getDamage() * 2);
         int extraDamage = (int)(baseDamage * 1.1f);
 
         // 데미지 설정
