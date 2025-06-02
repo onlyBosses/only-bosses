@@ -10,6 +10,7 @@ public class SelectCharacter : MonoBehaviour
 
     void Start()
     {
+        Time.timeScale = 1;
         animator = GetComponent<Animator>();
         if (DataMgr.instance.currentCharacter == character)
             OnSelect();
